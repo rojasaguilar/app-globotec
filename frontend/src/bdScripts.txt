@@ -1,0 +1,3 @@
+INSERT INTO `producto` (`pro_id`, `pro_nombre`, `pro_categoria`, `pro_precio`, `pro_stock`, `pro_estaActivo`, `pro_codigo`) VALUES (NULL, 'carriola', 'bebes', '950', '23', '1', '1234124214');
+
+INSERT INTO `proveedor` (`prove_id`, `prove_nombre`, `prove_correo`, `prove_telefono`, `prove_direccion`, `prove_activo`, `usu_id`, `prove_fechaAlta`) VALUES (NULL, 'instituto tecnologico de tepic', 'tectepic@ittepic.edu.mx', '3111324560', 'Av. Tecnológico No. 2595, Instituto Tecnológico de Tepic, 63175 Tepic, Nay.', '1', '3', '2025-03-20 23:32:51');
