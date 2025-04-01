@@ -15,7 +15,7 @@ function SelectCategorias({ handleInput }) {
   return (
     <div>
       <select
-        className="bg-zinc-200 text-zinc-500 open:border-0 "
+        className="bg-zinc-200 text-zinc-500 w-full"
         name="categoria"
         onChange={handleInput}
       >

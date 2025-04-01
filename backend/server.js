@@ -149,8 +149,9 @@ app.post("/categorias", (req, res) => {
 
 app.post("/categorias/agregar", (req, res) => {
   const sql = "INSERT INTO `categoriaProductos` (`cat_nombre`) VALUES (?);";
-  const values = [req.body.nombre];
-  db.query(sql, [values], (err, data) => {
+  console.log(req.body.nombre);
+  const nombre = req.body.nombre;
+  db.query(sql, nombre, (err, data) => {
     if (err) {
       return res.json(err);
     }

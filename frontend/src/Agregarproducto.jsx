@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Check } from "lucide-react";
 import SelectCategorias from "./componentes/SelectCategorias";
+import BasicModal from "./componentes/MasicModal";
 
 function Agregarproducto() {
   function vaciarInputs() {
@@ -61,7 +62,7 @@ function Agregarproducto() {
           <div className="grid grid-flow-col grid-cols-11 gap-8 px-4 row-span-3">
             {/* INFORMACION GENERAL*/}
             <div className=" bg-zinc-200 col-span-6 rounded-xl p-3 space-y-3">
-              <p className="font-semibold text-base">Informacion General</p>
+              <p className="font-semibold text-base">Información General</p>
               {/* INPUT NOMBRE*/}
               <div className="flex-col space-y-1.5">
                 <p className="font-normal text-zinc-600 text-sm">
@@ -167,8 +168,14 @@ function Agregarproducto() {
             <div className="bg-zinc-200 col-span-5 p-4 rounded-lg grid grid-2 gap-4">
               {/* INPUT CATEGORIA*/}
               <div className="flex-col space-y-2">
-                <p className="font-medium text-zinc-600 text-sm">Categoria</p>
-                <SelectCategorias handleInput={handleInput} />
+                <p className="font-medium text-zinc-600 text-sm ">Categoria</p>
+                <div className="flex space-x-12 items-center ">
+                  <SelectCategorias
+                    className="w-full"
+                    handleInput={handleInput}
+                  />
+                  <BasicModal />
+                </div>
               </div>
 
               {/* INPUT CODIGO*/}
