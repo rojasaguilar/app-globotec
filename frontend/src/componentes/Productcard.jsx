@@ -1,15 +1,10 @@
 import React from "react";
 
-function Productcard({ nombre, precio, stock, id }) {
+function Productcard({ nombre, precio, stock, id, codigo }) {
   return (
     <div class="border border-gray-700 rounded-lg shadow-sm bg-gray-800">
-      <a href={`/producto?${id}`}>
-        <img
-          src={`../frontend/public/${id}.jpg`}
-          alt="imagen"
-          className="p-8 rounded-t-lg"
-        />
-      </a>
+      <a href={`/producto?${id}`}>d</a>
+
       <div class="px-5 pb-5">
         <a href={`/producto?${id}`}>
           <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
@@ -26,6 +21,7 @@ function Productcard({ nombre, precio, stock, id }) {
           >
             Unidades en stock: {stock}
           </a>
+          <p>{codigo}</p>
         </div>
       </div>
     </div>

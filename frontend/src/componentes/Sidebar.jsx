@@ -8,7 +8,9 @@ import {
   ShoppingCart,
   UsersRound,
 } from "lucide-react";
+
 import React from "react";
+import DropdownMenu from "./DropdownMenu";
 // import SubscriptionCard from "./SubscriptionCard";
 
 export default function Sidebar() {
@@ -86,6 +88,7 @@ export default function Sidebar() {
         </nav>
 
         {/* Subscription Card */}
+        {/* <DropdownMenu /> */}
         {/* <SubscriptionCard /> */}
       </div>
 

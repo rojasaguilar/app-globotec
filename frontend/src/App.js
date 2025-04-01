@@ -8,6 +8,7 @@ import Productos from "./Productos";
 import Proveedores from "./Proveedores";
 import Agregarproducto from "./Agregarproducto";
 import Agregarproveedor from "./Agregarproveedor";
+import Agregarusuario from "./Agregarusuario";
 
 function App() {
   return (
@@ -35,6 +36,10 @@ function App() {
         <Route
           path="proveedores/agregar"
           element={<Home children={<Agregarproveedor />} />}
+        ></Route>
+        <Route
+          path="usuarios/agregar"
+          element={<Home children={<Agregarusuario />} />}
         ></Route>
       </Routes>
     </BrowserRouter>

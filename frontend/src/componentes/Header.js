@@ -65,7 +65,7 @@ export default function Header() {
         {/* */}
         <div className="flex-gap-6">
           <button className="flex items-center gap-1">
-            <span>Garat</span>
+            <span>{name}</span>
             <ChevronDown className="w-4 h-4" />
           </button>
         </div>

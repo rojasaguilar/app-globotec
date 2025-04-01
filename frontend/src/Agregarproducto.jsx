@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Check } from "lucide-react";
+import SelectCategorias from "./componentes/SelectCategorias";
 
 function Agregarproducto() {
   function vaciarInputs() {
@@ -15,6 +17,9 @@ function Agregarproducto() {
     precio: "",
     stock: "",
     codigo: "",
+    marca: "",
+    descripcion: "",
+    stockMinimo: "",
   });
 
   const handleInput = (event) => {
@@ -36,71 +41,151 @@ function Agregarproducto() {
   };
 
   return (
-    <div className="w-full h-screen bg-slate-200">
-      <div className="bg-slate-400 w-1/2 h-4/6 flex justify-center items-center">
-        <form
-          className="flex-col space-y-8 bg-slate-700 p-8"
-          action=""
-          onSubmit={handleSubmit}
-        >
-          <div className="flex-col space-y-2">
-            <p className="font-medium text-slate-200 text-sm">Nombre</p>
-            <input
-              className="bg-slate-500 rounded-md px-2 py-1 focus:ring-blue-500 focus:border-blue-500 "
-              type="text"
-              placeholder="Nombre Producto"
-              name="nombre"
-              onChange={handleInput}
-            />
-          </div>
-          <div className="flex-col space-y-2">
-            <p className="font-medium text-slate-200 text-sm">Categoria</p>
-            <input
-              className="bg-slate-500 rounded-md px-2 py-1"
-              type="text"
-              placeholder="Categoria"
-              name="categoria"
-              onChange={handleInput}
-            />
-          </div>
-          <div className="flex-col space-y-2">
-            <p className="font-medium text-slate-200 text-sm">Precio</p>
-            <input
-              className="bg-slate-500 rounded-md px-2 py-1"
-              type="text"
-              placeholder="Nombre Producto"
-              name="precio"
-              onChange={handleInput}
-            />
-          </div>
-          <div className="flex-col space-y-2">
-            <p className="font-medium text-slate-200 text-sm">Stock</p>
-            <input
-              className="bg-slate-500 rounded-md px-2 py-1"
-              type="number"
-              placeholder="Stock"
-              name="stock"
-              onChange={handleInput}
-            />
-          </div>
-          <div className="flex-col space-y-2">
-            <p className="font-medium text-slate-200 text-sm">Código</p>
-            <input
-              className="bg-slate-500 rounded-md px-2 py-1"
-              type="text"
-              placeholder="Código"
-              name="codigo"
-              onChange={handleInput}
-            />
-          </div>
+    <div className="w-full  ">
+      <form className="" action="" onSubmit={handleSubmit}>
+        {/*MENSAJE Y BOTON AGREGAR*/}
+        <div className=" flex justify-between items-center py-8 px-3">
+          <p className=" flex-col justify-center items-center font-normal text-lg ">
+            Agregar Nuevo Producto
+          </p>
           <button
-            className="bg-blue-500 flex justify-center items-center w-full rounded-md py-2 font-medium text-slate-200"
+            className="bg-blue-500 flex justify-center items-center rounded-xl py-2.5 px-8 font-medium text-white gap-2"
             type="submit"
           >
-            Agregar
+            {<Check className="w-6 h-6" />}
+            Agregar Producto
           </button>
-        </form>
-      </div>
+        </div>
+        <div className="grid grid-flow-row grid-rows-5 space-y-8">
+          {/*PRIMERA COLUMNA */}
+          <div className="grid grid-flow-col grid-cols-11 gap-8 px-4 row-span-3">
+            {/* INFORMACION GENERAL*/}
+            <div className=" bg-zinc-200 col-span-6 rounded-xl p-3 space-y-3">
+              <p className="font-semibold text-base">Informacion General</p>
+              {/* INPUT NOMBRE*/}
+              <div className="flex-col space-y-1.5">
+                <p className="font-normal text-zinc-600 text-sm">
+                  Nombre del producto
+                </p>
+                <input
+                  className="bg-zinc-300 w-full   rounded-md px-2 py-1 focus:ring-blue-500 focus:border-blue-500 "
+                  type="text"
+                  placeholder="Nombre Producto"
+                  name="nombre"
+                  onChange={handleInput}
+                />
+              </div>
+              {/* INPUT DESCRIPCION*/}
+              <div className="flex-col space-y-1.5">
+                <p className="font-medium text-zinc-600 text-sm">Descripcion</p>
+                <input
+                  className="bg-zinc-300 w-full h-32 rounded-md px-2 py-1 text-start"
+                  type="text"
+                  placeholder="Carro rojo"
+                  name="descripcion"
+                  onChange={handleInput}
+                />
+              </div>
+              {/* INPUT MARCA*/}
+              <div className="flex-col space-y-2">
+                <p className="font-medium text-zinc-600 text-sm">Marca</p>
+                <input
+                  className="bg-zinc-300 rounded-md px-2 py-1 w-1/2"
+                  type="text"
+                  placeholder="Apple"
+                  name="marca"
+                  onChange={handleInput}
+                />
+              </div>
+            </div>
+
+            {/* IMAGEN*/}
+            <div className=" bg-zinc-200 col-span-5 rounded-xl">
+              <div className="p-3">
+                <p className="font-medium">Agregar Imagenes</p>
+              </div>
+            </div>
+          </div>
+
+          {/*SEGUNDA COLUMNA */}
+          <div className="grid grid-flow-col grid-cols-11 gap-8 px-4 row-span-2">
+            <div className="bg-zinc-200 col-span-6 p-4 rounded-lg grid grid-2">
+              {/*SUBCOLUMNA 1 PRECIO Y STOCK */}
+              <div className="grid grid-cols-2 gap-4">
+                {" "}
+                {/* INPUT PRECIO*/}
+                <div className="flex-col space-y-2">
+                  <p className="font-medium text-zinc-600 text-sm">Precio</p>
+                  <input
+                    className="bg-zinc-300 rounded-md px-2 py-1 w-1/2 "
+                    type="text"
+                    placeholder="200.99"
+                    name="precio"
+                    onChange={handleInput}
+                  />
+                </div>
+                {/* INPUT STOCK*/}
+                <div className="flex-col space-y-2">
+                  <p className="font-medium text-zinc-600 text-sm ">Stock</p>
+                  <input
+                    className="bg-zinc-300 rounded-md px-2 py-1 w-1/2"
+                    type="number"
+                    placeholder="5"
+                    name="stock"
+                    onChange={handleInput}
+                  />
+                </div>
+              </div>
+              {/*SUBCOLUMNA 2 DESCUENTO Y STOCK MINIMO */}
+              <div className="grid grid-cols-2 gap-4 justify-end">
+                {/* INPUT STOCK MINIMO*/}
+                <div className="flex-col space-y-2">
+                  <p className="font-medium text-zinc-600 text-sm">
+                    Stock mínimo
+                  </p>
+                  <input
+                    className="bg-zinc-300 rounded-md px-2 py-1"
+                    type="number"
+                    placeholder="2"
+                    name="stockMinimo"
+                    onChange={handleInput}
+                  />
+                </div>
+                {/* INPUT DESCUENTO*/}
+                <div className="flex-col space-y-2">
+                  <p className="font-medium text-zinc-600 text-sm">Descuento</p>
+                  <input
+                    className="bg-zinc-300 rounded-md px-2 py-1"
+                    type="number"
+                    placeholder="2"
+                    name="stockMinimo"
+                    onChange={handleInput}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="bg-zinc-200 col-span-5 p-4 rounded-lg grid grid-2 gap-4">
+              {/* INPUT CATEGORIA*/}
+              <div className="flex-col space-y-2">
+                <p className="font-medium text-zinc-600 text-sm">Categoria</p>
+                <SelectCategorias handleInput={handleInput} />
+              </div>
+
+              {/* INPUT CODIGO*/}
+              <div className="flex-col space-y-2 ">
+                <p className="font-medium text-zinc-600 text-sm">Código</p>
+                <input
+                  className="bg-zinc-300 rounded-md px-2 py-1 w-3/4"
+                  type="text"
+                  placeholder="Código"
+                  name="codigo"
+                  onChange={handleInput}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   );
 }

@@ -16,12 +16,23 @@ const db = mysql.createConnection({
 
 //Metodo post para agregar usuario en pantalla signup
 app.post("/signup", (req, res) => {
-  const sql = "INSERT INTO `usuario` (`usu_nombre`, `usu_password`) VALUES (?)";
-  const values = [req.body.usuario, req.body.password];
-  console.log(values);
+  const sql =
+    "INSERT INTO `usuario` (`usu_nombre`, `usu_apellidoPaterno`, `usu_apellidoMaterno`, `usu_sexo`, `usu_telefono`, `usu_direccion`, `usu_rfc`, `usu_password`, `usu_rol`, `usu_idGerenteAlta`) VALUES (?)";
+  const values = [
+    req.body.nombre,
+    req.body.ap,
+    req.body.am,
+    req.body.sexo,
+    req.body.telefono,
+    req.body.direccion,
+    req.body.rfc,
+    req.body.password,
+    req.body.rol,
+    req.body.gerenteAlta,
+  ];
   db.query(sql, [values], (err, data) => {
     if (err) {
-      return res.json(err);
+      return res.json("error");
     }
     return res.json(data);
   });
@@ -85,13 +96,16 @@ app.post("/proveedores", (req, res) => {
 
 app.post("/productos/agregar", (req, res) => {
   const sql =
-    "INSERT INTO `producto` (`pro_nombre`, `pro_categoria`, `pro_precio`, `pro_stock`, `pro_codigo`) VALUES (?);";
+    "INSERT INTO `producto`(`pro_nombre`, `pro_categoria`, `pro_precio`, `pro_stock`, `pro_codigo`, `pro_marca`, `pro_descripcion`, `pro_stockMinimo`) VALUES (?);";
   const values = [
     req.body.nombre,
     req.body.categoria,
     req.body.precio,
     req.body.stock,
     req.body.codigo,
+    req.body.marca,
+    req.body.descripcion,
+    req.body.stockMinimo,
   ];
   console.log(values);
   db.query(sql, [values], (err, data) => {
@@ -113,6 +127,29 @@ app.post("/proveedores/agregar", (req, res) => {
     req.body.usuario,
   ];
   console.log(values);
+  db.query(sql, [values], (err, data) => {
+    if (err) {
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+//agregar categoria
+
+app.post("/categorias", (req, res) => {
+  const sql = "SELECT * FROM `categoriaProductos`";
+  db.query(sql, (err, data) => {
+    if (err) {
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.post("/categorias/agregar", (req, res) => {
+  const sql = "INSERT INTO `categoriaProductos` (`cat_nombre`) VALUES (?);";
+  const values = [req.body.nombre];
   db.query(sql, [values], (err, data) => {
     if (err) {
       return res.json(err);
