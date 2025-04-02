@@ -1,14 +1,25 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // import { validation } from "./LoginValidation";
 import axios from "axios";
+import SelectRoles from "./componentes/SelectRoles";
+import { Check } from "lucide-react";
+import SelectSexo from "./componentes/SelectSexo";
 
 function Signup() {
   const [values, setValues] = useState({
-    usuario: "",
+    nombre: "",
+    ap: "",
+    am: "",
+    sexo: "",
+    telefono: "",
+    direccion: "",
+    rfc: "",
     password: "",
+    rol: "",
+    gerenteAlta: 1,
   });
-  const navigate = useNavigate();
+  const navigator = useNavigate();
 
   const handleInput = (event) => {
     setValues((prev) => ({
@@ -19,12 +30,16 @@ function Signup() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(values);
     axios
       .post("http://localhost:8081/signup", values)
       .then((res) => {
-        navigate("/login");
+        alert("usuario agregado");
+        navigator("/login");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        alert("error");
+      });
   };
   return (
     <div className="bg-[#590C37] h-screen w-screen flex flex-row">
@@ -35,44 +50,81 @@ function Signup() {
       {/* COMPONENTE Creacion Usuario */}
 
       <div className="w-full  flex justify-center items-center">
-        <div className="flex flex-col p-32  gap-8 text-white  ">
-          <p className="font-semibold text-4xl ">Crear usuario</p>
-          <form onSubmit={handleSubmit} action="">
-            <div className="flex flex-col gap-3">
-              <p className="text-xl font-normal">Usuario</p>
-              <input
-                type="text"
-                name="usuario"
-                placeholder="Usuario"
-                className="w-full rounded-md text-black"
-                onChange={handleInput}
-              />
-            </div>
-            <div className="flex flex-col gap-3">
-              <p className="text-xl">Contraseña</p>
-              <input
-                type="password"
-                name="password"
-                placeholder="***********"
-                className="rounded-md w-full text-black"
-                onChange={handleInput}
-              />
-            </div>
-            <button
-              type="submit"
-              className="rounded-md bg-[#014034] py-2.5 text-xl font-semibold"
-            >
-              Crear Usuario
-            </button>
-          </form>
+        <form action="" onSubmit={handleSubmit}>
+          {/*  INPUT NOMBRE */}
+          <div>
+            <p>Nombre</p>
+            <input
+              type="text"
+              name="nombre"
+              placeholder="Nombre de Usuario"
+              onChange={handleInput}
+            />
+          </div>
 
-          <Link
-            to="/login"
-            className="flex justify-center items-center rounded-md bg-slate-200 py-2.5 text-xl font-semibold text-black"
+          {/*  INPUT APELLIDO PATERNO */}
+          <div>
+            <p>Apellido Paterno</p>
+            <input
+              type="text"
+              name="ap"
+              placeholder="Apellido Paterno"
+              onChange={handleInput}
+            />
+          </div>
+
+          {/*  INPUT APELLIDO MATERNO */}
+          <div>
+            <p>Apellido Materno</p>
+            <input
+              type="text"
+              name="am"
+              placeholder="Apellido Materno"
+              onChange={handleInput}
+            />
+          </div>
+
+          {/*  INPUT SEXO */}
+          <div>
+            <SelectSexo nombre="sexo" handleInput={handleInput} />
+          </div>
+
+          {/*  INPUT TELEFONO */}
+          <div>
+            <p>Numero de Telefono</p>
+            <input type="text" name="telefono" onChange={handleInput} />
+          </div>
+
+          {/*  INPUT DIRECCION */}
+          <div>
+            <p>Direccion</p>
+            <input type="text" name="direccion" onChange={handleInput} />
+          </div>
+
+          {/*  INPUT RFC */}
+          <div>
+            <p>RFC</p>
+            <input type="text" name="rfc" onChange={handleInput} />
+          </div>
+          {/*  INPUT PASSWORD */}
+          <div>
+            <p>Contraseña</p>
+            <input type="text" name="password" onChange={handleInput} />
+          </div>
+
+          {/*  INPUT ROL */}
+          <div>
+            <p>Rol de Empleado</p>
+            <SelectRoles nombre={"rol"} handleInput={handleInput} />
+          </div>
+          <button
+            className="bg-blue-500 flex justify-center items-center rounded-xl py-1.5 px-8 font-medium text-white gap-2"
+            type="submit"
           >
-            Iniciar sesion
-          </Link>
-        </div>
+            {<Check className="w-6 h-6" />}
+            Agregar Usuario
+          </button>
+        </form>
       </div>
     </div>
   );

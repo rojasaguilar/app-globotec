@@ -6,16 +6,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-//conexion con la base de datos
-const db = mysql.createConnection({
-  host: "bigjjny1r1wlbffosqts-mysql.services.clever-cloud.com",
-  user: "uqk5fmmotw3z2bcx",
-  password: "umsLaR1I4Btg31Uoj06J",
-  database: "bigjjny1r1wlbffosqts",
-});
+let db = null;
 
 //Metodo post para agregar usuario en pantalla signup
 app.post("/signup", (req, res) => {
+  db = mysql.createConnection({
+    host: "bigjjny1r1wlbffosqts-mysql.services.clever-cloud.com",
+    user: "uqk5fmmotw3z2bcx",
+    password: "umsLaR1I4Btg31Uoj06J",
+    database: "bigjjny1r1wlbffosqts",
+  });
+  console.log(req.body);
   const sql =
     "INSERT INTO `usuario` (`usu_nombre`, `usu_apellidoPaterno`, `usu_apellidoMaterno`, `usu_sexo`, `usu_telefono`, `usu_direccion`, `usu_rfc`, `usu_password`, `usu_rol`, `usu_idGerenteAlta`) VALUES (?)";
   const values = [
@@ -32,69 +33,144 @@ app.post("/signup", (req, res) => {
   ];
   db.query(sql, [values], (err, data) => {
     if (err) {
+      db.destroy();
       return res.json("error");
     }
+    db.destroy();
     return res.json(data);
   });
 });
 
 app.post("/login", (req, res) => {
+  db = mysql.createConnection({
+    host: "bigjjny1r1wlbffosqts-mysql.services.clever-cloud.com",
+    user: "uqk5fmmotw3z2bcx",
+    password: "umsLaR1I4Btg31Uoj06J",
+    database: "bigjjny1r1wlbffosqts",
+  });
   const sql =
     "select * from `usuario` where (`usu_nombre` = (?) AND `usu_password` = (?)) ";
   const values = [req.body.usuario, req.body.password];
   db.query(sql, values, (err, data) => {
     if (err) {
       console.log("error");
+      db.destroy();
       return res.json(err);
     }
     if (data.length > 0) {
       console.log(data);
+      db.destroy();
       return res.json(data[0]);
     } else {
       console.log("PASSWORD INCORRECTO");
       console.log(err);
+      db.destroy();
       return res.json("CI");
     }
   });
 });
 
 app.post("/usuarios", (req, res) => {
+  db = mysql.createConnection({
+    host: "bigjjny1r1wlbffosqts-mysql.services.clever-cloud.com",
+    user: "uqk5fmmotw3z2bcx",
+    password: "umsLaR1I4Btg31Uoj06J",
+    database: "bigjjny1r1wlbffosqts",
+  });
   const sql = "select * from `usuario`";
   db.query(sql, (err, data) => {
     if (err) {
       console.log("hubo un error");
+      db.destroy();
       return res.json(err);
     }
     console.log("todos");
+    db.destroy();
+    return res.json(data);
+  });
+});
+
+app.post("/usuarios/usuario", (req, res) => {
+  db = mysql.createConnection({
+    host: "bigjjny1r1wlbffosqts-mysql.services.clever-cloud.com",
+    user: "uqk5fmmotw3z2bcx",
+    password: "umsLaR1I4Btg31Uoj06J",
+    database: "bigjjny1r1wlbffosqts",
+  });
+  const sql =
+    "update `usuario` set `usu_nombre` = ?, `usu_apellidoPaterno` = ?, `usu_apellidoMaterno` = ?, `usu_sexo` = ?, `usu_telefono` = ?, `usu_direccion` = ?, `usu_rfc` = ?, `usu_password` = ?, `usu_rol` = ?, `usu_estaActivo` = ? where (`usu_id` = ?)";
+
+  const values = [
+    req.body.usu_nombre,
+    req.body.usu_apellidoPaterno,
+    req.body.usu_apellidoMaterno,
+    req.body.usu_sexo,
+    req.body.usu_telefono,
+    req.body.usu_direccion,
+    req.body.usu_rfc,
+    req.body.usu_password,
+    req.body.usu_rol,
+    req.body.usu_estaActivo,
+    req.body.usu_id,
+  ];
+  db.query(sql, values, (err, data) => {
+    if (err) {
+      console.log("error");
+      db.destroy();
+      return res.json(err);
+    }
+    db.destroy();
     return res.json(data);
   });
 });
 
 app.post("/productos", (req, res) => {
+  db = mysql.createConnection({
+    host: "bigjjny1r1wlbffosqts-mysql.services.clever-cloud.com",
+    user: "uqk5fmmotw3z2bcx",
+    password: "umsLaR1I4Btg31Uoj06J",
+    database: "bigjjny1r1wlbffosqts",
+  });
   const sql = "select * from `producto`";
   db.query(sql, (err, data) => {
     if (err) {
       console.log("hubo un error");
+      db.destroy();
       return res.json(err);
     }
     console.log("todos");
+    db.destroy();
     return res.json(data);
   });
 });
 
 app.post("/proveedores", (req, res) => {
+  db = mysql.createConnection({
+    host: "bigjjny1r1wlbffosqts-mysql.services.clever-cloud.com",
+    user: "uqk5fmmotw3z2bcx",
+    password: "umsLaR1I4Btg31Uoj06J",
+    database: "bigjjny1r1wlbffosqts",
+  });
   const sql = "select * from `proveedor`";
   db.query(sql, (err, data) => {
     if (err) {
       console.log("hubo un error");
+      db.destroy();
       return res.json(err);
     }
     console.log("todos");
+    db.destroy();
     return res.json(data);
   });
 });
 
 app.post("/productos/agregar", (req, res) => {
+  db = mysql.createConnection({
+    host: "bigjjny1r1wlbffosqts-mysql.services.clever-cloud.com",
+    user: "uqk5fmmotw3z2bcx",
+    password: "umsLaR1I4Btg31Uoj06J",
+    database: "bigjjny1r1wlbffosqts",
+  });
   const sql =
     "INSERT INTO `producto`(`pro_nombre`, `pro_categoria`, `pro_precio`, `pro_stock`, `pro_codigo`, `pro_marca`, `pro_descripcion`, `pro_stockMinimo`) VALUES (?);";
   const values = [
@@ -110,13 +186,21 @@ app.post("/productos/agregar", (req, res) => {
   console.log(values);
   db.query(sql, [values], (err, data) => {
     if (err) {
+      db.destroy();
       return res.json(err);
     }
+    db.destroy();
     return res.json(data);
   });
 });
 
 app.post("/proveedores/agregar", (req, res) => {
+  db = mysql.createConnection({
+    host: "bigjjny1r1wlbffosqts-mysql.services.clever-cloud.com",
+    user: "uqk5fmmotw3z2bcx",
+    password: "umsLaR1I4Btg31Uoj06J",
+    database: "bigjjny1r1wlbffosqts",
+  });
   const sql =
     "INSERT INTO `proveedor` (`prove_nombre`, `prove_correo`, `prove_telefono`, `prove_direccion`, `usu_id`) VALUES (?);";
   const values = [
@@ -129,33 +213,58 @@ app.post("/proveedores/agregar", (req, res) => {
   console.log(values);
   db.query(sql, [values], (err, data) => {
     if (err) {
+      db.destroy();
       return res.json(err);
     }
+    db.destroy();
     return res.json(data);
   });
 });
 
-//agregar categoria
+//CATEGORIAS
 
 app.post("/categorias", (req, res) => {
+  db = mysql.createConnection({
+    host: "bigjjny1r1wlbffosqts-mysql.services.clever-cloud.com",
+    user: "uqk5fmmotw3z2bcx",
+    password: "umsLaR1I4Btg31Uoj06J",
+    database: "bigjjny1r1wlbffosqts",
+  });
   const sql = "SELECT * FROM `categoriaProductos`";
   db.query(sql, (err, data) => {
     if (err) {
+      db.destroy();
       return res.json(err);
     }
+    db.destroy();
     return res.json(data);
   });
 });
 
 app.post("/categorias/agregar", (req, res) => {
+  db = mysql.createConnection({
+    host: "bigjjny1r1wlbffosqts-mysql.services.clever-cloud.com",
+    user: "uqk5fmmotw3z2bcx",
+    password: "umsLaR1I4Btg31Uoj06J",
+    database: "bigjjny1r1wlbffosqts",
+  });
   const sql = "INSERT INTO `categoriaProductos` (`cat_nombre`) VALUES (?);";
   console.log(req.body.nombre);
   const nombre = req.body.nombre;
   db.query(sql, nombre, (err, data) => {
     if (err) {
+      db.destroy();
       return res.json(err);
     }
+    db.destroy();
     return res.json(data);
+  });
+});
+
+app.post("/logout", (req, res) => {
+  db.end((err) => {
+    if (err) return res.json(err);
+    return res.json("conexion cerrada");
   });
 });
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-function SelectSexo({ name, handleInput }) {
+function SelectSexo({ nombre, handleInput }) {
   const sexos = [
     {
       identificador: "h",
@@ -14,8 +14,7 @@ function SelectSexo({ name, handleInput }) {
 
   return (
     <div>
-      <select name={name} onChange={handleInput}>
-        <option selected>Sexo</option>
+      <select name={nombre} onChange={handleInput}>
         {sexos.map((sexo) => (
           <option value={sexo.identificador}>{sexo.sexo}</option>
         ))}

@@ -3,6 +3,7 @@ import {
   ChevronDown,
   History,
   LayoutGrid,
+  LogOut,
   Plus,
   Settings,
   Users,
@@ -10,8 +11,13 @@ import {
 import React, { useEffect, useState } from "react";
 import SearchInput from "./SearchInput";
 import Saludador from "./Saludador";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import PositionedMenu from "./PositionedMenu";
 let empleado = "";
+
 export default function Header() {
+  const navigate = useNavigate();
   const [name, setName] = useState("Initial Name");
   const [rol, setRol] = useState("Initial Name");
 
@@ -31,6 +37,12 @@ export default function Header() {
     };
   }, []);
 
+  const handleLogout = (e) => {
+    axios.post("http://localhost:8081/logout");
+    alert("sesion cerrada");
+    navigate("/login");
+  };
+
   return (
     <div className="bg-gray-100 h-12 flex items-center justify-between px-4 border-b border-slate-200 shadow-md">
       <div className="flex gap-3 items-center">
@@ -47,9 +59,10 @@ export default function Header() {
       <div className="flex items-center gap-3 ">
         {/*  */}
         <div className="pr-2 border-r border-gray-300">
-          <button className="p-1 rounded-lg bg-blue-600">
+          {/* <button className="p-1 rounded-lg bg-blue-600">
             <Plus className="text-slate-50 w-4 h-4" />
-          </button>
+          </button> */}
+          <PositionedMenu />
         </div>
         <div className="flex border-r border-gray-300 space-x-3">
           <button className="p-1 rounded-lg hover:bg-slate-200">
@@ -69,6 +82,9 @@ export default function Header() {
             <ChevronDown className="w-4 h-4" />
           </button>
         </div>
+        <button onClick={handleLogout}>
+          <LogOut className="w-4 h-4" />
+        </button>
         {/* */}
         <button className="w-8 h-8 border-slate-900 rounded-full"></button>
         {/* */}

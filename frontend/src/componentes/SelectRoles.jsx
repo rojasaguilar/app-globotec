@@ -1,6 +1,6 @@
 import React from "react";
 
-function SelectRoles({ handleInput }) {
+function SelectRoles({ nombre, handleInput }) {
   const roles = [
     {
       identificador: "g",
@@ -18,8 +18,7 @@ function SelectRoles({ handleInput }) {
 
   return (
     <div>
-      <select name="rol" onChange={handleInput}>
-        <option selected>Rol</option>
+      <select name={nombre} onChange={handleInput}>
         {roles.map((rol) => (
           <option value={rol.identificador}>{rol.rol}</option>
         ))}

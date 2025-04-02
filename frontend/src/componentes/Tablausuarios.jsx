@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Tablausuarios() {
   function parseRol(rol) {
@@ -14,6 +15,7 @@ function Tablausuarios() {
   }
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState("");
+
   useEffect(() => {
     axios
       .post("http://localhost:8081/usuarios")
@@ -65,12 +67,13 @@ function Tablausuarios() {
                     <td className="px-6 py-2">{user.usu_fechaAlta}</td>
                     <td className="px-6 py-2">
                       {
-                        <a
-                          className="text-blue-600 font-medium"
-                          href={`/usuario?${user.usu_id}`}
+                        <Link
+                          className="text-blue-600 font-medium "
+                          to="/usuarios/usuario"
+                          state={user}
                         >
                           Editar
-                        </a>
+                        </Link>
                       }
                     </td>
                   </tr>

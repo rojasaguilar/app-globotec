@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import SelectSexo from "./SelectSexo";
 import SelectRoles from "./SelectRoles";
 import { Check } from "lucide-react";
@@ -19,7 +19,7 @@ function FormularioUsuario() {
     rol: "",
     gerenteAlta: empelado.usu_id,
   });
-
+  console.log(values);
   const handleInput = (event) => {
     setValues((prev) => ({
       ...prev,
@@ -29,7 +29,7 @@ function FormularioUsuario() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(values);
+    // console.log(values);
     axios
       .post("http://localhost:8081/signup", values)
       .then((res) => {
@@ -78,7 +78,7 @@ function FormularioUsuario() {
 
         {/*  INPUT SEXO */}
         <div>
-          <SelectSexo name="sexo" handleInput={handleInput} />
+          <SelectSexo nombre="sexo" handleInput={handleInput} />
         </div>
 
         {/*  INPUT TELEFONO */}
@@ -107,7 +107,7 @@ function FormularioUsuario() {
         {/*  INPUT ROL */}
         <div>
           <p>Rol de Empleado</p>
-          <SelectRoles name={"rol"} handleInput={handleInput} />
+          <SelectRoles nombre={"rol"} handleInput={handleInput} />
         </div>
         <button
           className="bg-blue-500 flex justify-center items-center rounded-xl py-1.5 px-8 font-medium text-white gap-2"

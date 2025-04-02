@@ -9,6 +9,7 @@ import Proveedores from "./Proveedores";
 import Agregarproducto from "./Agregarproducto";
 import Agregarproveedor from "./Agregarproveedor";
 import Agregarusuario from "./Agregarusuario";
+import Usuario from "./Usuario";
 
 function App() {
   return (
@@ -41,6 +42,11 @@ function App() {
           path="usuarios/agregar"
           element={<Home children={<Agregarusuario />} />}
         ></Route>
+        <Route
+          path="usuarios/usuario"
+          element={<Home children={<Usuario />} />}
+        ></Route>
+        <Route path="*" element={<Login />}></Route>
       </Routes>
     </BrowserRouter>
   );

@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 
 import React from "react";
-import DropdownMenu from "./DropdownMenu";
 // import SubscriptionCard from "./SubscriptionCard";
 
 export default function Sidebar() {
