@@ -2,7 +2,8 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { Plus } from "lucide-react";
+import Divider from "@mui/material/Divider";
+import { Link } from "react-router-dom";
 
 export default function PositionedMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -40,9 +41,29 @@ export default function PositionedMenu() {
           horizontal: "left",
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Link to={"/usuarios"}>Visualizar Usuarios</Link>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Link to={"/usuarios/agregar"}>Agregar Usuario</Link>
+        </MenuItem>
+        <Divider sx={{ my: 0.5 }} />
+        <MenuItem onClick={handleClose}>
+          <Link to={"/productos"}>Visualizar Productos</Link>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Link to={"/productos/agregar"}>Agregar Nuevo Producto</Link>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Link to={"/producto/resurtir"}>Resurtir Producto</Link>
+        </MenuItem>
+        <Divider sx={{ my: 0.5 }} />
+        <MenuItem onClick={handleClose}>
+          <Link to={"/proveedores"}>Visualizar Provedores</Link>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Link to={"/proveedores/agregar"}>Agregar Provedor</Link>
+        </MenuItem>
       </Menu>
     </div>
   );

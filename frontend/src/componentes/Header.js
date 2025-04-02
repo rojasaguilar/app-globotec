@@ -41,6 +41,7 @@ export default function Header() {
     axios.post("http://localhost:8081/logout");
     alert("sesion cerrada");
     navigate("/login");
+    localStorage.removeItem("empleado");
   };
 
   return (
