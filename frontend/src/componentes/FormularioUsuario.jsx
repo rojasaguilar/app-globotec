@@ -19,7 +19,7 @@ function FormularioUsuario() {
     rol: "",
     gerenteAlta: empelado.usu_id,
   });
-  console.log(values);
+ 
   const handleInput = (event) => {
     setValues((prev) => ({
       ...prev,
@@ -29,7 +29,6 @@ function FormularioUsuario() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // console.log(values);
     axios
       .post("http://localhost:8081/signup", values)
       .then((res) => {
@@ -78,7 +77,7 @@ function FormularioUsuario() {
 
         {/*  INPUT SEXO */}
         <div>
-          <SelectSexo nombre="sexo" handleInput={handleInput} />
+          <SelectSexo nombre={"sexo"} handleInput={handleInput} />
         </div>
 
         {/*  INPUT TELEFONO */}

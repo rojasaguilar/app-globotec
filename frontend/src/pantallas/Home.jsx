@@ -1,9 +1,8 @@
 import React from "react";
+import Header from "../componentes/Header";
+import Sidebar from "../componentes/Sidebar";
 
-import Header from "./componentes/Header";
-import Sidebar from "./componentes/Sidebar";
-
-function Layout({ children }) {
+export default function Home({ children }) {
   return (
     <div className="flex">
       <Sidebar />
@@ -14,5 +13,3 @@ function Layout({ children }) {
     </div>
   );
 }
-
-export default Layout;

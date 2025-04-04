@@ -1,29 +1,35 @@
 import React from "react";
 
-function Productcard({ nombre, precio, stock, id, codigo }) {
+function Productcard({ nombre, precio, stock, id, codigo,descripcion }) {
   return (
-    <div class="border border-gray-700 rounded-lg shadow-sm bg-gray-800">
-      <a href={`/producto?${id}`}>d</a>
+    <div class="border border-gray-700 rounded-lg shadow-sm bg-gray-800  text-white p-4 space-y-4">
+     
+    <div className="bg-zinc-600 rounded-lg">
+    <img src="" alt="img" className="w-20 h-48"/>
+    </div>
 
-      <div class="px-5 pb-5">
-        <a href={`/producto?${id}`}>
-          <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-            {nombre}
-          </h5>
-        </a>
-        <div class="flex items-center justify-between">
-          <span class="text-3xl font-bold text-gray-900 dark:text-white">
-            ${precio}
-          </span>
-          <a
-            href={`/producto?${id}`}
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Unidades en stock: {stock}
-          </a>
-          <p>{codigo}</p>
-        </div>
-      </div>
+    <div>
+      <span className="text-lg font-semibold">{nombre}</span>
+    </div>
+
+    <div className="w-full h-12">
+      <span className="text-sm font-normal">{descripcion}</span>
+    </div>
+
+    <div >
+      <span>Unidades en stock: </span>
+      <p>{stock}</p>
+    </div>
+     
+    <div>
+      <span>Código: </span>
+      <p>{`#${codigo}`}</p>
+    </div>
+    <div>
+      <span className="text-2xl font-semibold">{`$${precio}`}</span>
+    </div>
+
+     
     </div>
   );
 }

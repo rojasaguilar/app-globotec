@@ -1,0 +1,23 @@
+# Dependencias de Node.js
+/node_modules/
+# Archivos de caché
+/build/
+/dist/
+/coverage/
+# Archivos de log
+*.log
+# Archivos temporales
+*.tmp
+*.swp
+# Archivos de configuración
+.env
+.env.local
+.env.development
+.env.production
+# Archivos de IDE
+/.idea/
+/.vscode/
+# Archivos de paquetes
+package-lock.json
+yarn.lock
+npm-debug.log
