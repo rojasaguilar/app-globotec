@@ -2,6 +2,7 @@ import {
   BaggageClaim,
   BarChart4,
   Cable,
+  ContactRound,
   Home,
   ShoppingBag,
   ShoppingBasket,
@@ -52,6 +53,14 @@ export default function Sidebar() {
           >
             <ShoppingBag className="w-4 h-4" />
             <span>Proveedores</span>
+          </a>
+
+          <a
+            href="/clientes"
+            className="flex items-center space-x-2 p-2 rounded-md hover:bg-blue-600"
+          >
+            <ContactRound className="w-4 h-4" />
+            <span>Clientes</span>
           </a>
 
           <a

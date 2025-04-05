@@ -13,6 +13,7 @@ import Usuario from "./pantallas/Usuario";
 import EditarProveedor from "./pantallas/EditarProveedor";
 import Ventas from "./pantallas/Ventas";
 import NuevaVenta from "./pantallas/NuevaVenta";
+import Clientes from "./pantallas/Clientes";
 
 function App() {
   return (
@@ -66,6 +67,11 @@ function App() {
          <Route
           path="ventas/nuevaventa"
           element={<Home children={<NuevaVenta />} />}
+        ></Route>
+
+<Route
+          path="clientes"
+          element={<Home children={<Clientes />} />}
         ></Route>
 
         <Route path="*" element={<Login />}></Route>
