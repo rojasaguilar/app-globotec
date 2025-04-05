@@ -14,6 +14,8 @@ import EditarProveedor from "./pantallas/EditarProveedor";
 import Ventas from "./pantallas/Ventas";
 import NuevaVenta from "./pantallas/NuevaVenta";
 import Clientes from "./pantallas/Clientes";
+import AgregarCliente from "./pantallas/AgregarCliente";
+import EditarCliente from "./pantallas/EditarCliente";
 
 function App() {
   return (
@@ -59,19 +61,26 @@ function App() {
           path="usuarios/usuario"
           element={<Home children={<Usuario />} />}
         ></Route>
+        <Route path="ventas" element={<Home children={<Ventas />} />}></Route>
+
         <Route
-          path="ventas"
-          element={<Home children={<Ventas />} />}
-        ></Route>
-        
-         <Route
           path="ventas/nuevaventa"
           element={<Home children={<NuevaVenta />} />}
         ></Route>
 
-<Route
+        <Route
           path="clientes"
           element={<Home children={<Clientes />} />}
+        ></Route>
+
+        <Route
+          path="clientes/agregar"
+          element={<Home children={<AgregarCliente />} />}
+        ></Route>
+
+        <Route
+          path="clientes/editar"
+          element={<Home children={<EditarCliente />} />}
         ></Route>
 
         <Route path="*" element={<Login />}></Route>

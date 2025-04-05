@@ -1,6 +1,7 @@
-import React, {useState,useEffect} from 'react'
+import React, {useState} from 'react'
 import { useLocation,useNavigate } from "react-router-dom";
 import axios from 'axios';
+import RadioButtonStatus from '../componentes/RadioButtonStatus';
 
 function EditarProveedor() {
 
@@ -83,6 +84,7 @@ function EditarProveedor() {
                 onChange={handleInput}
               />
             </div>
+            <RadioButtonStatus nombre={"prove_status"}/>
             <button type="submit">Actualizar Proveedor</button>
           </form>
         </div>

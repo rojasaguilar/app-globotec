@@ -15,7 +15,6 @@ let db = mysql.createConnection({
 
 //Metodo post para agregar usuario en pantalla signup
 app.post("/signup", (req, res) => {
-
   console.log(req.body);
   const sql =
     "INSERT INTO `usuario` (`usu_nombre`, `usu_apellidoPaterno`, `usu_apellidoMaterno`, `usu_sexo`, `usu_telefono`, `usu_direccion`, `usu_rfc`, `usu_password`, `usu_rol`, `usu_idGerenteAlta`) VALUES (?)";
@@ -33,7 +32,6 @@ app.post("/signup", (req, res) => {
   ];
   db.query(sql, [values], (err, data) => {
     if (err) {
-
       return res.json("error");
     }
     return res.json(data);
@@ -41,46 +39,43 @@ app.post("/signup", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
- 
   const sql =
     "select * from `usuario` where (`usu_nombre` = (?) AND `usu_password` = (?)) ";
   const values = [req.body.usuario, req.body.password];
   db.query(sql, values, (err, data) => {
     if (err) {
       console.log("error");
-      
+
       return res.json(err);
     }
     if (data.length > 0) {
       console.log(data);
-      
+
       return res.json(data[0]);
     } else {
       console.log("PASSWORD INCORRECTO");
       console.log(err);
-      
+
       return res.json("CI");
     }
   });
 });
 
 app.post("/usuarios", (req, res) => {
-  
   const sql = "select * from `usuario`";
   db.query(sql, (err, data) => {
     if (err) {
       console.log("hubo un error");
-     
+
       return res.json(err);
     }
     console.log("todos");
-   
+
     return res.json(data);
   });
 });
 
 app.post("/usuarios/usuario", (req, res) => {
-
   const sql =
     "update `usuario` set `usu_nombre` = ?, `usu_apellidoPaterno` = ?, `usu_apellidoMaterno` = ?, `usu_sexo` = ?, `usu_telefono` = ?, `usu_direccion` = ?, `usu_rfc` = ?, `usu_password` = ?, `usu_rol` = ?, `usu_estaActivo` = ? where (`usu_id` = ?)";
 
@@ -100,7 +95,7 @@ app.post("/usuarios/usuario", (req, res) => {
   db.query(sql, values, (err, data) => {
     if (err) {
       console.log("error");
-     
+
       return res.json(err);
     }
 
@@ -109,58 +104,56 @@ app.post("/usuarios/usuario", (req, res) => {
 });
 
 app.post("/productos", (req, res) => {
- 
   const sql = "select * from `producto`";
   db.query(sql, (err, data) => {
     if (err) {
       console.log("hubo un error");
-     
+
       return res.json(err);
     }
     console.log("todos");
-   
+
     return res.json(data);
   });
 });
 
 app.post("/proveedores", (req, res) => {
- 
   const sql = "select * from `proveedor`";
   db.query(sql, (err, data) => {
     if (err) {
       console.log("hubo un error");
-    
+
       return res.json(err);
     }
     console.log("todos");
-  
+
     return res.json(data);
   });
 });
 
 app.post("/proveedores/editar", (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   const id = req.body.prove_id;
   const values = [
     req.body.prove_nombre,
     req.body.prove_correo,
     req.body.prove_telefono,
     req.body.prove_direccion,
-    req.body.prove_activo
-  ] 
-  const sql = " update `proveedor` set `prove_nombre` = ?, `prove_correo` = ?,`prove_telefono` = ?,`prove_direccion` = ?, `prove_activo` = ? where (`prove_id` = ?)";
-  db.query(sql,[...values,id], (err, data) => {
+    req.body.prove_activo,
+  ];
+  const sql =
+    " update `proveedor` set `prove_nombre` = ?, `prove_correo` = ?,`prove_telefono` = ?,`prove_direccion` = ?, `prove_activo` = ? where (`prove_id` = ?)";
+  db.query(sql, [...values, id], (err, data) => {
     if (err) {
       console.log("hubo un error");
       return res.json(err);
     }
-    console.log("Acutalizado");  
+    console.log("Acutalizado");
     return res.json(data);
   });
 });
 
 app.post("/productos/agregar", (req, res) => {
- 
   const sql =
     "INSERT INTO `producto`(`pro_nombre`, `pro_categoria`, `pro_precio`, `pro_stock`, `pro_codigo`, `pro_marca`, `pro_descripcion`, `pro_stockMinimo`) VALUES (?);";
   const values = [
@@ -176,16 +169,14 @@ app.post("/productos/agregar", (req, res) => {
   console.log(values);
   db.query(sql, [values], (err, data) => {
     if (err) {
- 
       return res.json(err);
     }
-    
+
     return res.json(data);
   });
 });
 
 app.post("/proveedores/agregar", (req, res) => {
-
   const sql =
     "INSERT INTO `proveedor` (`prove_nombre`, `prove_correo`, `prove_telefono`, `prove_direccion`, `usu_id`) VALUES (?);";
   const values = [
@@ -198,10 +189,9 @@ app.post("/proveedores/agregar", (req, res) => {
   console.log(values);
   db.query(sql, [values], (err, data) => {
     if (err) {
-     
       return res.json(err);
     }
-   
+
     return res.json(data);
   });
 });
@@ -209,29 +199,25 @@ app.post("/proveedores/agregar", (req, res) => {
 //CATEGORIAS
 
 app.post("/categorias", (req, res) => {
- 
   const sql = "SELECT * FROM `categoriaProductos`";
   db.query(sql, (err, data) => {
     if (err) {
-     
       return res.json(err);
     }
-    
+
     return res.json(data);
   });
 });
 
 app.post("/categorias/agregar", (req, res) => {
- 
   const sql = "INSERT INTO `categoriaProductos` (`cat_nombre`) VALUES (?);";
   console.log(req.body.nombre);
   const nombre = req.body.nombre;
   db.query(sql, nombre, (err, data) => {
     if (err) {
-     
       return res.json(err);
     }
-  
+
     return res.json(data);
   });
 });
@@ -240,6 +226,49 @@ app.post("/logout", (req, res) => {
   db.end((err) => {
     if (err) return res.json(err);
     return res.json("conexion cerrada");
+  });
+});
+
+app.post("/clientes", (req, res) => {
+  const sql = "SELECT * FROM `cliente`;";
+  db.query(sql, (err, data) => {
+    if (err) {
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.post("/clientes/agregar", (req, res) => {
+  const sql =
+    "INSERT INTO `cliente`(`cli_nombre`, `cli_correo`, `cli_rfc`, `cli_cp`) VALUES (?)";
+  const values = Object.values(req.body);
+  db.query(sql, [values], (err, data) => {
+    if (err) {
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.post("/clientes/editar", (req, res) => {
+  const sql =
+    "UPDATE `cliente` SET `cli_nombre`= ?,`cli_correo`= ? ,`cli_rfc`= ?,`cli_cp`= ?,`cli_estaActivo`= ? WHERE `cli_id` = ?";
+  const id = req.body.cli_id;
+
+  const values = [
+    req.body.cli_nombre,
+    req.body.cli_correo,
+    req.body.cli_rfc,
+    req.body.cli_cp,
+    req.body.cli_estaActivo,
+  ];
+
+  db.query(sql, [...values, id], (err, data) => {
+    if (err) {
+      return res.json(err);
+    }
+    return res.json(data);
   });
 });
 
