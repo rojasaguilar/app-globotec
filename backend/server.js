@@ -39,8 +39,7 @@ app.post("/signup", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  const sql =
-    "select * from `usuario` where (`usu_nombre` = (?) AND `usu_password` = (?)) ";
+  const sql = "select * from `usuario` where (`usu_nombre` = (?) AND `usu_password` = (?)) ";
   const values = [req.body.usuario, req.body.password];
   db.query(sql, values, (err, data) => {
     if (err) {
@@ -176,16 +175,20 @@ app.post("/productos/agregar", (req, res) => {
   });
 });
 
+app.post("/productos/pocostock", (req, res) => {
+  const sql = "SELECT * FROM `producto` WHERE `pro_stock` <= `pro_stockMinimo`";
+  db.query(sql,(err,data) => {
+    if(err){
+      return res.json(err);
+    } 
+    return res.json(data)
+  })
+});
+
 app.post("/proveedores/agregar", (req, res) => {
   const sql =
     "INSERT INTO `proveedor` (`prove_nombre`, `prove_correo`, `prove_telefono`, `prove_direccion`, `usu_id`) VALUES (?);";
-  const values = [
-    req.body.nombre,
-    req.body.correo,
-    req.body.telefono,
-    req.body.direccion,
-    req.body.usuario,
-  ];
+  const values = [req.body.nombre, req.body.correo, req.body.telefono, req.body.direccion, req.body.usuario];
   console.log(values);
   db.query(sql, [values], (err, data) => {
     if (err) {
@@ -240,8 +243,7 @@ app.post("/clientes", (req, res) => {
 });
 
 app.post("/clientes/agregar", (req, res) => {
-  const sql =
-    "INSERT INTO `cliente`(`cli_nombre`, `cli_correo`, `cli_rfc`, `cli_cp`) VALUES (?)";
+  const sql = "INSERT INTO `cliente`(`cli_nombre`, `cli_correo`, `cli_rfc`, `cli_cp`) VALUES (?)";
   const values = Object.values(req.body);
   db.query(sql, [values], (err, data) => {
     if (err) {
@@ -256,13 +258,7 @@ app.post("/clientes/editar", (req, res) => {
     "UPDATE `cliente` SET `cli_nombre`= ?,`cli_correo`= ? ,`cli_rfc`= ?,`cli_cp`= ?,`cli_estaActivo`= ? WHERE `cli_id` = ?";
   const id = req.body.cli_id;
 
-  const values = [
-    req.body.cli_nombre,
-    req.body.cli_correo,
-    req.body.cli_rfc,
-    req.body.cli_cp,
-    req.body.cli_estaActivo,
-  ];
+  const values = [req.body.cli_nombre, req.body.cli_correo, req.body.cli_rfc, req.body.cli_cp, req.body.cli_estaActivo];
 
   db.query(sql, [...values, id], (err, data) => {
     if (err) {

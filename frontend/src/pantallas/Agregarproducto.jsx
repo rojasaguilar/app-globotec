@@ -3,8 +3,10 @@ import axios from "axios";
 import { Check } from "lucide-react";
 import SelectCategorias from "../componentes/SelectCategorias";
 import BasicModal from "../componentes/MasicModal";
+import { useNavigate } from "react-router-dom";
 
 function Agregarproducto() {
+  const navigate = useNavigate();
   function vaciarInputs() {
     const inputs = document.querySelectorAll("input");
     inputs.forEach((input) => {
@@ -35,7 +37,10 @@ function Agregarproducto() {
     axios
       .post("http://localhost:8081/productos/agregar", values)
       .then((res) => {
-        console.log(res);
+        if(res.data.affectedRows === 1){
+          alert("Producto agregado correctamente")
+          navigate("/productos")
+        }
       })
       .catch((err) => console.log(err));
     vaciarInputs();
