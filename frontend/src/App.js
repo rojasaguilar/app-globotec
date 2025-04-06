@@ -16,6 +16,7 @@ import NuevaVenta from "./pantallas/NuevaVenta";
 import Clientes from "./pantallas/Clientes";
 import AgregarCliente from "./pantallas/AgregarCliente";
 import EditarCliente from "./pantallas/EditarCliente";
+import Layout from "./componentes/layout";
 
 function App() {
   return (
@@ -24,66 +25,33 @@ function App() {
         <Route path="login" element={<Login />}></Route>
         <Route path="signup" element={<Signup />}></Route>
         <Route path="home" element={<Home />}></Route>
-
-        <Route
-          path="usuarios"
-          element={<Home children={<Usuarios />} />}
-        ></Route>
-
-        <Route
-          path="productos"
-          element={<Home children={<Productos />} />}
-        ></Route>
-
-        <Route
-          path="proveedores"
-          element={<Home children={<Proveedores />} />}
-        ></Route>
-
-        <Route
-          path="productos/agregar"
-          element={<Home children={<Agregarproducto />} />}
-        ></Route>
-
-        <Route
-          path="proveedores/agregar"
-          element={<Home children={<Agregarproveedor />} />}
-        ></Route>
-        <Route
-          path="proveedores/editar"
-          element={<Home children={<EditarProveedor />} />}
-        ></Route>
-        <Route
-          path="usuarios/agregar"
-          element={<Home children={<Agregarusuario />} />}
-        ></Route>
-        <Route
-          path="usuarios/usuario"
-          element={<Home children={<Usuario />} />}
-        ></Route>
-        <Route path="ventas" element={<Home children={<Ventas />} />}></Route>
-
-        <Route
-          path="ventas/nuevaventa"
-          element={<Home children={<NuevaVenta />} />}
-        ></Route>
-
-        <Route
-          path="clientes"
-          element={<Home children={<Clientes />} />}
-        ></Route>
-
-        <Route
-          path="clientes/agregar"
-          element={<Home children={<AgregarCliente />} />}
-        ></Route>
-
-        <Route
-          path="clientes/editar"
-          element={<Home children={<EditarCliente />} />}
-        ></Route>
-
         <Route path="*" element={<Login />}></Route>
+
+        <Route element={<Layout />}>
+          {/* RUTAS USUARIOS*/}
+          <Route path="usuarios" element={<Usuarios />}></Route>
+          <Route path="usuarios/agregar" element={<Agregarusuario />}></Route>
+          <Route path="usuarios/editar" element={<Usuario />}></Route>
+
+          {/* RUTAS PRODUCTOS*/}
+          <Route path="productos" element={<Productos />}></Route>
+          <Route path="productos/agregar" element={<Agregarproducto />}></Route>
+
+          {/* RUTAS PROVEEDORES*/}
+          <Route path="proveedores" element={<Proveedores />}></Route>
+          <Route path="proveedores/agregar" element={<Agregarproveedor />}></Route>
+          <Route path="proveedores/editar" element={<EditarProveedor />}></Route>
+
+          {/* RUTAS VENTAS*/}
+          <Route path="ventas" element={<Ventas />}></Route>
+          <Route path="ventas/nuevaventa" element={<NuevaVenta />}></Route>
+
+          {/* RUTAS CLIENTES*/}
+          <Route path="clientes" element={<Clientes />}></Route>
+          <Route path="clientes/agregar" element={<AgregarCliente />}></Route>
+          <Route path="clientes/editar" element={<EditarCliente />}></Route>
+          
+        </Route>
       </Routes>
     </BrowserRouter>
   );

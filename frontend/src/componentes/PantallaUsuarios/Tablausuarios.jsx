@@ -68,7 +68,7 @@ function Tablausuarios() {
                       {
                         <Link
                           className="text-blue-600 font-medium "
-                          to="/usuarios/usuario"
+                          to="/usuarios/editar"
                           state={user}
                         >
                           Editar

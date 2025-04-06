@@ -1,12 +1,12 @@
 import React from 'react'
-import Header from '../componentes/PantallaUsuarios/Header'
 import TablaClientes from '../componentes/PantallaClientes/TablaClientes'
+import Header from '../componentes/PantallaClientes/Header'
 
 function Clientes() {
   return (
    
     <div>
-        <Header entidad={"Clientes"} msjSearchInput={"Buscar por nombre..."} btnLink={"/clientes/agregar"}/>
+       <Header/>
         <TablaClientes/>
     </div>
   )

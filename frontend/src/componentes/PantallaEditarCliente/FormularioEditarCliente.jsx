@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
+import Header from "./Header";
 
 function FormularioEditarCliente() {
   const location = useLocation();
   const navigator = useNavigate();
 
   const [cliente, setCliente] = useState(location.state);
-  const radioActivo = document.querySelector("activo")
 
   const handleInput = (event) => {
     setCliente((prev) => ({
@@ -36,6 +36,7 @@ function FormularioEditarCliente() {
 
   return (
     <div>
+      <Header></Header>
       <h1>FormularioEditarCliente</h1>
       <form action="" onSubmit={handleSubmit}>
         {/* INPUT NOMBRE*/}
