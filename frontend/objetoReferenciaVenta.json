@@ -1,0 +1,17 @@
+{
+    "ve_id": "080420251",
+    "ve_total": 1234.23,
+    "cli_id": 4,
+    "usu_id": 12,
+    "ve_tipoPago": "e",
+    "productos": [
+        {
+            "prod_id": 4,
+            "cantidad": 12
+        },
+        {
+            "prod_id": 6,
+            "cantidad": 16
+        }
+    ]
+}

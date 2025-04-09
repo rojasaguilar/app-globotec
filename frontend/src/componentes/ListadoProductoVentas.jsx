@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Productcard from "../componentes/Productcard";
-// import { Plus } from "lucide-react";
-import Header from "../componentes/PantallaUsuarios/Header";
+import ProductCardVentas from "./ProductCardVentas";
 
-function ListadoProductos() {
+function ListadoProductoVentas({handleAdd, productos}) {
   const [data, setData] = useState([]);
   const [filtro, setFiltro] = useState("");
   console.log(filtro);
@@ -19,12 +17,12 @@ function ListadoProductos() {
   return (
     <div className="w-full space-y-4">
       <input type="text" name="codigo" onChange={(e) => setFiltro(e.target.value)} />
-      <div className="px-4 grid grid-cols-4 gap-4">
+      <div className="h-[550px] overflow-y-scroll px-4 grid grid-cols-4 gap-4 bg-slate-200">
         {data
           .filter((producto) => (filtro === "" ? producto : producto.pro_codigo.includes(filtro)))
           .map((producto, index) => {
             return (
-              <Productcard
+              <ProductCardVentas
                 key={index}
                 nombre={producto.pro_nombre}
                 precio={producto.pro_precio}
@@ -32,6 +30,8 @@ function ListadoProductos() {
                 id={producto.pro_id}
                 codigo={producto.pro_codigo}
                 descripcion={producto.pro_descripcion}
+                handleAdd={handleAdd}
+                productos={productos}
               />
             );
           })}
@@ -40,4 +40,4 @@ function ListadoProductos() {
   );
 }
 
-export default ListadoProductos;
+export default ListadoProductoVentas;

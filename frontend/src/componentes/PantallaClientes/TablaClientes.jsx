@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-function TablaClientes() {
+function TablaClientes({status}) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -15,29 +15,30 @@ function TablaClientes() {
         console.log(err);
       });
   }, []);
-
+console.log(status)
   return (
-    <div>
-     <table>
+    <div className="pt-4">
+     <table className="table-auto">
         <thead>
-            <th>Nombre Cliente</th>
-            <th>Nombre Correo</th>
-            <th>Nombre RFC</th>
-            <th>Nombre Codigo Postal</th>
-            <th>Accion</th>
+            <th className="px-6 text-base">Nombre Cliente</th>
+            <th className="px-6 text-base">Nombre Correo</th>
+            <th className="px-6 text-base">Nombre RFC</th>
+            <th className="px-6 text-base">Nombre Codigo Postal</th>
+            <th className="px-6 text-base">Accion</th>
         </thead>
         <tbody>
-            {data.map((cliente,index)=> {
-                return(
-                    <tr key={index}>
-                        <td>{cliente.cli_nombre}</td>
-                        <td>{cliente.cli_correo}</td>
-                        <td>{cliente.cli_rfc}</td>
-                        <td>{cliente.cli_cp}</td>
-                        <td>{<Link to={"/clientes/editar"} state={cliente}>editar</Link>}</td>
-                    </tr>
-                )
-            })}
+            {data.filter( cliente => cliente.cli_estaActivo === status )
+            .map((cliente,index)=> {
+              return(
+                  <tr key={index}>
+                      <td className="px-6 py-1 text-sm">{cliente.cli_nombre}</td>
+                      <td className="px-6 py-1 text-sm">{cliente.cli_correo}</td>
+                      <td className="px-6 py-1 text-sm">{cliente.cli_rfc}</td>
+                      <td className="px-6 py-1 text-sm">{cliente.cli_cp}</td>
+                      <td className="px-6 py-1 text-sm">{<Link to={"/clientes/editar"} state={cliente}>editar</Link>}</td>
+                  </tr>
+              )
+          })}
         </tbody>
      </table>
     </div>

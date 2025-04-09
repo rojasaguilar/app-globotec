@@ -17,6 +17,7 @@ import Clientes from "./pantallas/Clientes";
 import AgregarCliente from "./pantallas/AgregarCliente";
 import EditarCliente from "./pantallas/EditarCliente";
 import Layout from "./componentes/layout";
+import UserMenu from "./componentes/UserMenu";
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
           <Route path="clientes/editar" element={<EditarCliente />}></Route>
           
         </Route>
+        <Route path="usermenu" element={<UserMenu/>}/>
       </Routes>
     </BrowserRouter>
   );

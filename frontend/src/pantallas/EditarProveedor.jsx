@@ -24,7 +24,7 @@ function EditarProveedor() {
           .post("http://localhost:8081/proveedores/editar", proveedor)
           .then((res) => {
        
-           if(res.data.affectedRows == "1"){
+           if(res.data.affectedRows === "1"){
             alert("Proveedor actualizado")
             navigator("/proveedores");
            }else{

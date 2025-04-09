@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-function TablaProveedor() {
+function TablaProveedor({ status }) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -26,29 +26,31 @@ function TablaProveedor() {
             <th className="p-2.5">ACCION</th>
           </thead>
           <tbody>
-            {data.map((proveedor, index) => {
-              return (
-                <tr key={index} className="text-sm">
-                  <td className="px-6 py-2">{proveedor.prove_nombre}</td>
-                  <td className="px-6 py-2">{proveedor.prove_correo}</td>
-                  <td className="px-6 py-2">{proveedor.prove_telefono}</td>
-                  <td className="px-6 py-2">{proveedor.prove_direccion}</td>
-                  <td className="px-6 py-2">{proveedor.prove_fechaAlta}</td>
-                  <td className="px-6 py-2">
-                    {
-                      <Link
-                        to={`/proveedores/editar`}
-                        className="hover:underline text-blue-700 font-medium"
-                        state={proveedor}
-                      >
-                        {" "}
-                        Editar{" "}
-                      </Link>
-                    }
-                  </td>
-                </tr>
-              );
-            })}
+            {data
+              .filter((proveedor) => proveedor.prove_activo === status)
+              .map((proveedor, index) => {
+                return (
+                  <tr key={index} className="text-sm">
+                    <td className="px-6 py-2">{proveedor.prove_nombre}</td>
+                    <td className="px-6 py-2">{proveedor.prove_correo}</td>
+                    <td className="px-6 py-2">{proveedor.prove_telefono}</td>
+                    <td className="px-6 py-2">{proveedor.prove_direccion}</td>
+                    <td className="px-6 py-2">{proveedor.prove_fechaAlta}</td>
+                    <td className="px-6 py-2">
+                      {
+                        <Link
+                          to={`/proveedores/editar`}
+                          className="hover:underline text-blue-700 font-medium"
+                          state={proveedor}
+                        >
+                          Editar
+                        </Link>
+                        // <ModalEditarProveedor proveedor={proveedor}/>
+                      }
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>
