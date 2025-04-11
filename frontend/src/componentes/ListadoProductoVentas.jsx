@@ -17,7 +17,7 @@ function ListadoProductoVentas({handleAdd, productos}) {
   return (
     <div className="w-full space-y-4">
       <input type="text" name="codigo" onChange={(e) => setFiltro(e.target.value)} />
-      <div className="h-[550px] overflow-y-scroll px-4 grid grid-cols-4 gap-4 bg-slate-200">
+      <div className="h-[530px] overflow-y-scroll px-4 grid grid-cols-4 gap-4 ">
         {data
           .filter((producto) => (filtro === "" ? producto : producto.pro_codigo.includes(filtro)))
           .map((producto, index) => {
