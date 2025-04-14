@@ -18,6 +18,8 @@ import AgregarCliente from "./pantallas/AgregarCliente";
 import EditarCliente from "./pantallas/EditarCliente";
 import Layout from "./componentes/layout";
 import UserMenu from "./componentes/UserMenu";
+import FlujoDinero from "./pantallas/FlujoDinero";
+import AgregarFlujo from "./pantallas/AgregarFlujo";
 
 function App() {
   return (
@@ -51,9 +53,12 @@ function App() {
           <Route path="clientes" element={<Clientes />}></Route>
           <Route path="clientes/agregar" element={<AgregarCliente />}></Route>
           <Route path="clientes/editar" element={<EditarCliente />}></Route>
-          
+
+          {/* RUTAS ENTRADAS/SALIDAS DINERO*/}
+          <Route path="flujoefectivo" element={<FlujoDinero />}></Route>
+          <Route path="flujoefectivo/agregar" element={<AgregarFlujo />}></Route>
         </Route>
-        <Route path="usermenu" element={<UserMenu/>}/>
+        <Route path="usermenu" element={<UserMenu />} />
       </Routes>
     </BrowserRouter>
   );

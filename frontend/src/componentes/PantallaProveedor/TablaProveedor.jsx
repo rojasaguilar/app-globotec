@@ -45,7 +45,6 @@ function TablaProveedor({ status }) {
                         >
                           Editar
                         </Link>
-                        // <ModalEditarProveedor proveedor={proveedor}/>
                       }
                     </td>
                   </tr>

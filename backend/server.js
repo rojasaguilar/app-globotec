@@ -177,12 +177,12 @@ app.post("/productos/agregar", (req, res) => {
 
 app.post("/productos/pocostock", (req, res) => {
   const sql = "SELECT * FROM `producto` WHERE `pro_stock` <= `pro_stockMinimo`";
-  db.query(sql,(err,data) => {
-    if(err){
+  db.query(sql, (err, data) => {
+    if (err) {
       return res.json(err);
-    } 
-    return res.json(data)
-  })
+    }
+    return res.json(data);
+  });
 });
 
 app.post("/proveedores/agregar", (req, res) => {
@@ -261,6 +261,17 @@ app.post("/clientes/editar", (req, res) => {
   const values = [req.body.cli_nombre, req.body.cli_correo, req.body.cli_rfc, req.body.cli_cp, req.body.cli_estaActivo];
 
   db.query(sql, [...values, id], (err, data) => {
+    if (err) {
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.post("/entradassalidas", (req, res) => {
+  const sql =
+    "select `entsal_tipo`, e.entsal_cantidad,e.entsal_motivo,u.usu_nombreUsuario,e.entsal_fecha,e.entsal_estaCancelada, e.entsal_EoS from entradasalidadinero e INNER join usuario u on (u.usu_id = e.usu_id)";
+  db.query(sql, (err, data) => {
     if (err) {
       return res.json(err);
     }
