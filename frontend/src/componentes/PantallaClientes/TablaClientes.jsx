@@ -18,13 +18,13 @@ function TablaClientes({status}) {
 console.log(status)
   return (
     <div className="pt-4">
-     <table className="table-auto">
+     <table className="table-static">
         <thead>
-            <th className="px-6 text-base">Nombre Cliente</th>
-            <th className="px-6 text-base">Nombre Correo</th>
-            <th className="px-6 text-base">Nombre RFC</th>
-            <th className="px-6 text-base">Nombre Codigo Postal</th>
-            <th className="px-6 text-base">Accion</th>
+            <th className="px-6 text-base text-start w-72 bg-blue-400">Nombre Cliente</th>
+            <th className="px-6 text-base text-start w-64">Correo</th>
+            <th className="px-6 text-base text-start bg-red-400 w-28">RFC</th>
+            <th className="px-6 text-base text-start bg-pink-400 w-28">Codigo Postal</th>
+            <th className="px-6 text-base text-start bg-blue-400">Accion</th>
         </thead>
         <tbody>
             {data.filter( cliente => cliente.cli_estaActivo === status )
@@ -35,7 +35,7 @@ console.log(status)
                       <td className="px-6 py-1 text-sm">{cliente.cli_correo}</td>
                       <td className="px-6 py-1 text-sm">{cliente.cli_rfc}</td>
                       <td className="px-6 py-1 text-sm">{cliente.cli_cp}</td>
-                      <td className="px-6 py-1 text-sm">{<Link to={"/clientes/editar"} state={cliente}>editar</Link>}</td>
+                      <td className="px-6 py-1 text-sm">{<Link to={"/clientes/editar"} state={cliente} className="text-blue-600 font-medium hover:underline">Editar</Link>}</td>
                   </tr>
               )
           })}

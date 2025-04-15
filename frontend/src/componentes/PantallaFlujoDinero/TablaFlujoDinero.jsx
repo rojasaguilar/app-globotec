@@ -8,7 +8,8 @@ function TablaFlujoDinero() {
     const tipos = {
       v: "venta",
       d: "devolucion",
-      r: "retiro caja"
+      r: "retiro de caja registradora",
+      i: "ingreso a caja registradora"
     };
   
     return tipos[tipo] || "undefined";

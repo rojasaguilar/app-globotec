@@ -14,8 +14,9 @@ function FormularioCliente() {
       ...prev,
       [event.target.name]: event.target.value,
     }));
-    console.log(cliente.cli_nombre);
   };
+
+
 
   const handleSubmit = (event) => {
     event.preventDefault();

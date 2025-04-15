@@ -279,6 +279,23 @@ app.post("/entradassalidas", (req, res) => {
   });
 });
 
+app.post("/entradassalidas/agregar", (req, res) => {
+  let data = req.body;
+  if (data.entsal_tipo === "v" || data.entsal_tipo === "i") {
+    data = { ...data, entsal_EoS: "e" };
+  } else {
+    data = { ...data, entsal_EoS: "s" };
+  }
+  const sql =
+    "insert into entradasalidadinero (entsal_cantidad, usu_id, entsal_motivo, entsal_tipo, entsal_EoS) values (?)";
+  db.query(sql, [Object.values(data)], (err, data) => {
+    if (err) {
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
 app.listen(8081, () => {
   console.log("listening");
 });
