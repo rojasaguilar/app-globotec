@@ -24,7 +24,7 @@ function NuevaVenta() {
     let str = `${Math.random()}`.slice(2);
     const venta = {
       ...dataVenta,
-      ve_id: `${date}-${empleado.usu_id}-${dataVenta.cli_id}-${total}-${str}`.slice(0,30),
+      ve_id: `${date}-${empleado.usu_id}-${dataVenta.cli_id}-${total}-${str}`.slice(0, 30),
       ve_total: total,
       usu_id: empleado.usu_id,
       productos: productos,
@@ -37,12 +37,11 @@ function NuevaVenta() {
     axios
       .post("http://localhost:8081/venta/agregar", venta)
       .then((res) => {
-        console.log(res);
-        if (res.data[0][0].mensaje === "Venta registrada y stock actualizado") {
+        if (res.data[0][0].mensaje === "Stock insuficiente") {
+          alert("Stock insuficiente, verifica los productos");
+        } else {
           alert("Venta realizada");
           window.location.reload();
-        } else {
-          alert("Stock insuficiente, verifica los productos");
         }
       })
       .catch((err) => {

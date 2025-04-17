@@ -28,7 +28,7 @@ function TablaFlujoDinero() {
   });
 
   return (
-    <div className="px-4">
+    <div className="px-4 h-[500px] overflow-y-scroll">
       <table className="table-fixed">
         <thead className="">
           <th className="w-32 pr-4 pb-4 text-sm text-start">Tipo</th>
