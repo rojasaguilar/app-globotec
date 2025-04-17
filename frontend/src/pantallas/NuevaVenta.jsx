@@ -3,10 +3,9 @@ import ListadoProductoVentas from "../componentes/ListadoProductoVentas";
 import TipoPago from "../componentes/pantallaNuevaVenta/TipoPago";
 import SelectClientes from "../componentes/pantallaNuevaVenta/SelectClientes";
 import Header from "../componentes/pantallaNuevaVenta/Header";
-
+import axios from "axios";
 function NuevaVenta() {
   const [productos, setProductos] = useState([]);
-  const [producto, setProducto] = useState({});
   const [total, setTotal] = useState(0);
 
   const empleado = JSON.parse(localStorage.getItem("empleado"));
@@ -14,28 +13,44 @@ function NuevaVenta() {
   const [dataVenta, setDataVenta] = useState({
     ve_id: "",
     ve_total: 0,
-    cli_id: 0,
+    cli_id: 2,
     usu_id: empleado.usu_id,
     ve_tipoPago: "e",
     productos: [],
   });
 
-  const handleVenta = () => {
+  const procesarVenta = () => {
     const date = new Date().toJSON().slice(0, 10);
-
-    setDataVenta({
+    let str = `${Math.random()}`.slice(2);
+    const venta = {
       ...dataVenta,
-      ve_id: `${date}-${empleado.usu_id}-${dataVenta.cli_id}-${total}`,
+      ve_id: `${date}-${empleado.usu_id}-${dataVenta.cli_id}-${total}-${str}`.slice(0,30),
       ve_total: total,
       usu_id: empleado.usu_id,
       productos: productos,
-    });
+    };
+    console.log(venta);
+    mandarPeticion(venta);
+  };
 
-    console.log(dataVenta)
+  const mandarPeticion = (venta) => {
+    axios
+      .post("http://localhost:8081/venta/agregar", venta)
+      .then((res) => {
+        console.log(res);
+        if (res.data[0][0].mensaje === "Venta registrada y stock actualizado") {
+          alert("Venta realizada");
+          window.location.reload();
+        } else {
+          alert("Stock insuficiente, verifica los productos");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleAdd = (producto) => {
-    setProducto(producto);
     setProductos([...productos, producto]);
     setTotal((prev) => parseFloat((prev + parseFloat(producto.prod_precio) * producto.prod_cantidad).toFixed(2)));
   };
@@ -65,7 +80,7 @@ function NuevaVenta() {
   };
   return (
     <div className="w-full">
-      <Header handleVenta={handleVenta} />
+      <Header />
       <div className="w-full grid grid-cols-6">
         {/*COLUMNA 1*/}
         <div className="w-full col-span-4">
@@ -102,10 +117,12 @@ function NuevaVenta() {
               <SelectClientes handleCliente={(e) => setDataVenta({ ...dataVenta, cli_id: e.target.value })} />
             </div>
             <div className="w-full">
-              <p className="bg-white py-1 px-6 text-center">Subtotal: <span className="font-medium">{`$${total}`}</span></p>
+              <p className="bg-white py-1 px-6 text-center">
+                Subtotal: <span className="font-medium">{`$${total}`}</span>
+              </p>
             </div>
           </div>
-          <button onClick={handleVenta} className="bg-blue-700 text-white font-semibold py-1 px-8 rounded-xl">
+          <button onClick={procesarVenta} className="bg-blue-700 text-white font-semibold py-1 px-8 rounded-xl">
             Crear venta
           </button>
         </div>

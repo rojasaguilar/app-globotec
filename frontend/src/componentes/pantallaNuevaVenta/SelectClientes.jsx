@@ -8,7 +8,8 @@ function SelectClientes({ handleCliente }) {
     axios
       .post("http://localhost:8081/clientes")
       .then((res) => {
-        setClientes(res.data);
+        let clientesActivos = res.data.filter(cliente => cliente.cli_estaActivo === 1);
+        setClientes(clientesActivos);
       })
       .catch((err) => console.log(err));
   });
@@ -17,10 +18,7 @@ function SelectClientes({ handleCliente }) {
     <div>
       <select onChange={handleCliente}>
         {clientes.map((cliente) => {
-          if (cliente.cli_estaActivo === 1) {
-            return <option value={cliente.cli_id}>{cliente.cli_nombre}</option>;
-          }
-          return;
+          return <option value={cliente.cli_id}>{cliente.cli_nombre}</option>;
         })}
       </select>
     </div>

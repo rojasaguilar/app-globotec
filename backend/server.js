@@ -296,6 +296,18 @@ app.post("/entradassalidas/agregar", (req, res) => {
   });
 });
 
+app.post("/venta/agregar",(req,res) => {
+  let data = req.body;
+  data = JSON.stringify(data)
+  const sql = "call nuevaVenta(?)"
+  db.query(sql,data, (err,data) => {
+    if(err){
+      return res.json(err);
+    }
+    return res.json(data)
+  })
+})
+
 app.listen(8081, () => {
   console.log("listening");
 });
