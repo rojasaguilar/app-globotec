@@ -41,29 +41,61 @@ export default function PositionedMenu() {
           horizontal: "left",
         }}
       >
+        {/*USUARIOS */}
+          <MenuItem onClick={handleClose}>
+            <Link to={"/usuarios"}>Visualizar Usuarios</Link>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <Link to={"/usuarios/agregar"}>Agregar Usuario</Link>
+          </MenuItem>
+          <Divider sx={{ my: 0.5 }} />
+
+        {/*PRODUCTOS */}
+          <MenuItem onClick={handleClose}>
+            <Link to={"/productos"}>Visualizar Productos</Link>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <Link to={"/productos/agregar"}>Agregar Nuevo Producto</Link>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <Link to={"/producto/resurtir"}>Resurtir Producto</Link>
+          </MenuItem>
+          <Divider sx={{ my: 0.5 }} />
+
+        {/*PROVEEDORES */}
+          <MenuItem onClick={handleClose}>
+            <Link to={"/proveedores"}>Visualizar Provedores</Link>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <Link to={"/proveedores/agregar"}>Agregar Provedor</Link>
+          </MenuItem>
+          <Divider sx={{ my: 0.5 }} />
+
+        {/*CLIENTES */}
+          <MenuItem onClick={handleClose}>
+            <Link to={"/clientes"}>Visualizar clientes</Link>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <Link to={"/clientes/agregar"}>Agregar Cliente</Link>
+          </MenuItem>
+          <Divider sx={{ my: 0.5 }} />
+
+        {/*VENTAS */}
         <MenuItem onClick={handleClose}>
-          <Link to={"/usuarios"}>Visualizar Usuarios</Link>
-        </MenuItem>
+            <Link to={"/ventas"}>Visualizar Ventas</Link>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <Link to={"/ventas/agregar"}>Agregar Venta</Link>
+          </MenuItem>
+          <Divider sx={{ my: 0.5 }} />
+
+        {/*FLUJO EFECTIVO */}
         <MenuItem onClick={handleClose}>
-          <Link to={"/usuarios/agregar"}>Agregar Usuario</Link>
-        </MenuItem>
-        <Divider sx={{ my: 0.5 }} />
-        <MenuItem onClick={handleClose}>
-          <Link to={"/productos"}>Visualizar Productos</Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Link to={"/productos/agregar"}>Agregar Nuevo Producto</Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Link to={"/producto/resurtir"}>Resurtir Producto</Link>
-        </MenuItem>
-        <Divider sx={{ my: 0.5 }} />
-        <MenuItem onClick={handleClose}>
-          <Link to={"/proveedores"}>Visualizar Provedores</Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Link to={"/proveedores/agregar"}>Agregar Provedor</Link>
-        </MenuItem>
+            <Link to={"/flujoefectivo"}>Visualizar Flujos de Efectivo</Link>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <Link to={"/flujoefectivo/agregar"}>Agregar Flujo de Efectivo</Link>
+          </MenuItem>
       </Menu>
     </div>
   );

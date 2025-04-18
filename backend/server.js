@@ -296,17 +296,40 @@ app.post("/entradassalidas/agregar", (req, res) => {
   });
 });
 
-app.post("/venta/agregar",(req,res) => {
+app.post("/venta/agregar", (req, res) => {
   let data = req.body;
-  data = JSON.stringify(data)
-  const sql = "call nuevaVenta(?)"
-  db.query(sql,data, (err,data) => {
-    if(err){
+  data = JSON.stringify(data);
+  const sql = "call nuevaVenta(?)";
+  db.query(sql, data, (err, data) => {
+    if (err) {
       return res.json(err);
     }
-    return res.json(data)
+    return res.json(data);
+  });
+});
+
+app.post("/ventas", (req, res) => {
+  const sql =
+    "select v.ve_id, v.ve_fecha, v.ve_total, c.cli_nombre, u.usu_nombreUsuario, v.ve_tipoPago, v.ve_estaCancelada," +
+    "v.ve_motivoCancelacion from venta v inner join cliente c on (c.cli_id = v.cli_id)inner join usuario u on (u.usu_id = v.usu_id);";
+  db.query(sql, (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  });
+});
+
+app.post("/ventas/venta", (req, res) => {
+  const ve_id = req.body.ve_id;
+  console.log(ve_id)
+  const sql =
+    "select pv.pro_id, p.pro_nombre, p.pro_marca, p.pro_codigo, pv.proven_cantidad, p.pro_precio as costoUnitario, (p.pro_precio * pv.proven_cantidad) as total " +
+    "from productoventa pv inner join producto p on (p.pro_id = pv.pro_id)" +
+    " where ve_id = (?)";
+  db.query(sql,ve_id,(err,data) => {
+    if(err) return res.json(err);
+    return res.json(data);
   })
-})
+});
 
 app.listen(8081, () => {
   console.log("listening");

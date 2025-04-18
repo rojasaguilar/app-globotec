@@ -20,6 +20,7 @@ import Layout from "./componentes/layout";
 import UserMenu from "./componentes/UserMenu";
 import FlujoDinero from "./pantallas/FlujoDinero";
 import AgregarFlujo from "./pantallas/AgregarFlujo";
+import Venta from "./pantallas/Venta";
 
 function App() {
   return (
@@ -47,7 +48,8 @@ function App() {
 
           {/* RUTAS VENTAS*/}
           <Route path="ventas" element={<Ventas />}></Route>
-          <Route path="ventas/nuevaventa" element={<NuevaVenta />}></Route>
+          <Route path="ventas/agregar" element={<NuevaVenta />}></Route>
+          <Route path="ventas/venta" element={<Venta />}></Route>
 
           {/* RUTAS CLIENTES*/}
           <Route path="clientes" element={<Clientes />}></Route>
