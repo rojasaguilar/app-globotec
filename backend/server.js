@@ -331,6 +331,16 @@ app.post("/ventas/venta", (req, res) => {
   })
 });
 
+app.post("/ventas/hoy",(req,res) => {
+  const date = req.body.date;
+  console.log(req.body)
+  const sql = "select sum(ve_total) as total from venta where ve_fecha like ?"
+  db.query(sql,`${date}%`,(err,data) =>{
+    if(err) return res.json(err);
+    return res.json(data[0]);
+  })
+})
+
 app.listen(8081, () => {
   console.log("listening");
 });

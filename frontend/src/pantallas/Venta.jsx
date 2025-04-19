@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Header from "../componentes/PantallaVenta/Header";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { Banknote, Barcode, ContactRound, CreditCard, Landmark, UserRound } from "lucide-react";
 
+import html2pdf from "html2pdf.js";
+import TicketVenta from "./TicketVenta";
+
 function Venta() {
   const location = useLocation();
+  const ticketRef = useRef(null);
 
   const objTipoPago = {
     e: {
@@ -33,8 +37,20 @@ function Venta() {
       .post("http://localhost:8081/ventas/venta", { ve_id: ve_id })
       .then((res) => setDataVenta({ ...dataVenta, productos: res.data }))
       .catch((err) => console.log(err));
-  }, []);
-  console.log(dataVenta);
+  });
+
+  const handleTicket = () => {
+    const imprime = ticketRef.current;
+    if(!imprime) return;
+
+    html2pdf()
+      .from(imprime)
+      .outputPdf("blob")
+      .then((pdfBlob) => {
+        const pdfUrl = URL.createObjectURL(pdfBlob);
+        window.open(pdfUrl);
+      });
+  };
 
   return (
     <div className="bg-slate-100">
@@ -62,7 +78,10 @@ function Venta() {
             {dataVenta.productos.map((producto) => {
               return (
                 <div className="px-4 py-2 border-b shadow-sm">
-                  <p className="flex gap-2 text-sm items-center">{<Barcode className="w-4 h-4"/>}{producto.pro_codigo}</p>
+                  <p className="flex gap-2 text-sm items-center">
+                    {<Barcode className="w-4 h-4" />}
+                    {producto.pro_codigo}
+                  </p>
                   <div className="flex space-x-6 justify-between items-center">
                     <div className="flex space-x-3">
                       <div className="w-16 h-16 bg-blue-200"></div>
@@ -110,7 +129,7 @@ function Venta() {
           </div>
 
           {/*DATOS TOTAL Y DECUENTOS*/}
-          <div className="col-span-9 space-y-2">
+          <div className="col-span-9 space-y-2 bg-red-100">
             <p className="font-medium text-lg">Resumen de venta</p>
             <div className="pl-4 space-y-1">
               <div className="flex w-full justify-between">
@@ -128,9 +147,18 @@ function Venta() {
             </div>
           </div>
 
-          <div className="bg-red-100 col-span-3 space-y-6 text-white">
-            <button className="font-semibold px-6 py-1.5 bg-blue-600 w-48 h-fit rounded-lg">Generar Ticket</button>
+          <div className="bg-red-100 col-span-3 space-y-6 text-white flex-col justify-end items-end">
+            <button
+              onClick={handleTicket}
+              state={dataVenta}
+              className="font-semibold px-6 py-1.5 bg-blue-600 w-48 h-fit rounded-lg"
+            >
+              Generar Ticket
+            </button>
             <button className="font-semibold px-6 py-1.5 bg-blue-600 w-48 h-fit rounded-lg">Generar Factura</button>
+
+           <TicketVenta ref={ticketRef} data={dataVenta}/>
+
           </div>
         </div>
       </div>

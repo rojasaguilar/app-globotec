@@ -21,6 +21,7 @@ import UserMenu from "./componentes/UserMenu";
 import FlujoDinero from "./pantallas/FlujoDinero";
 import AgregarFlujo from "./pantallas/AgregarFlujo";
 import Venta from "./pantallas/Venta";
+import TicketVenta from "./pantallas/TicketVenta";
 
 function App() {
   return (
