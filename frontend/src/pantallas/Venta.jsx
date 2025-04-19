@@ -129,7 +129,7 @@ function Venta() {
           </div>
 
           {/*DATOS TOTAL Y DECUENTOS*/}
-          <div className="col-span-9 space-y-2 bg-red-100">
+          <div className="col-span-9 space-y-2">
             <p className="font-medium text-lg">Resumen de venta</p>
             <div className="pl-4 space-y-1">
               <div className="flex w-full justify-between">
@@ -147,7 +147,7 @@ function Venta() {
             </div>
           </div>
 
-          <div className="bg-red-100 col-span-3 space-y-6 text-white flex-col justify-end items-end">
+          <div className=" col-span-3 space-y-6 text-white flex-col justify-end items-end pt-6 pl-2">
             <button
               onClick={handleTicket}
               state={dataVenta}
