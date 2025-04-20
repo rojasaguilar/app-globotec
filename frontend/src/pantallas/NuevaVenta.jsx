@@ -4,9 +4,12 @@ import TipoPago from "../componentes/pantallaNuevaVenta/TipoPago";
 import SelectClientes from "../componentes/pantallaNuevaVenta/SelectClientes";
 import Header from "../componentes/pantallaNuevaVenta/Header";
 import axios from "axios";
+import Modal from "../componentes/pantallaNuevaVenta/Modal";
 function NuevaVenta() {
   const [productos, setProductos] = useState([]);
   const [total, setTotal] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [prodStockInsuficiente, setProdStockInsuficiente] = useState([]);
 
   const empleado = JSON.parse(localStorage.getItem("empleado"));
 
@@ -37,12 +40,14 @@ function NuevaVenta() {
     axios
       .post("http://localhost:8081/venta/agregar", venta)
       .then((res) => {
-        if (res.data[0][0].mensaje === "Stock insuficiente") {
-          alert("Stock insuficiente, verifica los productos");
-        } else {
+        if (res.data[0][0].mensaje === "venta realizada") {
           alert("Venta realizada");
           window.location.reload();
+          return;
         }
+        setProdStockInsuficiente(res.data[0]);
+        console.log(prodStockInsuficiente);
+        setOpen(true);
       })
       .catch((err) => {
         console.log(err);
@@ -80,7 +85,7 @@ function NuevaVenta() {
   return (
     <div className="w-full">
       <Header />
-      <div className="w-full grid grid-cols-6">
+      <div className="w-full grid grid-cols-6 gap-4">
         {/*COLUMNA 1*/}
         <div className="w-full col-span-4">
           <div className="w-full ">
@@ -88,17 +93,24 @@ function NuevaVenta() {
           </div>
         </div>
         {/*COLUMNA 2*/}
-        <div className="w-full  col-span-2 space-y-2 ">
-          <div className="w-full h-4/6  overflow-y-scroll">
+        <div className="w-full  col-span-2 space-y-2 pr-4">
+          <div
+            className="w-full h-4/6  overflow-y-scroll
+                      [&::-webkit-scrollbar]:w-2
+                      [&::-webkit-scrollbar-track]:rounded-full
+                      [&::-webkit-scrollbar-thumb]:rounded-full
+                    [&::-webkit-scrollbar-track]:bg-blue-200
+                    [&::-webkit-scrollbar-thumb]:bg-blue-400"
+          >
             <div className="w-full flex border-t-8 border-t-blue-600 px-4">
               <p className=" w-full font-semibold pt-2 pb-6 mb-4 border-b border-b-slate-300">Detalles de la orden</p>
             </div>
             {productos.map((producto) => {
               return (
                 <div className="w-full flex justify-around bg-red-300">
-                  <p>{producto.prod_id}</p>
-                  <p>{producto.prod_nombre}</p>
-                  <p>{`$${producto.prod_precio}`}</p>
+                  <p className="text-sm">{producto.prod_id}</p>
+                  <p className="text-sm">{producto.prod_nombre}</p>
+                  <p className="text-sm">{`$${producto.prod_precio}`}</p>
                   <input
                     type="number"
                     value={producto.prod_cantidad}
@@ -110,7 +122,7 @@ function NuevaVenta() {
               );
             })}
           </div>
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols-2 bg-blue-200 px-2">
             <div>
               <TipoPago handleTipoPago={(e) => setDataVenta({ ...dataVenta, ve_tipoPago: e.target.value })} />
               <SelectClientes handleCliente={(e) => setDataVenta({ ...dataVenta, cli_id: e.target.value })} />
@@ -124,6 +136,7 @@ function NuevaVenta() {
           <button onClick={procesarVenta} className="bg-blue-700 text-white font-semibold py-1 px-8 rounded-xl">
             Crear venta
           </button>
+          <Modal open={open} onClose={() => setOpen(false)} productos={prodStockInsuficiente} />
         </div>
       </div>
     </div>

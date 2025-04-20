@@ -298,6 +298,7 @@ app.post("/entradassalidas/agregar", (req, res) => {
 
 app.post("/venta/agregar", (req, res) => {
   let data = req.body;
+  console.log(data)
   data = JSON.stringify(data);
   const sql = "call nuevaVenta(?)";
   db.query(sql, data, (err, data) => {
