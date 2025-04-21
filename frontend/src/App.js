@@ -22,6 +22,7 @@ import FlujoDinero from "./pantallas/FlujoDinero";
 import AgregarFlujo from "./pantallas/AgregarFlujo";
 import Venta from "./pantallas/Venta";
 import TicketVenta from "./pantallas/TicketVenta";
+import Producto from "./pantallas/Producto";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
 
           {/* RUTAS PRODUCTOS*/}
           <Route path="productos" element={<Productos />}></Route>
+          <Route path="productos/producto" element={<Producto />}></Route>
           <Route path="productos/agregar" element={<Agregarproducto />}></Route>
 
           {/* RUTAS PROVEEDORES*/}

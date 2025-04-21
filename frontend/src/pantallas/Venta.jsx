@@ -84,7 +84,7 @@ function Venta() {
                   </p>
                   <div className="flex space-x-6 justify-between items-center">
                     <div className="flex space-x-3">
-                      <div className="w-16 h-16 bg-blue-200"></div>
+                      <img src={`/images/${producto.pro_codigo}.webp`} alt="" className="w-16 h-16" />
                       <div>
                         <p className="font-medium">{producto.pro_nombre}</p>
                         <p className="text-xs text-gray-500">{producto.pro_marca}</p>

@@ -17,9 +17,15 @@ function ListadoProductos() {
   }, []);
 
   return (
-    <div className="w-full space-y-4">
-      <input type="text" name="codigo" onChange={(e) => setFiltro(e.target.value)} />
-      <div className="px-4 grid grid-cols-4 gap-4">
+    <div className="w-full space-y-4 bg-white px-6">
+      <input type="text" name="codigo" onChange={(e) => setFiltro(e.target.value)} className="bg-slate-200" />
+      <div
+        className="grid grid-cols-5 gap-4 h-[490px] overflow-y-scroll [&::-webkit-scrollbar]:w-2
+                      [&::-webkit-scrollbar-track]:rounded-full
+                      [&::-webkit-scrollbar-thumb]:rounded-full
+                    [&::-webkit-scrollbar-track]:bg-blue-200
+                    [&::-webkit-scrollbar-thumb]:bg-blue-400 px-2"
+      >
         {data
           .filter((producto) => (filtro === "" ? producto : producto.pro_codigo.includes(filtro)))
           .map((producto, index) => {

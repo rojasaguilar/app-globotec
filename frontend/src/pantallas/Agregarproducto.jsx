@@ -7,12 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 function Agregarproducto() {
   const navigate = useNavigate();
-  function vaciarInputs() {
-    const inputs = document.querySelectorAll("input");
-    inputs.forEach((input) => {
-      input.value = "";
-    });
-  }
 
   const [values, setValues] = useState({
     nombre: "",
@@ -25,6 +19,24 @@ function Agregarproducto() {
     stockMinimo: "",
   });
 
+  const [imagen, setImagen] = useState(null);
+ 
+  function vaciarInputs() {
+    const inputs = document.querySelectorAll("input");
+    inputs.forEach((input) => {
+      input.value = "";
+    });
+  }
+
+  var loadFile = function(event) {
+  setImagen(event.target.files[0]);
+  const image = document.getElementById('output');
+  image.src = URL.createObjectURL(event.target.files[0])
+};
+
+
+
+
   const handleInput = (event) => {
     setValues((prev) => ({
       ...prev,
@@ -34,12 +46,23 @@ function Agregarproducto() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+const formData = new FormData();
+const nombreImagen = `${values.codigo}.webp`
+
+formData.append("imagen",imagen, nombreImagen); //imagen 
+formData.append("producto",JSON.stringify(values));
+
+for (let pair of formData.entries()) {
+  console.log(pair[0], pair[1]);
+}
+
     axios
-      .post("http://localhost:8081/productos/agregar", values)
+      .post("http://localhost:8081/productos/agregar", formData)
       .then((res) => {
-        if(res.data.affectedRows === 1){
-          alert("Producto agregado correctamente")
-          navigate("/productos")
+        if (res.data.affectedRows === 1) {
+          alert("Producto agregado correctamente");
+          navigate("/productos");
         }
       })
       .catch((err) => console.log(err));
@@ -51,9 +74,7 @@ function Agregarproducto() {
       <form className="" action="" onSubmit={handleSubmit}>
         {/*MENSAJE Y BOTON AGREGAR*/}
         <div className=" flex justify-between items-center py-8 px-3">
-          <p className=" flex-col justify-center items-center font-normal text-lg ">
-            Agregar Nuevo Producto
-          </p>
+          <p className=" flex-col justify-center items-center font-normal text-lg ">Agregar Nuevo Producto</p>
           <button
             className="bg-blue-500 flex justify-center items-center rounded-xl py-2.5 px-8 font-medium text-white gap-2"
             type="submit"
@@ -70,9 +91,7 @@ function Agregarproducto() {
               <p className="font-semibold text-base">Información General</p>
               {/* INPUT NOMBRE*/}
               <div className="flex-col space-y-1.5">
-                <p className="font-normal text-zinc-600 text-sm">
-                  Nombre del producto
-                </p>
+                <p className="font-normal text-zinc-600 text-sm">Nombre del producto</p>
                 <input
                   className="bg-zinc-300 w-full   rounded-md px-2 py-1 focus:ring-blue-500 focus:border-blue-500 "
                   type="text"
@@ -110,6 +129,20 @@ function Agregarproducto() {
               <div className="p-3">
                 <p className="font-medium">Agregar Imagenes</p>
               </div>
+              <div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  name="imagen"
+                  id="file"
+                  onChange={loadFile}
+                  // style={{ display: "none" }}
+                />
+                <label for="file">
+                  Upload Image
+                </label>
+                <img id="output" width="200" />
+              </div>
             </div>
           </div>
 
@@ -146,9 +179,7 @@ function Agregarproducto() {
               <div className="grid grid-cols-2 gap-4 justify-end">
                 {/* INPUT STOCK MINIMO*/}
                 <div className="flex-col space-y-2">
-                  <p className="font-medium text-zinc-600 text-sm">
-                    Stock mínimo
-                  </p>
+                  <p className="font-medium text-zinc-600 text-sm">Stock mínimo</p>
                   <input
                     className="bg-zinc-300 rounded-md px-2 py-1"
                     type="number"
@@ -160,13 +191,14 @@ function Agregarproducto() {
                 {/* INPUT DESCUENTO*/}
                 <div className="flex-col space-y-2">
                   <p className="font-medium text-zinc-600 text-sm">Descuento</p>
-                  <input
-                    className="bg-zinc-300 rounded-md px-2 py-1"
+                  {/* <input
+                    className="bg-zinc-300 rounded-md px-2 py-1 "
                     type="number"
                     placeholder="2"
                     name="stockMinimo"
                     onChange={handleInput}
-                  />
+
+                  /> */}
                 </div>
               </div>
             </div>
@@ -175,10 +207,7 @@ function Agregarproducto() {
               <div className="flex-col space-y-2">
                 <p className="font-medium text-zinc-600 text-sm ">Categoria</p>
                 <div className="flex space-x-12 items-center ">
-                  <SelectCategorias
-                    className="w-full"
-                    handleInput={handleInput}
-                  />
+                  <SelectCategorias className="w-full" handleInput={handleInput} />
                   <BasicModal />
                 </div>
               </div>

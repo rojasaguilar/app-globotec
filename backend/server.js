@@ -1,10 +1,26 @@
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
+const multer = require("multer");
+const path = require("path");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// Configurar almacenamiento con Multer
+
+const fileStorageEngine = multer.diskStorage({
+  
+  destination: (req,file,cb) => {
+    const dir = path.join(__dirname,'..','frontend','public', 'images');
+    cb(null,dir)
+  },
+  filename: (req,file,cb) => {
+    cb(null, file.originalname)
+  }
+});
+const upload = multer({ storage: fileStorageEngine });
 
 let db = mysql.createConnection({
   host: "bigjjny1r1wlbffosqts-mysql.services.clever-cloud.com",
@@ -152,20 +168,24 @@ app.post("/proveedores/editar", (req, res) => {
   });
 });
 
-app.post("/productos/agregar", (req, res) => {
+app.post("/productos/agregar",upload.single('imagen'), (req, res) => {
+
+  console.log(req.file)
+const producto = JSON.parse(req.body.producto);
+
+  const values = [
+    producto.nombre,
+    producto.categoria,
+    producto.precio,
+    producto.stock,
+    producto.codigo,
+    producto.marca,
+    producto.descripcion,
+    producto.stockMinimo,
+  ];
+
   const sql =
     "INSERT INTO `producto`(`pro_nombre`, `pro_categoria`, `pro_precio`, `pro_stock`, `pro_codigo`, `pro_marca`, `pro_descripcion`, `pro_stockMinimo`) VALUES (?);";
-  const values = [
-    req.body.nombre,
-    req.body.categoria,
-    req.body.precio,
-    req.body.stock,
-    req.body.codigo,
-    req.body.marca,
-    req.body.descripcion,
-    req.body.stockMinimo,
-  ];
-  console.log(values);
   db.query(sql, [values], (err, data) => {
     if (err) {
       return res.json(err);
