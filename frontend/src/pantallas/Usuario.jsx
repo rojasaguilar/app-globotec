@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import SelectSexo from "../componentes/SelectSexo";
 import SelectRoles from "../componentes/SelectRoles";
-import { Check } from "lucide-react";
+import { Check, CheckCheck } from "lucide-react";
+import Modal from "../componentes/ModalGlobal";
 
 function Usuario() {
   const location = useLocation();
+  const [open,setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const [user, setUser] = useState(location.state);
   console.log(user);
@@ -23,7 +26,11 @@ function Usuario() {
     axios
       .post("http://localhost:8081/usuarios/usuario", user)
       .then((res) => {
-        alert("usuario actualizado");
+        console.log(res.data)
+        if(res.data.affectedRows === 1) {
+         setOpen(true);
+         return;
+        }
       })
       .catch((err) => {
         alert("error");
@@ -137,6 +144,7 @@ function Usuario() {
           </form>
         </div>
       </div>
+      <Modal icon={<CheckCheck size={48} color="#2dae6b" strokeWidth={2}/>} open={open} header={"ACTUALIZADO"} text={"Usuario actualizado correctamente"} onClose={() => {setOpen(false); navigate("/usuarios")}}/>
     </div>
   );
 }

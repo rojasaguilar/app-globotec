@@ -5,6 +5,8 @@ import SelectClientes from "../componentes/pantallaNuevaVenta/SelectClientes";
 import Header from "../componentes/pantallaNuevaVenta/Header";
 import axios from "axios";
 import Modal from "../componentes/pantallaNuevaVenta/Modal";
+import {useNavigate} from "react-router-dom"
+
 function NuevaVenta() {
   const [productos, setProductos] = useState([]);
   const [total, setTotal] = useState(0);
@@ -12,6 +14,7 @@ function NuevaVenta() {
   const [prodStockInsuficiente, setProdStockInsuficiente] = useState([]);
 
   const empleado = JSON.parse(localStorage.getItem("empleado"));
+  const navigate = useNavigate();
 
   const [dataVenta, setDataVenta] = useState({
     ve_id: "",
@@ -23,6 +26,10 @@ function NuevaVenta() {
   });
 
   const procesarVenta = () => {
+    if (productos.length === 0) {
+      alert("Agrega productos antes de realizar la venta");
+      return;
+    }
     const date = new Date().toJSON().slice(0, 10);
     let str = `${Math.random()}`.slice(2);
     const venta = {
@@ -30,9 +37,9 @@ function NuevaVenta() {
       ve_id: `${date}-${empleado.usu_id}-${dataVenta.cli_id}-${total}-${str}`.slice(0, 30),
       ve_total: total,
       usu_id: empleado.usu_id,
+      ve_fecha: date,
       productos: productos,
     };
-    console.log(venta);
     mandarPeticion(venta);
   };
 
@@ -42,7 +49,7 @@ function NuevaVenta() {
       .then((res) => {
         if (res.data[0][0].mensaje === "venta realizada") {
           alert("Venta realizada");
-          window.location.reload();
+          navigate("/ventas/venta", {state: venta})
           return;
         }
         setProdStockInsuficiente(res.data[0]);
@@ -83,54 +90,88 @@ function NuevaVenta() {
     });
   };
   return (
-    <div className="w-full">
+    <div className="w-full bg-white">
       <Header />
       <div className="w-full grid grid-cols-6 gap-4">
         {/*COLUMNA 1*/}
         <div className="w-full col-span-4">
-          <div className="w-full ">
+          <div className="w-full pr-2">
             <ListadoProductoVentas handleAdd={handleAdd} productos={productos} />
           </div>
         </div>
         {/*COLUMNA 2*/}
-        <div className="w-full  col-span-2 space-y-2 pr-4">
-          <div
-            className="w-full h-4/6  overflow-y-scroll
+        <div className="w-full  col-span-2 space-y-8 pr-4">
+          <div className="w-full">
+            <div className="w-full flex border-t-8 border-t-blue-600 px-4">
+              <p className=" w-full font-semibold pt-2 pb-6">Detalles de la orden</p>
+            </div>
+            <div
+              className="space-y-3 h-[300px] overflow-y-scroll pr-2
                       [&::-webkit-scrollbar]:w-2
                       [&::-webkit-scrollbar-track]:rounded-full
                       [&::-webkit-scrollbar-thumb]:rounded-full
                     [&::-webkit-scrollbar-track]:bg-blue-200
                     [&::-webkit-scrollbar-thumb]:bg-blue-400"
-          >
-            <div className="w-full flex border-t-8 border-t-blue-600 px-4">
-              <p className=" w-full font-semibold pt-2 pb-6 mb-4 border-b border-b-slate-300">Detalles de la orden</p>
+            >
+              {productos.map((producto) => {
+                return (
+                  <div className="w-full flex justify-around border-b pb-1.5 items-center">
+                    <img src={`/images/${producto.pro_codigo}.webp`} className="w-10" />
+                    <p className="text-sm w-12">{producto.prod_nombre}</p>
+                    <p className="text-sm w-12">{`$${producto.prod_precio}`}</p>
+                    <input
+                      type="number"
+                      min={1}
+                      value={producto.prod_cantidad}
+                      className="w-12"
+                      onInput={(e) => handleCantidad(producto.prod_id, e.target.value)}
+                    />
+                    <button onClick={handleSum}>ok</button>
+                  </div>
+                );
+              })}
             </div>
-            {productos.map((producto) => {
-              return (
-                <div className="w-full flex justify-around bg-red-300">
-                  <p className="text-sm">{producto.prod_id}</p>
-                  <p className="text-sm">{producto.prod_nombre}</p>
-                  <p className="text-sm">{`$${producto.prod_precio}`}</p>
-                  <input
-                    type="number"
-                    value={producto.prod_cantidad}
-                    className="w-12"
-                    onInput={(e) => handleCantidad(producto.prod_id, e.target.value)}
-                  />
-                  <button onClick={handleSum}>ok</button>
-                </div>
-              );
-            })}
           </div>
-          <div className="grid grid-cols-2 bg-blue-200 px-2">
-            <div>
-              <TipoPago handleTipoPago={(e) => setDataVenta({ ...dataVenta, ve_tipoPago: e.target.value })} />
+          <div className="grid grid-cols-2 bg-blue-200 px-2 ">
+           
+              <div className="flex-col">
+                <p>Método de pago</p>
+                <div className="flex space-x-2">
+                  <input
+                    type="radio"
+                    value={"e"}
+                    name="ve_tipoPago"
+                    checked={dataVenta.ve_tipoPago === "e"}
+                    onChange={(e) => setDataVenta({ ...dataVenta, ve_tipoPago: e.target.value })}
+                  />
+                  <p>Efectivo</p>
+                </div>
+                <div className="flex space-x-2">
+                  <input
+                    type="radio"
+                    value={"t"}
+                    name="ve_tipoPago"
+                    checked={dataVenta.ve_tipoPago === "t"}
+                    onChange={(e) => setDataVenta({ ...dataVenta, ve_tipoPago: e.target.value })}
+                  />
+                  <p>Tarjeta</p>
+                </div>
+                <div className="flex space-x-2">
+                  <input
+                    type="radio"
+                    value={"d"}
+                    name="ve_tipoPago"
+                    checked={dataVenta.ve_tipoPago === "d"}
+                    onChange={(e) => setDataVenta({ ...dataVenta, ve_tipoPago: e.target.value })}
+                  />
+                  <p>Transferencia</p>
+                </div>
+              </div>
               <SelectClientes handleCliente={(e) => setDataVenta({ ...dataVenta, cli_id: e.target.value })} />
-            </div>
+      
             <div className="w-full">
-              <p className="bg-white py-1 px-6 text-center">
-                Subtotal: <span className="font-medium">{`$${total}`}</span>
-              </p>
+              <p className="text-center">Subtotal:</p>
+              <p className="text-center">{total % 2 === 0 ? `$${total}.00` : `$${total}`}</p>
             </div>
           </div>
           <button onClick={procesarVenta} className="bg-blue-700 text-white font-semibold py-1 px-8 rounded-xl">

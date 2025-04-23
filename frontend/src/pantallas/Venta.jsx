@@ -10,7 +10,6 @@ import TicketVenta from "./TicketVenta";
 function Venta() {
   const location = useLocation();
   const ticketRef = useRef(null);
-
   const objTipoPago = {
     e: {
       Tipo: "Efectivo",
@@ -31,17 +30,24 @@ function Venta() {
     productos: [],
   });
 
+
   useEffect(() => {
     const ve_id = dataVenta.ve_id;
     axios
       .post("http://localhost:8081/ventas/venta", { ve_id: ve_id })
-      .then((res) => setDataVenta({ ...dataVenta, productos: res.data }))
+      .then((res) =>  setDataVenta((prev) => (
+        { ...prev, 
+          productos: res.data.productos, 
+          ve_fecha : res.data.venta.ve_fecha,
+          cli_nombre: res.data.venta.cli_nombre,
+          usu_nombreUsuario: res.data.venta.usu_nombreUsuario
+        })))
       .catch((err) => console.log(err));
-  });
+  },[]);
 
   const handleTicket = () => {
     const imprime = ticketRef.current;
-    if(!imprime) return;
+    if (!imprime) return;
 
     html2pdf()
       .from(imprime)
@@ -51,6 +57,7 @@ function Venta() {
         window.open(pdfUrl);
       });
   };
+  console.log(dataVenta)
 
   return (
     <div className="bg-slate-100">
@@ -157,8 +164,7 @@ function Venta() {
             </button>
             <button className="font-semibold px-6 py-1.5 bg-blue-600 w-48 h-fit rounded-lg">Generar Factura</button>
 
-           <TicketVenta ref={ticketRef} data={dataVenta}/>
-
+            <TicketVenta ref={ticketRef} data={dataVenta} />
           </div>
         </div>
       </div>

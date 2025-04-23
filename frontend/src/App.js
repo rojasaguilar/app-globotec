@@ -23,6 +23,8 @@ import AgregarFlujo from "./pantallas/AgregarFlujo";
 import Venta from "./pantallas/Venta";
 import TicketVenta from "./pantallas/TicketVenta";
 import Producto from "./pantallas/Producto";
+import Devoluciones from "./pantallas/Devoluciones";
+import SolicitarDevolucion from "./pantallas/SolicitarDevolucion";
 
 function App() {
   return (
@@ -62,6 +64,10 @@ function App() {
           {/* RUTAS ENTRADAS/SALIDAS DINERO*/}
           <Route path="flujoefectivo" element={<FlujoDinero />}></Route>
           <Route path="flujoefectivo/agregar" element={<AgregarFlujo />}></Route>
+
+          {/* RUTAS DEVOLUCIONES*/}
+          <Route path="devoluciones" element={<Devoluciones />}></Route>
+          <Route path="devoluciones/solicitar" element={<SolicitarDevolucion />}></Route>
         </Route>
         <Route path="usermenu" element={<UserMenu />} />
       </Routes>

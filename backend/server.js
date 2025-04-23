@@ -11,14 +11,13 @@ app.use(express.json());
 // Configurar almacenamiento con Multer
 
 const fileStorageEngine = multer.diskStorage({
-  
-  destination: (req,file,cb) => {
-    const dir = path.join(__dirname,'..','frontend','public', 'images');
-    cb(null,dir)
+  destination: (req, file, cb) => {
+    const dir = path.join(__dirname, "..", "frontend", "public", "images");
+    cb(null, dir);
   },
-  filename: (req,file,cb) => {
-    cb(null, file.originalname)
-  }
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
 });
 const upload = multer({ storage: fileStorageEngine });
 
@@ -77,15 +76,12 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/usuarios", (req, res) => {
-  const sql = "select * from `usuario`";
+  const sql =
+    "select u.usu_id, u.usu_nombre, u.usu_apellidoPaterno, u.usu_apellidoMaterno, u.usu_sexo," +
+    " u.usu_telefono, u.usu_direccion,u.usu_rfc,u.usu_password,u.usu_rol, u.usu_estaActivo, v.usu_nombreUsuario as gerenteAlta," +
+    "u.usu_fechaAlta, u.usu_nombreUsuario from usuario u left join usuario v on (u.usu_idGerenteAlta = v.usu_id);";
   db.query(sql, (err, data) => {
-    if (err) {
-      console.log("hubo un error");
-
-      return res.json(err);
-    }
-    console.log("todos");
-
+    if (err) return res.json(err);
     return res.json(data);
   });
 });
@@ -119,7 +115,10 @@ app.post("/usuarios/usuario", (req, res) => {
 });
 
 app.post("/productos", (req, res) => {
-  const sql = "select * from `producto`";
+  const sql =
+    "select pro_id, pro_nombre, c.cat_nombre as pro_categoria, pro_precio, pro_stock," +
+    " pro_estaActivo, pro_codigo, pro_marca, pro_descripcion, pro_stockMinimo from producto" +
+    " inner join categoriaProductos c on (producto.pro_categoria = c.cat_id ); ";
   db.query(sql, (err, data) => {
     if (err) {
       console.log("hubo un error");
@@ -128,6 +127,26 @@ app.post("/productos", (req, res) => {
     }
     console.log("todos");
 
+    return res.json(data);
+  });
+});
+
+app.post("/productos/actualizar", (req, res) => {
+  const id = req.body.pro_id;
+  const producto = [
+    req.body.pro_nombre,
+    req.body.pro_precio,
+    req.body.pro_stock,
+    req.body.pro_estaActivo,
+    req.body.pro_marca,
+    req.body.pro_descripcion,
+    req.body.pro_stockMinimo,
+  ];
+  console.log(producto);
+  const sql = `update producto set pro_nombre = ?, pro_precio = ?, pro_stock = ?, pro_estaActivo = ?, pro_marca = ?, pro_descripcion = ?, pro_stockMinimo = ? where pro_id = ${id}`;
+  db.query(sql, [...producto], (err, data) => {
+    if (err) return res.json(err);
+    console.log(data);
     return res.json(data);
   });
 });
@@ -168,10 +187,9 @@ app.post("/proveedores/editar", (req, res) => {
   });
 });
 
-app.post("/productos/agregar",upload.single('imagen'), (req, res) => {
-
-  console.log(req.file)
-const producto = JSON.parse(req.body.producto);
+app.post("/productos/agregar", upload.single("imagen"), (req, res) => {
+  console.log(req.file);
+  const producto = JSON.parse(req.body.producto);
 
   const values = [
     producto.nombre,
@@ -318,7 +336,7 @@ app.post("/entradassalidas/agregar", (req, res) => {
 
 app.post("/venta/agregar", (req, res) => {
   let data = req.body;
-  console.log(data)
+  console.log(data);
   data = JSON.stringify(data);
   const sql = "call nuevaVenta(?)";
   db.query(sql, data, (err, data) => {
@@ -341,26 +359,45 @@ app.post("/ventas", (req, res) => {
 
 app.post("/ventas/venta", (req, res) => {
   const ve_id = req.body.ve_id;
-  console.log(ve_id)
   const sql =
     "select pv.pro_id, p.pro_nombre, p.pro_marca, p.pro_codigo, pv.proven_cantidad, p.pro_precio as costoUnitario, (p.pro_precio * pv.proven_cantidad) as total " +
     "from productoventa pv inner join producto p on (p.pro_id = pv.pro_id)" +
-    " where ve_id = (?)";
-  db.query(sql,ve_id,(err,data) => {
-    if(err) return res.json(err);
-    return res.json(data);
-  })
+    " where ve_id = (?);";
+
+  const sql2 =
+    `select v.ve_fecha, c.cli_nombre, u.usu_nombreUsuario from venta v inner join cliente c on (c.cli_id = v.cli_id)` +
+    ` inner join usuario u on (u.usu_id = v.usu_id) where v.ve_id = (?)`;
+
+  db.query(sql2, ve_id, (err, data1) => {
+    if (err) return res.json(err);
+
+    db.query(sql, ve_id, (err, data2) => {
+      if (err) return res.json(err);
+
+      return res.json({
+        productos: data2,
+        venta: data1[0],
+      });
+    });
+  });
 });
 
-app.post("/ventas/hoy",(req,res) => {
+app.post("/ventas/hoy", (req, res) => {
   const date = req.body.date;
-  console.log(req.body)
-  const sql = "select sum(ve_total) as total from venta where ve_fecha like ?"
-  db.query(sql,`${date}%`,(err,data) =>{
-    if(err) return res.json(err);
+  const sql = "select sum(ve_total) as total from venta where ve_fecha like ?";
+  db.query(sql, `${date}%`, (err, data) => {
+    if (err) return res.json(err);
     return res.json(data[0]);
-  })
-})
+  });
+});
+
+app.post("/devoluciones", (req, res) => {
+  const sql = "select * from devolucion";
+  db.query(sql, (err, data) => {
+    if (err) return res.json(data);
+    return res.json(data);
+  });
+});
 
 app.listen(8081, () => {
   console.log("listening");

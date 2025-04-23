@@ -1,49 +1,50 @@
-import React from 'react'
+import React from "react";
 import { Barcode, Plus } from "lucide-react";
 
-function ProductCardVentas({ nombre, precio, stock, id, codigo, descripcion, handleAdd, productos }) {
-const handleProducto = () => {
-  let producto = {prod_id: id, prod_nombre: nombre, prod_precio: precio, prod_cantidad: 1}
-  if(!productos.find(p => p.prod_id === producto.prod_id)){
-    handleAdd(producto);
-  } else{
-    alert("Producto ya agregado")
-  }
-  
-}
-    return (
-        <div class="border border-gray-700 rounded-lg shadow-sm bg-gray-800  text-white p-4 space-y-4">
-          <div>
-            <span className="text-lg font-semibold">{nombre}</span>
-          </div>
-          <div className="bg-zinc-600 rounded-lg w-full h-32 "></div>
-          <p>imagen</p>
-    
-          <div>
-            <p className="flex items-center gap-1">
-              <Barcode className="w-4 h-4" /> {codigo}
-            </p>
-          </div>
-    
-          <div className="w-full h-12">
-            <span className="text-sm font-normal">{descripcion}</span>
-          </div>
-    
-          <div className="flex col justify-between px-2">
-    
-            <div>
-              <span className="text-2xl font-semibold">{`$${precio}`}</span>
-            </div>
-            <div className="">
-              <span>Stock: </span>
-              <p className="flex items-center justify-center w-full">{stock}</p>
-            </div>
-            
-          </div>
-          <p>{`id: ${id}`}</p>
-          <button onClick={handleProducto} className='w-fit'> <Plus className='w-4 h-4'/> Agregar</button>
+function ProductCardVentas({ producto, handleAdd, productos }) {
+  const handleProducto = () => {
+    let prod = {
+      prod_id: producto.pro_id,
+      prod_nombre: producto.pro_nombre,
+      prod_precio: producto.pro_precio,
+      prod_cantidad: 1,
+      pro_codigo: producto.pro_codigo,
+    };
+    if (!productos.find((p) => p.prod_id === producto.prod_id)) {
+      handleAdd(prod);
+    } else {
+      alert("Producto ya agregado");
+    }
+  };
+  return (
+    <div
+      onClick={handleProducto}
+      class="border border-gray-300 rounded-lg shadow-sm  text-black px-4 py-2 space-y-1 h-fit"
+    >
+      <div>
+        <span className="text-lg font-semibold">{producto.pro_nombre}</span>
+      </div>
+      <img src={`/images/${producto.pro_codigo}.webp`} alt="img" className="w-24 h-20" />
+
+      <div className="w-full h-10 text-sm font-normal text-gray-500 bg-white line-clamp-2">
+        {producto.pro_descripcion}
+      </div>
+
+      <div className="flex col justify-between">
+        <div>
+          <p className="text-lg font-semibold">{`$${producto.pro_precio}`}</p>
         </div>
-      );
+        <div className="">
+          <p className="flex items-center justify-center w-full">{`Stock: ${producto.pro_stock}`}</p>
+        </div>
+      </div>
+      <div>
+        <p className="flex items-center gap-1">
+          <Barcode className="w-4 h-4" /> {producto.pro_codigo}
+        </p>
+      </div>
+    </div>
+  );
 }
 
-export default ProductCardVentas
+export default ProductCardVentas;
