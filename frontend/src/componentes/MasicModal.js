@@ -36,7 +36,7 @@ export default function BasicModal() {
         console.log(err);
       });
     handleClose();
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (
