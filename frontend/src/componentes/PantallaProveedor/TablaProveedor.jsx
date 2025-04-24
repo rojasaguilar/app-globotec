@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-function TablaProveedor({ status }) {
+function TablaProveedor({ status,filtro }) {
   const [data, setData] = useState([]);
+
+  const entries = Object.entries;
+
 
   useEffect(() => {
     axios
@@ -12,7 +15,8 @@ function TablaProveedor({ status }) {
       .catch((err) => {
         console.log("Hubo un error");
       });
-  }, []);
+      console.log(`soy filtro ${typeof(filtro)}`)
+  });
   return (
     <div className="w-full justify-center flex mt-4">
       <div className="">
@@ -27,6 +31,7 @@ function TablaProveedor({ status }) {
           </thead>
           <tbody>
             {data
+              .filter(proveedor => ( filtro === '' ?  proveedor : proveedor.prove_nombre.toLowerCase().includes(filtro.toLowerCase()) ) ) 
               .filter((proveedor) => proveedor.prove_activo === status)
               .map((proveedor, index) => {
                 return (
@@ -58,3 +63,5 @@ function TablaProveedor({ status }) {
 }
 
 export default TablaProveedor;
+
+

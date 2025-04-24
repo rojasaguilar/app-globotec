@@ -10,6 +10,7 @@ import TicketVenta from "./TicketVenta";
 function Venta() {
   const location = useLocation();
   const ticketRef = useRef(null);
+  
   const objTipoPago = {
     e: {
       Tipo: "Efectivo",

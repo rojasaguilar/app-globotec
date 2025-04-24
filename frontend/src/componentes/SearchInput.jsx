@@ -1,7 +1,7 @@
 import { Search, SearchIcon } from "lucide-react";
 import React from "react";
 
-export default function SearchInput({msjMuestra}) {
+export default function SearchInput({msjMuestra,handleFiltro}) {
   return (
     <form >
       <label for="simple-search" class="sr-only">
@@ -17,6 +17,7 @@ export default function SearchInput({msjMuestra}) {
           class=" border text-sm rounded-lg block w-full ps-10 px-20 py-1.5  bg-gray-2  00 border-gray-100 placeholder-gray-500 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
           placeholder={msjMuestra}
           required
+          onChange={(e) => handleFiltro(e.target.value)} 
         />
       </div>
     </form>

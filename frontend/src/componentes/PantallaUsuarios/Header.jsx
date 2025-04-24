@@ -2,7 +2,7 @@ import React from "react";
 import BTN_AgregarUsuario from "../BTN_Agregar";
 import SearchInput from "../SearchInput";
 
-function Header({ entidad, msjSearchInput, btnLink, status, handleStatus,icono }) {
+function Header({ entidad, msjSearchInput, btnLink, status, handleStatus,icono,filtro,handleFiltro }) {
 
   return (
     <div className="flex flex-col gap-4 w-full pt-4 px-8 rounded-lg">
@@ -32,7 +32,7 @@ function Header({ entidad, msjSearchInput, btnLink, status, handleStatus,icono }
           </p>
         </div>
         <div className="pb-2 ">
-          <SearchInput msjMuestra={msjSearchInput} />
+          <SearchInput msjMuestra={msjSearchInput} handleFiltro={handleFiltro} />
         </div>
       </div>
     </div>
