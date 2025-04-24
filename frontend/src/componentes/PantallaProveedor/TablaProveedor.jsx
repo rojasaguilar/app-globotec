@@ -35,7 +35,7 @@ function TablaProveedor({ status }) {
                     <td className="px-6 py-2">{proveedor.prove_correo}</td>
                     <td className="px-6 py-2">{proveedor.prove_telefono}</td>
                     <td className="px-6 py-2">{proveedor.prove_direccion}</td>
-                    <td className="px-6 py-2">{proveedor.prove_fechaAlta}</td>
+                    <td className="px-6 py-2">{proveedor.prove_fechaAlta.slice(0,10)}</td>
                     <td className="px-6 py-2">
                       {
                         <Link

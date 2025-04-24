@@ -225,8 +225,8 @@ app.post("/productos/pocostock", (req, res) => {
 
 app.post("/proveedores/agregar", (req, res) => {
   const sql =
-    "INSERT INTO `proveedor` (`prove_nombre`, `prove_correo`, `prove_telefono`, `prove_direccion`, `usu_id`) VALUES (?);";
-  const values = [req.body.nombre, req.body.correo, req.body.telefono, req.body.direccion, req.body.usuario];
+    "INSERT INTO `proveedor` (`prove_nombre`, `prove_correo`, `prove_telefono`, `prove_direccion`, `usu_id`, `prove_estado`) VALUES (?);";
+  const values = [req.body.nombre, req.body.correo, req.body.telefono, req.body.direccion, req.body.usuario,req.body.estado];
   console.log(values);
   db.query(sql, [values], (err, data) => {
     if (err) {

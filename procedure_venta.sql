@@ -85,3 +85,10 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+
+{
+	"venta_id" : "343434",
+	"usuario" : "21332",
+	
+}

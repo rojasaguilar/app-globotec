@@ -87,7 +87,7 @@ function Agregarproveedor() {
             onChange={handleInput}
           />
         </div>
-        {/*INPUT ESTADO */}   
+        {/* INPUT ESTADO    */}
         <div className="space-y-2">
           <p className=" text-gray-500 font-normal">Estado</p>
           <input
