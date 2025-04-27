@@ -7,9 +7,9 @@ function Header() {
     <div className="w-full bg-slate-200 flex justify-between p-8 shadow-md">
       <div>
         <p className="text-xl font-semibold">Devoluciones</p>
-        <Link to={"#"} className="text-sm text-gray-500">
+        <a href={".."} className="text-sm text-gray-500">
           Listado de devoluciones
-        </Link>
+        </a>
       </div>
       <div>
         <Link

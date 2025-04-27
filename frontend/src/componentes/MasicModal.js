@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -25,7 +25,6 @@ export default function BasicModal() {
   const handleClose = () => setOpen(false);
 
   const [nombre, setNombre] = useState("");
-  console.log(nombre);
 
   const handleUp = (e) => {
     e.preventDefault();
@@ -38,6 +37,8 @@ export default function BasicModal() {
     handleClose();
     // window.location.reload();
   };
+
+  useEffect(() => {});
 
   return (
     <div>
@@ -55,11 +56,7 @@ export default function BasicModal() {
             Nombre de Categoria
           </Typography>
           <div className="flex justify-between">
-            <Input
-              className="bg-zinc-200 "
-              name="nombre"
-              onChange={(e) => setNombre(e.target.value)}
-            />
+            <Input className="bg-zinc-200 " name="nombre" onChange={(e) => setNombre(e.target.value)} />
             <Button className="items-center bg-blue-600" onClick={handleUp}>
               {" "}
               {<Check />}Agregar

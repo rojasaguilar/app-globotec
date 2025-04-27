@@ -61,7 +61,7 @@ function Venta() {
   console.log(dataVenta)
 
   return (
-    <div className="bg-slate-100">
+    <div className="bg-white">
       <Header />
 
       <div className="w-full px-8">
@@ -92,7 +92,7 @@ function Venta() {
                   </p>
                   <div className="flex space-x-6 justify-between items-center">
                     <div className="flex space-x-3">
-                      <img src={`/images/${producto.pro_codigo}.webp`} alt="" className="w-16 h-16" />
+                      <img src={`/images/${producto.pro_codigo}.webp`} alt="" className="w-16 h-16 object-contain" />
                       <div>
                         <p className="font-medium">{producto.pro_nombre}</p>
                         <p className="text-xs text-gray-500">{producto.pro_marca}</p>

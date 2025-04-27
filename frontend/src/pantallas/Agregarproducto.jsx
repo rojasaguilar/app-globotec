@@ -34,9 +34,6 @@ function Agregarproducto() {
   image.src = URL.createObjectURL(event.target.files[0])
 };
 
-
-
-
   const handleInput = (event) => {
     setValues((prev) => ({
       ...prev,
@@ -103,11 +100,17 @@ for (let pair of formData.entries()) {
               {/* INPUT DESCRIPCION*/}
               <div className="flex-col space-y-1.5">
                 <p className="font-medium text-zinc-600 text-sm">Descripcion</p>
-                <input
-                  className="bg-zinc-300 w-full h-32 rounded-md px-2 py-1 text-start"
+                <textarea
+                  className="bg-zinc-300 w-full rounded-md px-2 py-1 text-start resize-none
+                  [&::-webkit-scrollbar]:w-2
+                  [&::-webkit-scrollbar-track]:rounded-full
+                  [&::-webkit-scrollbar-thumb]:rounded-full
+                [&::-webkit-scrollbar-track]:bg-blue-200
+                [&::-webkit-scrollbar-thumb]:bg-blue-400"
                   type="text"
-                  placeholder="Carro rojo"
+                  placeholder=""
                   name="descripcion"
+                  rows={3}
                   onChange={handleInput}
                 />
               </div>

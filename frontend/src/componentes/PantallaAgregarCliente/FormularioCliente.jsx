@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Modal from "../ModalGlobal";
+import { CheckCheck } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function FormularioCliente() {
   const [cliente, setCliente] = useState({
@@ -9,6 +12,8 @@ function FormularioCliente() {
     cli_cp: "",
   });
 
+  const [open, setOpen] = useState(false);
+
   const handleInput = (event) => {
     setCliente((prev) => ({
       ...prev,
@@ -16,16 +21,23 @@ function FormularioCliente() {
     }));
   };
 
+  const navigate = useNavigate();
+
 
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(cliente)
     axios
       .post("http://localhost:8081/clientes/agregar", cliente)
       .then((res) => {
-        console.log(res.data);
+        if(res.data.affectedRows === 1){
+          setOpen(true);
+          return;
+        }
+        alert("Verifica los datos")
+        return;
       })
+      
       .catch((err) => {
         console.log(err);
       });
@@ -58,6 +70,14 @@ function FormularioCliente() {
         {/* */}
         <button type="submit">agregar</button>
       </form>
+      <Modal open={open} header={"Cliente Agregado"} 
+      text={"Cliente agregado satisfactoriamente"}
+      onClose={()=> {
+        setOpen(false);
+        navigate("/clientes")
+      }}
+      icon={<CheckCheck size={48} color="#f66151" strokeWidth={2}/>}
+      />
     </div>
   );
 }

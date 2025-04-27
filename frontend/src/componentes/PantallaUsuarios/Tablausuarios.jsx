@@ -57,7 +57,7 @@ function Tablausuarios({ status }) {
                   <td className="px-3 py-2 text-sm">{user.usu_rfc}</td>
                   <td className="px-3 py-2 text-sm">{parseRol(user.usu_rol)}</td>
                   <td className="px-3 py-2 text-sm">{user.gerenteAlta}</td>
-                  <td className="px-3 py-2 text-sm">{user.usu_fechaAlta}</td>
+                  <td className="px-3 py-2 text-sm">{user.usu_fechaAlta.slice(0,10)}</td>
                   <td className="px-3 py-2 text-sm">
                     {
                       <Link className="text-blue-600 font-medium " to="/usuarios/editar" state={user}>

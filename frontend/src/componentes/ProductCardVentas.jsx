@@ -1,17 +1,10 @@
 import React from "react";
-import { Barcode, Plus } from "lucide-react";
+import { Barcode } from "lucide-react";
 
 function ProductCardVentas({ producto, handleAdd, productos }) {
   const handleProducto = () => {
-    let prod = {
-      prod_id: producto.pro_id,
-      prod_nombre: producto.pro_nombre,
-      prod_precio: producto.pro_precio,
-      prod_cantidad: 1,
-      pro_codigo: producto.pro_codigo,
-    };
-    if (!productos.find((p) => p.prod_id === producto.prod_id)) {
-      handleAdd(prod);
+    if (!productos.find((p) => p.pro_id === producto.pro_id)) {
+      handleAdd({...producto, pro_cantidad: 1});
     } else {
       alert("Producto ya agregado");
     }
@@ -24,7 +17,7 @@ function ProductCardVentas({ producto, handleAdd, productos }) {
       <div>
         <span className="text-lg font-semibold">{producto.pro_nombre}</span>
       </div>
-      <img src={`/images/${producto.pro_codigo}.webp`} alt="img" className="w-24 h-20" />
+      <img src={`/images/${producto.pro_codigo}.webp`} alt="img" className="w-24 h-20 object-contain" />
 
       <div className="w-full h-10 text-sm font-normal text-gray-500 bg-white line-clamp-2">
         {producto.pro_descripcion}

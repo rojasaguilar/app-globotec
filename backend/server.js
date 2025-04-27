@@ -32,7 +32,7 @@ let db = mysql.createConnection({
 app.post("/signup", (req, res) => {
   console.log(req.body);
   const sql =
-    "INSERT INTO `usuario` (`usu_nombre`, `usu_apellidoPaterno`, `usu_apellidoMaterno`, `usu_sexo`, `usu_telefono`, `usu_direccion`, `usu_rfc`, `usu_password`, `usu_rol`, `usu_idGerenteAlta`) VALUES (?)";
+    "INSERT INTO `usuario` (`usu_nombre`, `usu_apellidoPaterno`, `usu_apellidoMaterno`, `usu_sexo`, `usu_telefono`, `usu_direccion`, `usu_rfc`, `usu_password`, `usu_rol`, `usu_idGerenteAlta`, `usu_nombreUsuario`) VALUES (?)";
   const values = [
     req.body.nombre,
     req.body.ap,
@@ -44,6 +44,7 @@ app.post("/signup", (req, res) => {
     req.body.password,
     req.body.rol,
     req.body.gerenteAlta,
+    `${req.body.nombre}${req.body.ap}${req.body.am.slice(0,2)}`
   ];
   db.query(sql, [values], (err, data) => {
     if (err) {
@@ -365,7 +366,7 @@ app.post("/ventas/venta", (req, res) => {
     " where ve_id = (?);";
 
   const sql2 =
-    `select v.ve_fecha, c.cli_nombre, u.usu_nombreUsuario from venta v inner join cliente c on (c.cli_id = v.cli_id)` +
+    `select v.ve_id, v.ve_fecha, v.ve_total, v.ve_tipoPago, c.cli_nombre, u.usu_nombreUsuario from venta v inner join cliente c on (c.cli_id = v.cli_id)` +
     ` inner join usuario u on (u.usu_id = v.usu_id) where v.ve_id = (?)`;
 
   db.query(sql2, ve_id, (err, data1) => {

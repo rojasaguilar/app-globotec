@@ -18,20 +18,20 @@ BEGIN
   INSERT INTO ventaTemporal VALUES (datos);
 
   CREATE TEMPORARY TABLE productosComparativa
-  SELECT jt.prod_id AS productoID,
-         jt.prod_cantidad AS cantidadSolicitada,
+  SELECT jt.pro_id AS productoID,
+         jt.pro_cantidad AS cantidadSolicitada,
          p.pro_stock,
-         (p.pro_stock - jt.prod_cantidad) AS stockRestante
+         (p.pro_stock - jt.pro_cantidad) AS stockRestante
   FROM ventaTemporal
   JOIN JSON_TABLE (
     ventaTemporal.venta,
     "$.productos[*]"
     COLUMNS (
-      prod_id INT PATH "$.prod_id",
-      prod_cantidad INT PATH "$.prod_cantidad"
+      pro_id INT PATH "$.pro_id",
+      pro_cantidad INT PATH "$.pro_cantidad"
     )
   ) AS jt
-  JOIN producto p ON jt.prod_id = p.pro_id;
+  JOIN producto p ON jt.pro_id = p.pro_id;
 
   SELECT COUNT(*) INTO productosSinStockSuficiente
   FROM productosComparativa
@@ -39,9 +39,9 @@ BEGIN
 
   IF productosSinStockSuficiente > 0 THEN
     SELECT "Stock insuficiente" AS mensaje;
-		    select pc.prod_id, p.pro_nombre, pc.pro_stock, pc.prod_cantidad from productosComparativa
-		    inner join productos p on (p.pro_id = pc.prod_id) 
-		    where pc.pro_stock < pc.prod_cantidad;
+		    select pc.pro_id, p.pro_nombre, pc.pro_stock, pc.pro_cantidad from productosComparativa
+		    inner join productos p on (p.pro_id = pc.pro_id) 
+		    where pc.pro_stock < pc.pro_cantidad;
   ELSE
     SELECT venta->>"$.ve_id" INTO VentaID FROM ventaTemporal;
     SELECT venta->>"$.ve_total" INTO totalVenta FROM ventaTemporal;
@@ -77,8 +77,8 @@ BEGIN
     JOIN productosComparativa c ON p.pro_id = c.productoID
     SET p.pro_stock = (p.pro_stock - c.cantidadSolicitada);
   END IF;
-
-  SELECT * FROM productosComparativa;
+  
+  select "venta realizada" as mensaje;
 
   DROP TEMPORARY TABLE IF EXISTS ventaTemporal;
   DROP TEMPORARY TABLE IF EXISTS productosComparativa;
@@ -86,9 +86,3 @@ END$$
 
 DELIMITER ;
 
-
-{
-	"venta_id" : "343434",
-	"usuario" : "21332",
-	
-}

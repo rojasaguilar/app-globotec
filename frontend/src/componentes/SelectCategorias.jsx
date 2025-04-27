@@ -11,7 +11,7 @@ function SelectCategorias({ handleInput }) {
       .catch((err) => {
         console.log("Hubo un error");
       });
-  });
+  },[categoria]);
   return (
     <div>
       <select

@@ -12,7 +12,7 @@ function Productcard({ producto }) {
       <div>
         <span className="text-lg font-semibold">{producto.pro_nombre}</span>
       </div>
-      <img src={`/images/${producto.pro_codigo}.webp`} alt="img" className="w-24 h-20" />
+      <img src={`/images/${producto.pro_codigo}.webp`} alt="img" className="w-24 h-20 object-contain" />
 
       <div className="w-full h-10 text-sm font-normal text-gray-500 bg-white line-clamp-2">
         {producto.pro_descripcion}
