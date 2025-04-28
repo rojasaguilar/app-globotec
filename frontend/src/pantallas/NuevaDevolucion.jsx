@@ -20,21 +20,23 @@ function NuevaDevolucion() {
       alert("Agrega productos antes de realizar la devolucion");
       return;
     }
+    const fecha = new Date().toJSON().slice(0, 10);
     const data = {
       devolucion: {
-        dev_id: "",
+        dev_id: `dv${fecha}-${dataVenta.venta.cli_nombre.replace(" ","")}-${calculateMontoDevuelto()}`.slice(0,30),
         ve_id: dataVenta.venta.ve_id,
-        dev_fecha: "",
-        dev_motivo: "",
+        dev_fecha: fecha,
         dev_montoDevuelto: calculateMontoDevuelto(),
       },
-      productos: [...dataDevolucion.productos],
+      productos: dataDevolucion.productos.map((producto) => ({
+        pro_id: producto.pro_id,
+        prodev_cantidad: producto.prodev_cantidad,
+        prodev_motivo: producto.prodev_motivo,
+        prodev_defectuoso: producto.prodev_defectuoso,
+        proven_cantidad: producto.proven_cantidad,
+      })),
     };
     console.log(data);
-    // axios
-    //   .post("", data)
-    //   .then((res) => {})
-    //   .catch((err) => console.log(err));
   };
 
   function calculateMontoDevuelto() {
@@ -52,7 +54,7 @@ function NuevaDevolucion() {
     }
     setDataDevolucion((prev) => ({
       ...prev,
-      productos: [...prev.productos, { ...prod, prodev_cantidad: 1 }],
+      productos: [...prev.productos, { ...prod, prodev_cantidad: 1, prodev_motivo: "", prodev_defectuoso: false }],
     }));
   };
 
@@ -63,6 +65,38 @@ function NuevaDevolucion() {
         producto.pro_id === productoID ? { ...producto, prodev_cantidad: parseInt(cantidad) } : producto
       ),
     }));
+  };
+
+  const handleMotivo = (prod, motivo) => {
+    setDataDevolucion((prev) => ({
+      ...prev,
+      productos: prev.productos.map((producto) =>
+        producto.pro_id === prod.pro_id ? { ...producto, prodev_motivo: motivo } : producto
+      ),
+    }));
+  };
+
+  const handleDefectuoso = (productoID) => {
+    const input = document.getElementById("defectuoso");
+    if (input.checked) {
+      setDataDevolucion((prev) => ({
+        ...prev,
+        productos: prev.productos.map((producto) =>
+          producto.pro_id === productoID ? { ...producto, prodev_defectuoso: true } : producto
+        ),
+      }));
+      return;
+    }
+
+    if (!input.checked) {
+      setDataDevolucion((prev) => ({
+        ...prev,
+        productos: prev.productos.map((producto) =>
+          producto.pro_id === productoID ? { ...producto, prodev_defectuoso: false } : producto
+        ),
+      }));
+      return;
+    }
   };
 
   const requestVenta = () => {
@@ -100,7 +134,6 @@ function NuevaDevolucion() {
         </div>
         <div className="bg-green-100">
           <button onClick={requestVenta} className="px-8 py-1.5 bg-blue-600 rounded-xl text-white font-semibold">
-            {" "}
             Buscar venta
           </button>
         </div>
@@ -210,39 +243,66 @@ function NuevaDevolucion() {
           <div className="col-span-3"></div>
         )}
         <div className="col-span-3 col-start-6 bg-amber-400">
-          <div className="px-3 bg-green-200 flex flex-col">
+          <div className="px-3 bg-green-200 flex flex-col h-full justify-between">
             <div>
               <p className="font-medium">Productos a devolver</p>
             </div>
 
             {/* PRODUCTOS A DEVOLVER */}
-            {dataDevolucion.productos.length > 0 ? (
-              dataDevolucion.productos.map((producto) => {
-                return (
-                  <div className="flex justify-between">
-                    <img src={`/images/${producto.pro_codigo}.webp`} alt="" className="w-12 h-12 object-contain" />
-                    <p>{`${producto.pro_nombre}`}</p>
-                    <input
-                      type="number"
-                      value={producto.prodev_cantidad}
-                      id="prodev_cantidad"
-                      onInput={(e) => {
-                        handleCantidadDevolucion(producto.pro_id, e.target.value);
-                      }}
-                    />
+            <div className="space-y-2 h-[300px] bg-blue-100">
+              {dataDevolucion.productos.length > 0 ? (
+                dataDevolucion.productos.map((producto) => {
+                  return (
+                    <div className="grid grid-cols-12 gap-2">
+                      {/* IMAGEN */}
+                      <div className="col-span-2">
+                        <img src={`/images/${producto.pro_codigo}.webp`} alt="" className="w-12 h-12 object-contain" />
+                      </div>
+                      {/* NOMBRE */}
+                      <div className="col-span-3">
+                        <p className="text-sm">{`${producto.pro_nombre}`}</p>
+                      </div>
+                      {/* CANTIDAD A DEVOLVER */}
+                      <div className="col-span-2">
+                        <input
+                          type="number"
+                          value={producto.prodev_cantidad}
+                          id="prodev_cantidad"
+                          onInput={(e) => {
+                            console.log(dataDevolucion);
+                            handleCantidadDevolucion(producto.pro_id, e.target.value);
+                          }}
+                          className="w-full min-w-0 text-sm"
+                        />
+                      </div>
+                      {/* MOTIVO DEVOLUCION */}
+                      <textarea
+                        type="text"
+                        name="prodev_motivo"
+                        className="resize-none col-span-4 text-sm"
+                        onInput={(e) => handleMotivo(producto, e.target.value)}
+                      />
 
-                    <form action="">
-            {/* <input type="radio" onChange={}/> */}
-          </form>
-                  </div>
-                );
-              })
-            ) : (
-              <div></div>
-            )}
+                      {/* DEFECTUOSO */}
+                      <div className="flex flex-col items-end justify-center">
+                        <input
+                          type="checkbox"
+                          id="defectuoso"
+                          name="prodev_defectuso"
+                          value={true}
+                          onChange={() => handleDefectuoso(producto.pro_id)}
+                        />
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <div></div>
+              )}
+            </div>
 
-            <div>
-              <button onClick={handleDevolucion} className="bg-blue-700 text-white font-semibold">
+            <div className="flex w-full justify-center">
+              <button onClick={handleDevolucion} className="bg-blue-700 text-white font-semibold px-8 py-1.5 rounded-xl">
                 Devolver
               </button>
             </div>
