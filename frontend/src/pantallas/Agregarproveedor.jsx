@@ -1,11 +1,15 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import HeaderAgregarProveedor from "../componentes/PantallaAgregarProveedor/HeaderAgregarProveedor";
 import NotificacionAgregarProveedor from "../componentes/PantallaAgregarProveedor/NotificacionAgregarProveedor";
-// import { useNavigate } from "react-router-dom";
+import { CheckCheck } from "lucide-react";
+import ModalAgregarGlobal from "../componentes/ModalAgregarGlobal";
 
 function Agregarproveedor() {
-  // const navigate = useNavigate();
+  const [open,setOpen] = useState(false);
+  const navigate = useNavigate();
+
   function vaciarInputs() {
     const inputs = document.querySelectorAll("input");
     inputs.forEach((input) => {
@@ -18,7 +22,6 @@ function Agregarproveedor() {
     }));
   }
 
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
 
   const [values, setValues] = useState({
@@ -43,16 +46,14 @@ function Agregarproveedor() {
       .post("http://localhost:8081/proveedores/agregar", values)
       .then((res) => {
         console.log(res);
-        setShowSuccessToast(true);
-        setShowErrorToast(false);
         vaciarInputs();
-        // navigate('/proveedores')
+        setOpen(true);
+        return;
       })
       .catch((err) => {
         console.log(err);
         console.log(err);
         setShowErrorToast(true);
-        setShowSuccessToast(false);
       });
   };
 
@@ -62,7 +63,7 @@ function Agregarproveedor() {
         <HeaderAgregarProveedor/>
         <div className="grid gap-6 mb-6 md:grid-cols-2 mt-8">
           <div>
-            <label htmlFor="nombre" className="block mb-2 text-sm font-medium text-gray-900">Nombre del proveedor</label>
+            <label htmlFor="nombre" className="block mb-2 text-sm font-medium text-gray-900">Nombre del proveedor:</label>
             <input
               type="text"
               name="nombre"
@@ -74,7 +75,7 @@ function Agregarproveedor() {
             />
           </div>
           <div>
-            <label htmlFor="correo" className="block mb-2 text-sm font-medium text-gray-900">Correo</label>
+            <label htmlFor="correo" className="block mb-2 text-sm font-medium text-gray-900">Correo:</label>
             <input
               type="email"
               name="correo"
@@ -86,7 +87,7 @@ function Agregarproveedor() {
             />
           </div>
           <div>
-            <label htmlFor="telefono" className="block mb-2 text-sm font-medium text-gray-900">Teléfono</label>
+            <label htmlFor="telefono" className="block mb-2 text-sm font-medium text-gray-900">Teléfono:</label>
             <input
               type="tel"
               name="telefono"
@@ -98,7 +99,7 @@ function Agregarproveedor() {
             />
           </div>
           <div>
-            <label htmlFor="direccion" className="block mb-2 text-sm font-medium text-gray-900">Dirección</label>
+            <label htmlFor="direccion" className="block mb-2 text-sm font-medium text-gray-900">Dirección:</label>
             <input
               type="text"
               name="direccion"
@@ -110,7 +111,7 @@ function Agregarproveedor() {
             />
           </div>
           <div>
-            <label htmlFor="estado" className="block mb-2 text-sm font-medium text-gray-900">Estado</label>
+            <label htmlFor="estado" className="block mb-2 text-sm font-medium text-gray-900">Estado:</label>
             <select
               name="estado"
               id="estado"
@@ -119,7 +120,7 @@ function Agregarproveedor() {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               required
             >
-              <option value="">Seleccione un estado</option>
+              <option value="">Seleccione un estado:</option>
               <option value="Aguascalientes">Aguascalientes</option>
               <option value="Baja California">Baja California</option>
               <option value="Baja California Sur">Baja California Sur</option>
@@ -158,12 +159,11 @@ function Agregarproveedor() {
       </form>
       <div className="mt-10 ml-4 w-[30%]">
         <NotificacionAgregarProveedor
-          showSuccess={showSuccessToast}
           showError={showErrorToast}
-          onCloseSuccess={() => setShowSuccessToast(false)}
           onCloseError={() => setShowErrorToast(false)}
         />
       </div>
+      <ModalAgregarGlobal icon={<CheckCheck size={48} color="#2dae6b" strokeWidth={2}/>} open={open} header={"AGREGADO"} text={"Proveedor agregado correctamente"} onClose={() => {setOpen(false); navigate("/proveedores")}} onKeepAdding={() => {setOpen(false); navigate("/proveedores/agregar")}}/>
     </div>
   );
 }

@@ -1,23 +1,20 @@
 import React from 'react'
-import SearchInput from '../SearchInput'
-import { UserPlus} from 'lucide-react'
-import { Link } from 'react-router-dom'
 
-function Header() {
+function HeaderEditarCliente() {
   return (
-   <div className='flex flex-col gap-4 w-full pt-4 px-8 rounded-lg'>
-    {/* Primera columna */}
-        <div className='w-full flex justify-between'>
-            <div className='flex-col space-y-1'>
-            <p className='text-2xl font-semibold'>Cliente</p>
-            <p className="className text-sm text-gray-500">Editar Cliente</p>
-            </div> 
-            <Link to={"/clientes/agregar"} className='flex gap-2 bg-blue-500 items-center h-fit rounded-md px-4 py-1 text-white font-medium'> <UserPlus className='w-5 h-5'/> Agregar Cliente</Link>
-        
-        </div>
-    
+ 
+    <div className="w-full px-4 py-6 flex-col bg-slate-100 shadow-md rounded-md "> 
+   <div className='w-full flex justify-between'>
+   <p className="text-lg font-medium">Clientes</p>
+    <button type='submit' className="bg-blue-600 py-1.5 px-8 rounded-xl text-white font-semibold"> Actualizar Cliente
+      </button>
    </div>
+    
+    <div>
+    <p className="text-sm font-medium text-gray-400">Clientes<span className='font-medium text-gray-800'> / Editar cliente</span></p>
+    </div>  
+    </div>
   )
 }
 
-export default Header
+export default HeaderEditarCliente

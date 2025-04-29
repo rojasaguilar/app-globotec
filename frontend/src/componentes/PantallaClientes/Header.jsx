@@ -3,7 +3,7 @@ import SearchInput from "../SearchInput";
 import { UserPlus } from "lucide-react";
 import { Link } from "react-router-dom";
 
-function Header({ status, handleStatus }) {
+function Header({ status, handleStatus, handleFiltro }) {
   return (
     <div className="flex flex-col gap-4 w-full pt-4 px-8 rounded-lg">
       {/* Primera columna */}
@@ -38,7 +38,7 @@ function Header({ status, handleStatus }) {
           </p>
         </div>
         <div className="pb-2 ">
-          <SearchInput />
+          <SearchInput handleFiltro={handleFiltro} msjMuestra={"Buscar por nombre..."} />
         </div>
       </div>
     </div>

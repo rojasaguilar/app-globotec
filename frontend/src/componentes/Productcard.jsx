@@ -3,11 +3,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function Productcard({ producto }) {
+  const estilo = "border border-gray-300 rounded-lg shadow-sm  text-black px-4 py-2 space-y-1 h-fit";
+  console.log(producto);
   return (
     <Link
       to={"producto"}
       state={producto}
-      class="border border-gray-300 rounded-lg shadow-sm  text-black px-4 py-2 space-y-1 h-fit"
+      class={
+        producto.pro_estaActivo === 1
+          ? estilo
+          : `${estilo} opacity-40`
+      }
     >
       <div>
         <span className="text-lg font-semibold">{producto.pro_nombre}</span>

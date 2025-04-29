@@ -2,8 +2,8 @@ import React from "react";
 import BTN_AgregarUsuario from "../BTN_Agregar";
 import SearchInput from "../SearchInput";
 
-function Header({ entidad, msjSearchInput, btnLink, status, handleStatus,icono,filtro,handleFiltro }) {
-
+function Header({ entidad, msjSearchInput, btnLink, status, handleStatus,icono,handleFiltro }) {
+  
   return (
     <div className="flex flex-col gap-4 w-full pt-4 px-8 rounded-lg">
       {/* Primera columna */}

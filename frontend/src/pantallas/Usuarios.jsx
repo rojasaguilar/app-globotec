@@ -5,6 +5,11 @@ import { UserRoundPlus } from "lucide-react";
 
 function Usuarios() {
   const [status, setStatus] = useState(1);
+  const [filtro, setFiltro] = useState('');
+
+  const handleFiltro = (string) => {
+    setFiltro(string)
+  }
 
   const handleStatus = () => setStatus(status === 1 ? 0 : 1);
 
@@ -16,9 +21,11 @@ function Usuarios() {
         btnLink={"/usuarios/agregar"}
         status={status}
         handleStatus={handleStatus}
-        icono={<UserRoundPlus className="w-4 h-4"/>}
+        handleFiltro={handleFiltro}
+        icono={<UserRoundPlus className="w-4 h-4"
+        />}
       />
-      <Tablausuarios status={status} />
+      <Tablausuarios status={status} filtro={filtro} />
     </div>
   );
 }

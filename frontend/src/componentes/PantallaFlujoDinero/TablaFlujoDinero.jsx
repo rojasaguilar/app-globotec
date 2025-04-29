@@ -47,7 +47,7 @@ function TablaFlujoDinero() {
                 <td className="px-4 pb-4  text-sm text-center">{`$${item.entsal_cantidad}`}</td>
                 <td className="px-4 pb-4  text-sm text-start">{item.entsal_motivo}</td>
                 <td className="px-4 pb-4  text-sm text-center">{item.usu_nombreUsuario}</td>
-                <td className="px-4 pb-4  text-sm text-center">{item.entsal_fecha.slice(0,10)}</td>
+                <td className="px-4 pb-4  text-sm text-center">{item.entsal_fecha? item.entsal_fecha.slice(0,10): "no disponible"}</td>
                 <td className="px-4 pb-4  text-sm text-center">{(item.entsal_estaCancelada === 0 ? "no" : "cancelada")}</td>
                 <td className={(item.entsal_EoS == 'e' ? "pl-4 pb-4 text-sm text-center text-green-600" : "pl-4  pb-4text-sm text-center text-red-600")}>{(item.entsal_EoS == 'e' ? "Entrada" : "Salida")}</td>
               </tr>

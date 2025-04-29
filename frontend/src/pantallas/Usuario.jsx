@@ -5,6 +5,8 @@ import SelectSexo from "../componentes/SelectSexo";
 import SelectRoles from "../componentes/SelectRoles";
 import { Check, CheckCheck } from "lucide-react";
 import Modal from "../componentes/ModalGlobal";
+import HeaderEditarUsuario from "../componentes/PantallaEditarUsuario/HeaderEditarUsuario";
+import RadioButtonStatus from '../componentes/RadioButtonStatus';
 
 function Usuario() {
   const location = useLocation();
@@ -38,112 +40,123 @@ function Usuario() {
   };
 
   return (
-    <div className="w-full">
-      <div className="flex justify-between bg-zinc-200 pt-6 pb-3 shadow-sm">
-        <div className="flex-row space-y-0.5 pl-6">
-          <span className="text-xl font-semibold">Usuario</span>
-          <p className="text-xs text-slate-500">Datos del Usuario</p>
-        </div>
-      </div>
-      <div id="usuarios_contenedor">
-        <div>
-          <form action="" onSubmit={handleSubmit}>
-            {/*  INPUT NOMBRE */}
-            <div>
-              <p>Nombre</p>
-              <input
-                type="text"
-                name="usu_nombre"
-                onChange={handleInput}
-                value={user.usu_nombre}
-              />
-            </div>
+    <div className="bg-zinc-10 min-h-screen py-10 px-4">
+          <form action="" onSubmit={handleSubmit} className="max-w-5xl mx-auto bg-white p-8 rounded-lg shadow-md">
+          <HeaderEditarUsuario/>
+          <div className="grid gap-6 mb-6 md:grid-cols-2 mt-8">
+              {/*  INPUT NOMBRE */}
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-900">Nombre:</label>
+                  <input
+                  type="text"
+                  name="usu_nombre"
+                  value={user.usu_nombre}
+                  onChange={handleInput}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  />
+              </div>
 
-            {/*  INPUT APELLIDO PATERNO */}
-            <div>
-              <p>Apellido Paterno</p>
-              <input
-                type="text"
-                name="usu_apellidoPaterno"
-                value={user.usu_apellidoPaterno}
-                onChange={handleInput}
-              />
-            </div>
+              {/*  INPUT APELLIDO PATERNO */}
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-900">Apellido Paterno:</label>
+                  <input
+                  type="text"
+                  name="usu_apellidoPaterno"
+                  value={user.usu_apellidoPaterno}
+                  onChange={handleInput}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  />
+              </div>
 
-            {/*  INPUT APELLIDO MATERNO */}
-            <div>
-              <p>Apellido Materno</p>
-              <input
-                type="text"
-                name="usu_apellidoMaterno"
-                value={user.usu_apellidoMaterno}
-                onChange={handleInput}
-              />
-            </div>
+              {/*  INPUT APELLIDO MATERNO */}
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-900">Apellido Materno:</label>
+                  <input
+                  type="text"
+                  name="usu_apellidoMaterno"
+                  value={user.usu_apellidoMaterno}
+                  onChange={handleInput}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  />
+              </div>
 
-            {/*  INPUT SEXO */}
-            <div>
-              <SelectSexo name="usu_sexo" handleInput={handleInput} />
-            </div>
+              {/*  INPUT SEXO */}
+              <div>
+              <label className="block mb-2 text-sm font-medium text-gray-900">Sexo:</label>
+                <SelectSexo name="usu_sexo" handleInput={handleInput} value={user.usu_sexo}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"/>
+              </div>
 
-            {/*  INPUT TELEFONO */}
-            <div>
-              <p>Numero de Telefono</p>
-              <input
-                type="text"
-                name="usu_telefono"
-                onChange={handleInput}
-                value={user.usu_telefono}
-              />
-            </div>
+              {/*  INPUT TELEFONO */}
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-900">Número de Teléfono:</label>
+                  <input
+                  type="text"
+                  name="usu_telefono"
+                  value={user.usu_telefono}
+                  onChange={handleInput}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  />
+              </div>
 
-            {/*  INPUT DIRECCION */}
-            <div>
-              <p>Direccion</p>
-              <input
-                type="text"
-                name="usu_direccion"
-                onChange={handleInput}
-                value={user.usu_direccion}
-              />
-            </div>
+              {/*  INPUT DIRECCION */}
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-900">Dirección:</label>
+                  <input
+                  type="text"
+                  name="usu_direccion"
+                  value={user.usu_direccion}
+                  onChange={handleInput}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  />
+              </div>
 
-            {/*  INPUT RFC */}
-            <div>
-              <p>RFC</p>
-              <input
-                type="text"
-                name="usu_rfc"
-                onChange={handleInput}
-                value={user.usu_rfc}
-              />
-            </div>
-            {/*  INPUT PASSWORD */}
-            <div>
-              <p>Contraseña</p>
-              <input
-                type="password"
-                name="usu_password"
-                onChange={handleInput}
-                value={user.usu_password}
-              />
-            </div>
+              {/*  INPUT RFC */}
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-900">RFC:</label>
+                  <input
+                  type="text"
+                  name="usu_rfc"
+                  value={user.usu_rfc}
+                  onChange={handleInput}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  />
+              </div>
 
-            {/*  INPUT ROL */}
-            <div>
-              <p>Rol de Empleado</p>
-              <SelectRoles nombre={"usu_rol"} handleInput={handleInput} />
+              {/*  INPUT PASSWORD */}
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-900">Contraseña:</label>
+                  <input
+                  type="text"
+                  name="usu_password"
+                  value={user.usu_password}
+                  onChange={handleInput}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  />
+              </div>
+
+              {/*  INPUT ROL */}
+              <div>
+              <label className="block mb-2 text-sm font-medium text-gray-900">Rol de Empleado:</label>
+                <SelectRoles nombre={"usu_rol"} handleInput={handleInput} value={user.usu_rol}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"/>
+              </div>
+
+              <div className="flex flex-col items-center">
+                <label className="block mb-50 text-sm font-medium text-gray-900">Estatus:</label>
+                <RadioButtonStatus 
+                  value={String(user.usu_estaActivo)}
+                  onChange={(event) =>
+                    setUser((prev) => ({
+                      ...prev,
+                      usu_estaActivo: parseInt(event.target.value),
+                    }))
+                  }
+                />
+              </div>
+
             </div>
-            <button
-              className="bg-blue-500 flex justify-center items-center rounded-xl py-1.5 px-8 font-medium text-white gap-2"
-              type="submit"
-            >
-              {<Check className="w-6 h-6" />}
-              Actualizar Usuario
-            </button>
           </form>
-        </div>
-      </div>
       <Modal icon={<CheckCheck size={48} color="#2dae6b" strokeWidth={2}/>} open={open} header={"ACTUALIZADO"} text={"Usuario actualizado correctamente"} onClose={() => {setOpen(false); navigate("/usuarios")}}/>
     </div>
   );

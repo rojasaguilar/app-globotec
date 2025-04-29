@@ -44,7 +44,7 @@ app.post("/signup", (req, res) => {
     req.body.password,
     req.body.rol,
     req.body.gerenteAlta,
-    `${req.body.nombre}${req.body.ap}${req.body.am.slice(0,2)}`
+    `${req.body.nombre}${req.body.ap}${req.body.am.slice(0, 2)}`,
   ];
   db.query(sql, [values], (err, data) => {
     if (err) {
@@ -175,9 +175,10 @@ app.post("/proveedores/editar", (req, res) => {
     req.body.prove_telefono,
     req.body.prove_direccion,
     req.body.prove_activo,
+    req.body.prove_estado,
   ];
   const sql =
-    " update `proveedor` set `prove_nombre` = ?, `prove_correo` = ?,`prove_telefono` = ?,`prove_direccion` = ?, `prove_activo` = ? where (`prove_id` = ?)";
+    " update `proveedor` set `prove_nombre` = ?, `prove_correo` = ?,`prove_telefono` = ?,`prove_direccion` = ?, `prove_activo` = ?, `prove_estado` = ? where (`prove_id` = ?)";
   db.query(sql, [...values, id], (err, data) => {
     if (err) {
       console.log("hubo un error");
@@ -227,7 +228,14 @@ app.post("/productos/pocostock", (req, res) => {
 app.post("/proveedores/agregar", (req, res) => {
   const sql =
     "INSERT INTO `proveedor` (`prove_nombre`, `prove_correo`, `prove_telefono`, `prove_direccion`, `usu_id`, `prove_estado`) VALUES (?);";
-  const values = [req.body.nombre, req.body.correo, req.body.telefono, req.body.direccion, req.body.usuario,req.body.estado];
+  const values = [
+    req.body.nombre,
+    req.body.correo,
+    req.body.telefono,
+    req.body.direccion,
+    req.body.usuario,
+    req.body.estado,
+  ];
   console.log(values);
   db.query(sql, [values], (err, data) => {
     if (err) {
@@ -319,12 +327,14 @@ app.post("/entradassalidas", (req, res) => {
 });
 
 app.post("/entradassalidas/agregar", (req, res) => {
+  const date = new Date().toJSON().slice(0, 10);
   let data = req.body;
   if (data.entsal_tipo === "v" || data.entsal_tipo === "i") {
     data = { ...data, entsal_EoS: "e" };
   } else {
     data = { ...data, entsal_EoS: "s" };
   }
+  data = {...data, }
   const sql =
     "insert into entradasalidadinero (entsal_cantidad, usu_id, entsal_motivo, entsal_tipo, entsal_EoS) values (?)";
   db.query(sql, [Object.values(data)], (err, data) => {

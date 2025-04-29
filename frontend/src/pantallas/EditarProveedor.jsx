@@ -3,11 +3,14 @@ import { useLocation,useNavigate } from "react-router-dom";
 import axios from 'axios';
 import RadioButtonStatus from '../componentes/RadioButtonStatus';
 import HeaderEditarProveedor from "../componentes/PantallaEditarProveedor/HeaderEditarProveedor";
+import Modal from "../componentes/ModalGlobal";
+import { Check, CheckCheck } from "lucide-react";
 
 function EditarProveedor() {
 
-    const location = useLocation();
-    const navigator = useNavigate();
+  const location = useLocation();
+  const [open,setOpen] = useState(false);
+  const navigate = useNavigate();
     
       const [proveedor, setProveedor] = useState(location.state);
       console.log(proveedor);
@@ -26,8 +29,8 @@ function EditarProveedor() {
           .then((res) => {
        
            if(res.data.affectedRows === 1){
-            alert("Proveedor actualizado")
-            navigator("/proveedores");
+            setOpen(true);
+            return;
            }else{
             alert("error al acutualizar")
            }
@@ -43,7 +46,7 @@ function EditarProveedor() {
             <HeaderEditarProveedor/>
             <div className="grid gap-6 mb-6 md:grid-cols-2 mt-8">
               <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900">Nombre del proveedor</label>
+                <label className="block mb-2 text-sm font-medium text-gray-900">Nombre del proveedor:</label>
                   <input
                   type="text"
                   name="prove_nombre"
@@ -53,7 +56,7 @@ function EditarProveedor() {
                   />
               </div>
               <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900">Correo</label>
+                <label className="block mb-2 text-sm font-medium text-gray-900">Correo:</label>
                 <input
                   type="email"
                   name="prove_correo"
@@ -63,7 +66,7 @@ function EditarProveedor() {
                 />
               </div>
               <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900">Teléfono</label>
+                <label className="block mb-2 text-sm font-medium text-gray-900">Teléfono:</label>
                 <input
                   type="tel" /*text*/
                   name="prove_telefono"
@@ -73,7 +76,7 @@ function EditarProveedor() {
                 />
               </div>
               <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900">Dirección</label>
+                <label className="block mb-2 text-sm font-medium text-gray-900">Dirección:</label>
                 <input
                   type="text"
                   name="prove_direccion"
@@ -83,7 +86,7 @@ function EditarProveedor() {
                 />              
               </div>
               <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900">Estado</label>
+                <label className="block mb-2 text-sm font-medium text-gray-900">Estado:</label>
                 <select
                   type="text"
                   name="prove_estado"
@@ -127,7 +130,7 @@ function EditarProveedor() {
               </div>
 
               <div className="flex flex-col items-center">
-                <label className="block mb-50 text-sm font-medium text-gray-900">Estatus</label>
+                <label className="block mb-50 text-sm font-medium text-gray-900">Estatus:</label>
                 <RadioButtonStatus 
                   value={String(proveedor.prove_activo)}
                   onChange={(event) =>
@@ -140,6 +143,7 @@ function EditarProveedor() {
               </div>
             </div>
           </form>
+          <Modal icon={<CheckCheck size={48} color="#2dae6b" strokeWidth={2}/>} open={open} header={"ACTUALIZADO"} text={"Proveedor actualizado correctamente"} onClose={() => {setOpen(false); navigate("/proveedores")}}/>
         </div>
       );
     }

@@ -47,12 +47,6 @@ export default function Header() {
   return (
     <div className="bg-gray-100 h-12 flex items-center justify-between px-4 border-b border-slate-200 shadow-md">
       <div className="flex gap-3 items-center">
-        {/* Recent activities */}
-        <button>
-          <History className="w-5 h-5" />
-        </button>
-        {/* Search */}
-        <SearchInput className="w-5 h-5" />
         {/* PROFILE */}
 
         <Saludador nombre={name} rol={rol} />
@@ -65,7 +59,7 @@ export default function Header() {
           </button> */}
           <PositionedMenu />
         </div>
-        <div className="flex border-r border-gray-300 space-x-3">
+        {/* <div className="flex border-r border-gray-300 space-x-3">
           <button className="p-1 rounded-lg hover:bg-slate-200">
             <Users className="text-slate-900 w-4 h-4" />
           </button>
@@ -75,7 +69,7 @@ export default function Header() {
           <button className="p-1 rounded-lg hover:bg-slate-200">
             <Settings className="text-slate-900 w-4 h-4" />
           </button>
-        </div>
+        </div> */}
         {/* */}
         <div className="flex-gap-6">
           <button className="flex items-center gap-1">
@@ -89,9 +83,9 @@ export default function Header() {
         {/* */}
         <button className="w-8 h-8 border-slate-900 rounded-full"></button>
         {/* */}
-        <button className="w-8 h-8 border-slate-900 ">
+        {/* <button className="w-8 h-8 border-slate-900 ">
           <LayoutGrid className="w-6 h-6" />
-        </button>
+        </button> */}
       </div>
     </div>
   );

@@ -4,9 +4,8 @@ import Productcard from "../componentes/Productcard";
 // import { Plus } from "lucide-react";
 import Header from "../componentes/PantallaUsuarios/Header";
 
-function ListadoProductos() {
+function ListadoProductos({filtro, handleFiltro}) {
   const [data, setData] = useState([]);
-  const [filtro, setFiltro] = useState("");
 
   useEffect(() => {
     axios
@@ -17,7 +16,6 @@ function ListadoProductos() {
 
   return (
     <div className="w-full space-y-4 px-6">
-      <input type="text" name="codigo" onChange={(e) => setFiltro(e.target.value)} className="bg-slate-200" />
       <div
         className="grid grid-cols-5 gap-4 h-[490px] overflow-y-scroll [&::-webkit-scrollbar]:w-2
                       [&::-webkit-scrollbar-track]:rounded-full

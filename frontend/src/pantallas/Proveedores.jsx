@@ -23,7 +23,7 @@ function Proveedores() {
         btnLink={"/proveedores/agregar"}
         status={status}
         handleStatus={handleStatus}
-        // icono={<Plus className="w-4 h-4"=/>}
+        icono={<Plus className="w-4 h-4"/>}
         handleFiltro={handleFiltro}
       />
 

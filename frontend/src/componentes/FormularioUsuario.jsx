@@ -1,11 +1,33 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import SelectSexo from "./SelectSexo";
 import SelectRoles from "./SelectRoles";
-import { Check } from "lucide-react";
 import axios from "axios";
+import HeaderAgregarUsuario from "../componentes/PantallaAgregarUsuario/HeaderAgregarUsuario";
+import NotificacionAgregarUsuario from "../componentes/PantallaAgregarUsuario/NotificacionAgregarUsuario";
+import ModalAgregarGlobal from "../componentes/ModalAgregarGlobal"
+import { CheckCheck } from "lucide-react";
 
 function FormularioUsuario() {
   const empelado = JSON.parse(localStorage.getItem("empleado"));
+
+  const [open,setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  function vaciarInputs() {
+    const inputs = document.querySelectorAll("input");
+    inputs.forEach((input) => {
+      input.value = "";
+    });
+
+    setValues(prev => ({
+      ...prev,
+      sexo: "",
+      rol: ""
+    }));
+  }
+
+  const [showErrorToast, setShowErrorToast] = useState(false);
 
   const [values, setValues] = useState({
     nombre: "",
@@ -32,90 +54,139 @@ function FormularioUsuario() {
     axios
       .post("http://localhost:8081/signup", values)
       .then((res) => {
-        alert("usuario agregado");
+        vaciarInputs();
+        setOpen(true);
+        return;
       })
       .catch((err) => {
-        alert("error");
+        setShowErrorToast(true);
       });
   };
 
   return (
-    <div>
-      <form action="" onSubmit={handleSubmit}>
-        {/*  INPUT NOMBRE */}
-        <div>
-          <p>Nombre</p>
-          <input
-            type="text"
-            name="nombre"
-            placeholder="Nombre de Usuario"
-            onChange={handleInput}
-          />
-        </div>
+    <div className="bg-zinc-10 min-h-screen py-10 px-4">
+      <form action="" onSubmit={handleSubmit} className="max-w-5xl mx-auto bg-white p-8 rounded-lg shadow-md">
+      <HeaderAgregarUsuario/>
+      <div className="grid gap-6 mb-6 md:grid-cols-2 mt-8">
+          {/*  INPUT NOMBRE */}
+          <div>
+            <label htmlFor="nombre" className="block mb-2 text-sm font-medium text-gray-900">Nombre del usuario:</label>
+            <input
+              type="text"
+              name="nombre"
+              id="nombre"
+              placeholder="Nombre Usuario"
+              onChange={handleInput}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              required
+            />
+          </div>
+          {/*  INPUT APELLIDO PATERNO */}
+          <div>
+            <label htmlFor="ap" className="block mb-2 text-sm font-medium text-gray-900">Apellido paterno:</label>
+            <input
+              type="text"
+              name="ap"
+              id="ap"
+              placeholder="Appelido Paterno"
+              onChange={handleInput}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              required
+            />
+          </div>
+          {/*  INPUT APELLIDO MATERNO */}
+          <div>
+            <label htmlFor="am" className="block mb-2 text-sm font-medium text-gray-900">Apellido materno:</label>
+            <input
+              type="text"
+              name="am"
+              id="am"
+              placeholder="Appelido Materno"
+              onChange={handleInput}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            />
+          </div>
 
-        {/*  INPUT APELLIDO PATERNO */}
-        <div>
-          <p>Apellido Paterno</p>
-          <input
-            type="text"
-            name="ap"
-            placeholder="Apellido Paterno"
-            onChange={handleInput}
-          />
-        </div>
+          {/*  INPUT SEXO */}
+          <div>
+            <label htmlFor="sexo" className="block mb-2 text-sm font-medium text-gray-900">Sexo:</label>
+            <SelectSexo 
+            nombre={"sexo"} 
+            id="sexo" 
+            handleInput={handleInput}
+            value={values.sexo}/>
+          </div>
 
-        {/*  INPUT APELLIDO MATERNO */}
-        <div>
-          <p>Apellido Materno</p>
-          <input
-            type="text"
-            name="am"
-            placeholder="Apellido Materno"
-            onChange={handleInput}
-          />
+          {/*  INPUT TELEFONO */}
+          <div>
+            <label htmlFor="telefono" className="block mb-2 text-sm font-medium text-gray-900">Número de teléfono:</label>
+            <input
+              type="text"
+              name="telefono"
+              id="telefono"
+              placeholder="Número de teléfono"
+              onChange={handleInput}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              required
+            />
+          </div>
+          {/*  INPUT DIRECCION */}
+          <div>
+            <label htmlFor="direccion" className="block mb-2 text-sm font-medium text-gray-900">Dirección:</label>
+            <input
+              type="text"
+              name="direccion"
+              id="direccion"
+              placeholder="Dirección"
+              onChange={handleInput}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              required
+            />
+          </div>
+          {/*  INPUT RFC */}
+          <div>
+            <label htmlFor="rfc" className="block mb-2 text-sm font-medium text-gray-900">RFC:</label>
+            <input
+              type="text"
+              name="rfc"
+              id="rfc"
+              placeholder="RFC"
+              onChange={handleInput}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              required
+            />
+          </div>
+          {/*  INPUT PASSWORD */}
+          <div>
+            <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">Contraseña:</label>
+            <input
+              type="text"
+              name="password"
+              id="password"
+              placeholder="Contraseña"
+              onChange={handleInput}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              required
+            />
+          </div>
+          {/*  INPUT ROL */}
+          <div>
+          <label htmlFor="rol" className="block mb-2 text-sm font-medium text-gray-900">Rol:</label>
+            <SelectRoles 
+            nombre={"rol"}
+            id="rol" 
+            handleInput={handleInput} 
+            value={values.rol}/>
+          </div>
         </div>
-
-        {/*  INPUT SEXO */}
-        <div>
-          <SelectSexo nombre={"sexo"} handleInput={handleInput} />
-        </div>
-
-        {/*  INPUT TELEFONO */}
-        <div>
-          <p>Numero de Telefono</p>
-          <input type="text" name="telefono" onChange={handleInput} />
-        </div>
-
-        {/*  INPUT DIRECCION */}
-        <div>
-          <p>Direccion</p>
-          <input type="text" name="direccion" onChange={handleInput} />
-        </div>
-
-        {/*  INPUT RFC */}
-        <div>
-          <p>RFC</p>
-          <input type="text" name="rfc" onChange={handleInput} />
-        </div>
-        {/*  INPUT PASSWORD */}
-        <div>
-          <p>Contraseña</p>
-          <input type="text" name="password" onChange={handleInput} />
-        </div>
-
-        {/*  INPUT ROL */}
-        <div>
-          <p>Rol de Empleado</p>
-          <SelectRoles nombre={"rol"} handleInput={handleInput} />
-        </div>
-        <button
-          className="bg-blue-500 flex justify-center items-center rounded-xl py-1.5 px-8 font-medium text-white gap-2"
-          type="submit"
-        >
-          {<Check className="w-6 h-6" />}
-          Agregar Usuario
-        </button>
       </form>
+      <div className="mt-10 ml-4 w-[30%]">
+        <NotificacionAgregarUsuario
+          showError={showErrorToast}
+          onCloseError={() => setShowErrorToast(false)}
+        />
+      </div>
+      <ModalAgregarGlobal icon={<CheckCheck size={48} color="#2dae6b" strokeWidth={2}/>} open={open} header={"AGREGADO"} text={"Usuario agregado correctamente"} onClose={() => {setOpen(false); navigate("/usuarios")}} onKeepAdding={() => {setOpen(false); navigate("/usuarios/agregar")}}/> 
     </div>
   );
 }
