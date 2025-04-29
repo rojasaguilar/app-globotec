@@ -12,8 +12,8 @@ function TablaDevoluciones() {
     },[])
 
   return (
-    <div >
-        <table>
+    <div > <p></p>
+        {/* <table>
             <thead>
                 <th>columna</th>
                 <th>columna</th>
@@ -32,7 +32,7 @@ function TablaDevoluciones() {
                 </tr>
             })}
             </tbody>
-        </table>
+        </table> */}
     </div>
   )
 }
