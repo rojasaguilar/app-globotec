@@ -352,6 +352,7 @@ app.post("/venta/agregar", (req, res) => {
   const sql = "call nuevaVenta(?)";
   db.query(sql, data, (err, data) => {
     if (err) {
+      console.log(err)
       return res.json(err);
     }
     return res.json(data);
@@ -360,7 +361,7 @@ app.post("/venta/agregar", (req, res) => {
 
 app.post("/ventas", (req, res) => {
   const sql =
-    "select v.ve_id, v.ve_fecha, v.ve_total, c.cli_nombre, u.usu_nombreUsuario, v.ve_tipoPago, v.ve_estaCancelada," +
+    "select v.ve_id, v.ve_fecha, v.ve_total, c.cli_nombre, u.usu_nombreUsuario, v.ve_tipoPago, v.ve_estaCancelada, v.dev_id, " +
     "v.ve_motivoCancelacion from venta v inner join cliente c on (c.cli_id = v.cli_id)inner join usuario u on (u.usu_id = v.usu_id);";
   db.query(sql, (err, data) => {
     if (err) return res.json(err);
@@ -403,11 +404,22 @@ app.post("/ventas/hoy", (req, res) => {
 });
 
 app.post("/devoluciones", (req, res) => {
-  const sql = "select * from devolucion";
+  const sql = "select d.dev_id, d.ve_id, d.dev_fecha, d.dev_montoDevuleto, u.usu_nombre as usuarioResponsable"
+   + " from devolucion d inner join usuario u on (u.usu_id = d.usu_id)";
   db.query(sql, (err, data) => {
-    if (err) return res.json(data);
+    if (err) return res.json(err);
     return res.json(data);
   });
+});
+
+app.post('/devoluciones/nueva', (req,res) => {
+  const data = req.body
+  console.log(JSON.stringify(data))
+  const sql = 'call nuevaDevolucion(?)'
+  db.query(sql,JSON.stringify(data),(err,data) => {
+    if(err) return res.json(err);
+    return res.json(data);
+  })
 });
 
 app.listen(8081, () => {

@@ -34,6 +34,7 @@ function TablaVentas({ filtro }) {
           <th className="text-start px-4 text-sm w-36 bg-blue-100">Usuario Responsable</th>
           <th className="text-start px-4 text-sm w-32 bg-blue-100">Fecha de Venta</th>
           <th className="text-start px-4 text-sm w-28 bg-blue-100">Cancelada</th>
+          <th className="text-start px-4 text-sm w-28 bg-blue-100">Devolucion</th>
           <th className="text-start px-4 w-32 bg-blue-100"></th>
         </thead>
         <tbody>
@@ -50,6 +51,19 @@ function TablaVentas({ filtro }) {
                   <td className="px-4 py-3">{venta.usu_nombreUsuario}</td>
                   <td className="px-4 py-3">{venta.ve_fecha.slice(0, 10)}</td>
                   <td className="px-4 py-3">{venta.ve_estaCancelada === 0 ? "No" : "Si"}</td>
+                  <td className="px-4 py-3">
+                    {venta.dev_id === null ? (
+                      "No"
+                    ) : (
+                      <Link
+                        to={"devolucion"}
+                        state={{ dev_id: venta.dev_id }}
+                        className="text-blue-600 hover:underline"
+                      >
+                        consultar
+                      </Link>
+                    )}
+                  </td>
                   <td className="py-3">
                     {
                       <Link to={"venta"} state={venta} className="text-blue-600 hover:underline">

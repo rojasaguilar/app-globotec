@@ -40,7 +40,19 @@ function ListadoProductoVentas({ handleAdd, productos }) {
         {data
           .filter((producto) => (filtro === "" ? producto : producto.pro_codigo.includes(filtro)))
           .map((producto, index) => {
-            return <ProductCardVentas key={index} producto={producto} handleAdd={handleAdd} productos={productos} />;
+            console.log(producto)
+            if (producto.pro_estaActivo === 1) {
+              return (
+                <ProductCardVentas
+                  key={index}
+                  producto={producto}
+                  handleAdd={handleAdd}
+                  productos={productos}
+                />
+              );
+            } else {
+              return null;
+            }
           })}
       </div>
     </div>

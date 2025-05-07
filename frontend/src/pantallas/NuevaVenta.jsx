@@ -11,7 +11,7 @@ import { Delete } from "lucide-react";
 function NuevaVenta() {
   const [productos, setProductos] = useState([]);
   const [total, setTotal] = useState(0);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [prodStockInsuficiente, setProdStockInsuficiente] = useState([]);
 
   const empleado = JSON.parse(localStorage.getItem("empleado"));

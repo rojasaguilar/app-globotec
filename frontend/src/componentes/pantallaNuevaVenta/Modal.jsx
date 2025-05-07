@@ -25,7 +25,7 @@ const OVERLAY_STYLES = {
 
 export default function Modal({ open, productos, onClose }) {
   console.log(productos);
-  if (!open || !productos) return null;
+  if (!open || productos.length === 0) return null;
 
   return ReactDom.createPortal(
     <>

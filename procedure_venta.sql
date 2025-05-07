@@ -38,10 +38,9 @@ BEGIN
   WHERE stockRestante < 0;
 
   IF productosSinStockSuficiente > 0 THEN
-    SELECT "Stock insuficiente" AS mensaje;
-		    select pc.pro_id, p.pro_nombre, pc.pro_stock, pc.pro_cantidad from productosComparativa
-		    inner join productos p on (p.pro_id = pc.pro_id) 
-		    where pc.pro_stock < pc.pro_cantidad;
+		    select pc.productoID, p.pro_nombre, pc.pro_stock, pc.cantidadSolicitada from productosComparativa pc
+		    inner join producto p on (p.pro_id = pc.productoID) 
+		    where pc.pro_stock < pc.cantidadSolicitada;
   ELSE
     SELECT venta->>"$.ve_id" INTO VentaID FROM ventaTemporal;
     SELECT venta->>"$.ve_total" INTO totalVenta FROM ventaTemporal;

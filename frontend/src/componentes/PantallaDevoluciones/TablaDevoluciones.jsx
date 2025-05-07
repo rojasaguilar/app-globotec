@@ -6,16 +6,16 @@ function TablaDevoluciones() {
 
     useEffect(() => {
         axios
-        .post("http://localhost:8081/devoluciones")
+    .post("http://localhost:8081/devoluciones")
         .then(res => setData(res.data))
         .catch(err => console.log(err));
     },[])
 
   return (
     <div > <p></p>
-        {/* <table>
+        <table>
             <thead>
-                <th>columna</th>
+                <th>ID Devolucion</th>
                 <th>columna</th>
                 <th>columna</th>
                 <th>columna</th>
@@ -23,16 +23,16 @@ function TablaDevoluciones() {
             </thead>
 
             <tbody>
-            {data.map(devolucion => {
+            {data.map(devolucion => (
                 <tr>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
+                    <td>{devolucion.dev_id}</td>
+                    <td>{devolucion.ve_id}</td>
+                    <td>{devolucion.dev_fecha.slice(0,10)}</td>
+                    <td>{devolucion.usuarioResponsable}</td>
                 </tr>
-            })}
+            ))}
             </tbody>
-        </table> */}
+        </table>
     </div>
   )
 }

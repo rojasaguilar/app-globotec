@@ -30,9 +30,14 @@ function TablaProveedor({ status,filtro }) {
             <th className="p-2.5">ACCIÓN</th>
           </thead>
           <tbody>
-            {data
-              .filter(proveedor => ( filtro === '' ?  proveedor : proveedor.prove_nombre.toLowerCase().includes(filtro.toLowerCase()) ) ) 
-              .filter((proveedor) => proveedor.prove_activo === status)
+          {data
+            .filter(proveedor => {
+              if (filtro === '') return true;
+              const nombre = proveedor.prove_nombre.toLowerCase();
+              const estado = proveedor.prove_estado.toLowerCase();
+              return nombre.includes(filtro.toLowerCase()) || estado.includes(filtro.toLowerCase());
+            })
+            .filter((proveedor) => proveedor.prove_activo === status)
               .map((proveedor, index) => {
                 return (
                   <tr key={index} className="text-sm group hover:bg-blue-100 transition-all duration-200">

@@ -68,6 +68,7 @@ function App() {
           {/* RUTAS DEVOLUCIONES*/}
           <Route path="devoluciones" element={<Devoluciones />}></Route>
           <Route path="devoluciones/solicitar" element={<SolicitarDevolucion />}></Route>
+          <Route path="devoluciones/devolucion" element={<SolicitarDevolucion />}></Route>
         </Route>
         <Route path="usermenu" element={<UserMenu />} />
       </Routes>

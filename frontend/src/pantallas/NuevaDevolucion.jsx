@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Banknote, Barcode, ContactRound, CreditCard, Landmark, UserRound } from "lucide-react";
 
@@ -21,13 +21,14 @@ function NuevaDevolucion() {
       return;
     }
     const fecha = new Date().toJSON().slice(0, 10);
+    const empleado = JSON.parse(localStorage.getItem("empleado"));
     const data = {
-      devolucion: {
-        dev_id: `dv${fecha}-${dataVenta.venta.cli_nombre.replace(" ","")}-${calculateMontoDevuelto()}`.slice(0,30),
-        ve_id: dataVenta.venta.ve_id,
-        dev_fecha: fecha,
-        dev_montoDevuelto: calculateMontoDevuelto(),
-      },
+      dev_id: `dv${fecha}-${dataVenta.venta.cli_nombre.replace(" ", "")}-${calculateMontoDevuelto()}`.slice(0, 30),
+      ve_id: dataVenta.venta.ve_id,
+      dev_fecha: fecha,
+      usu_id: empleado.usu_id,
+      dev_montoDevuelto: calculateMontoDevuelto(),
+
       productos: dataDevolucion.productos.map((producto) => ({
         pro_id: producto.pro_id,
         prodev_cantidad: producto.prodev_cantidad,
@@ -36,6 +37,10 @@ function NuevaDevolucion() {
         proven_cantidad: producto.proven_cantidad,
       })),
     };
+    axios
+      .post("http://localhost:8081/devoluciones/nueva", data)
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
     console.log(data);
   };
 
@@ -44,7 +49,7 @@ function NuevaDevolucion() {
       (sum, producto) => sum + parseFloat(producto.costoUnitario) * producto.prodev_cantidad,
       0.0
     );
-    return total;
+    return parseFloat(total.toFixed(2));
   }
 
   const handleProducto = (prod) => {
@@ -302,7 +307,10 @@ function NuevaDevolucion() {
             </div>
 
             <div className="flex w-full justify-center">
-              <button onClick={handleDevolucion} className="bg-blue-700 text-white font-semibold px-8 py-1.5 rounded-xl">
+              <button
+                onClick={handleDevolucion}
+                className="bg-blue-700 text-white font-semibold px-8 py-1.5 rounded-xl"
+              >
                 Devolver
               </button>
             </div>
