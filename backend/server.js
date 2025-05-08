@@ -412,6 +412,31 @@ app.post("/devoluciones", (req, res) => {
   });
 });
 
+app.post('/devoluciones/devolucion',(req,res) => {
+  const idDevolucion = req.body.dev_id;
+  // const sql1 = "select * from devolucion where (dev_id = ?) "
+  // const sql2 = "select p.pro_nombre, p.pro_codigo, pd.prodev_cantidad, pd.prodev_defectuoso, p.pro_precio from productodevolucion pd" 
+  // + " inner join producto p on (p.pro_id = pd.pro_id)"
+  // + " where pd.dev_id = ?"
+
+  // db.query(sql2,idDevolucion, (err,data) => {
+  //   if(err) return res.json(err)
+  //     return res.json(data)
+  // })
+
+  const sql1 = "select * from devolucion where (dev_id = ?)"
+   const sql2 = "select p.pro_nombre, p.pro_codigo, pd.prodev_cantidad, pd.prodev_defectuoso, p.pro_precio from productodevolucion pd" 
+  + " inner join producto p on (p.pro_id = pd.pro_id)"
+  + " where pd.dev_id = ?"
+
+  db.query(sql1, idDevolucion, (err,data) => {
+    db.query(sql2, idDevolucion, (err,data2) => {
+      const response = {...data[0], productos: data2}
+      return res.json(response);
+    })
+  })
+})
+
 app.post('/devoluciones/nueva', (req,res) => {
   const data = req.body
   console.log(JSON.stringify(data))

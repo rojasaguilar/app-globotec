@@ -31,7 +31,6 @@ function Venta() {
     productos: [],
   });
 
-
   useEffect(() => {
     const ve_id = dataVenta.ve_id;
     axios

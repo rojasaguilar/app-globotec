@@ -35,7 +35,7 @@ function TablaVentas({ filtro }) {
           <th className="text-start px-4 text-sm w-32 bg-blue-100">Fecha de Venta</th>
           <th className="text-start px-4 text-sm w-28 bg-blue-100">Cancelada</th>
           <th className="text-start px-4 text-sm w-28 bg-blue-100">Devolucion</th>
-          <th className="text-start px-4 w-32 bg-blue-100"></th>
+          <th className="text-start px-4 w-32 text-sm bg-blue-100">Detalle de venta</th>
         </thead>
         <tbody>
           {ventas
@@ -44,7 +44,7 @@ function TablaVentas({ filtro }) {
             .map((venta) => {
               return (
                 <tr className="text-sm">
-                  <td className=" py-3">{venta.ve_id}</td>
+                  <td className="px-4 py-3">{venta.ve_id}</td>
                   <td className="px-4 py-3">{`$${venta.ve_total}`}</td>
                   <td className="px-4 py-3">{parsePago(venta.ve_tipoPago)}</td>
                   <td className="px-4 py-3">{venta.cli_nombre}</td>
@@ -56,11 +56,11 @@ function TablaVentas({ filtro }) {
                       "No"
                     ) : (
                       <Link
-                        to={"devolucion"}
-                        state={{ dev_id: venta.dev_id }}
+                        to={"/devoluciones/devolucion"}
+                        state={{ dev_id: venta.dev_id, ve_id: venta.ve_id }}
                         className="text-blue-600 hover:underline"
                       >
-                        consultar
+                        Consultar
                       </Link>
                     )}
                   </td>

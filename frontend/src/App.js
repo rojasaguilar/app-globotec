@@ -25,6 +25,7 @@ import TicketVenta from "./pantallas/TicketVenta";
 import Producto from "./pantallas/Producto";
 import Devoluciones from "./pantallas/Devoluciones";
 import SolicitarDevolucion from "./pantallas/SolicitarDevolucion";
+import Devolucion from "./pantallas/Devolucion";
 
 function App() {
   return (
@@ -68,7 +69,7 @@ function App() {
           {/* RUTAS DEVOLUCIONES*/}
           <Route path="devoluciones" element={<Devoluciones />}></Route>
           <Route path="devoluciones/solicitar" element={<SolicitarDevolucion />}></Route>
-          <Route path="devoluciones/devolucion" element={<SolicitarDevolucion />}></Route>
+          <Route path="devoluciones/devolucion" element={<Devolucion />}></Route>
         </Route>
         <Route path="usermenu" element={<UserMenu />} />
       </Routes>

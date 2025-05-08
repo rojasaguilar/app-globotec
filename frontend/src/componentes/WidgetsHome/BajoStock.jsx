@@ -17,7 +17,9 @@ function BajoStock() {
   }, []);
 
   return (
-    <div>
+    productos.length === 0
+      ? null //CAMBIAR OTOR DISENIO
+      : <div>
       <div className="flex-col bg-gray-200 w-fit p-4 rounded-xl shadow-md space-y-4">
         <p className="font-semibold">Productos con bajo stock</p>
         <div className="space-y-2">
@@ -44,6 +46,7 @@ function BajoStock() {
         </div>
       </div>
     </div>
+    
   );
 }
 
