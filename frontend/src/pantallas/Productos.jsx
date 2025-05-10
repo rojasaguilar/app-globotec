@@ -1,24 +1,38 @@
 import React, { useState } from "react";
-import Header from "../componentes/PantallaUsuarios/Header";
 import ListadoProductos from "../componentes/ListadoProductos";
+import HeaderListadoProductos from "../componentes/PantallaProductos/HeaderListadoProductos";
 
 function Productos() {
   const [filtro, setFiltro] = useState("");
+  const [status, setStatus] = useState(2);
+  const [categoria, setCategoria] = useState("Categoria");
 
   const handleFiltro = (string) => {
     setFiltro(string);
   };
 
+  const handleCategoria = (e) => {
+    setCategoria(e.target.value);
+  };
+
+  const handleStatus = (value) => {
+    if ([0, 1, 2].includes(value)) {
+      setStatus(value);
+    }
+  };
+
   return (
     <div className="w-full">
-      <Header
+      <HeaderListadoProductos
         handleFiltro={handleFiltro}
-        entidad={"Productos"}
-        msjSearchInput={"Buscar por código..."}
-        btnLink={"/productos/agregar"}
+        status={status}
+        handleCategoria={handleCategoria}
+        handleStatus={handleStatus}
       />
 
-      <ListadoProductos filtro={filtro} />
+      <div className="mt-1">
+        <ListadoProductos filtro={filtro} categoria={categoria} status={status} />
+      </div>
     </div>
   );
 }

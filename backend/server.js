@@ -117,7 +117,7 @@ app.post("/usuarios/usuario", (req, res) => {
 
 app.post("/productos", (req, res) => {
   const sql =
-    "select pro_id, pro_nombre, c.cat_nombre as pro_categoria, pro_precio, pro_stock," +
+    "select pro_id, pro_nombre, c.cat_nombre as pro_categoria, pro_categoria as cat_id, pro_precio, pro_stock," +
     " pro_estaActivo, pro_codigo, pro_marca, pro_descripcion, pro_stockMinimo from producto" +
     " inner join categoriaProductos c on (producto.pro_categoria = c.cat_id ); ";
   db.query(sql, (err, data) => {

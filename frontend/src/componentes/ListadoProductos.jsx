@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Productcard from "../componentes/Productcard";
 // import { Plus } from "lucide-react";
-import Header from "../componentes/PantallaUsuarios/Header";
 
-function ListadoProductos({filtro, handleFiltro}) {
+function ListadoProductos({ filtro, categoria, status }) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -12,7 +11,7 @@ function ListadoProductos({filtro, handleFiltro}) {
       .post("http://localhost:8081/productos")
       .then((res) => setData(res.data))
       .catch((err) => console.log("hubo un error"));
-  });
+  }, []);
 
   return (
     <div className="w-full space-y-4 px-6">
@@ -24,7 +23,10 @@ function ListadoProductos({filtro, handleFiltro}) {
                     [&::-webkit-scrollbar-thumb]:bg-blue-400 px-2"
       >
         {data
+          .filter((producto) => (categoria === "Categoria" ? producto : producto.cat_id == categoria))
           .filter((producto) => (filtro === "" ? producto : producto.pro_codigo.includes(filtro)))
+          .filter(producto => (status === 2? producto: producto.pro_estaActivo === status))
+
           .map((producto, index) => {
             return <Productcard key={index} producto={producto} />;
           })}
@@ -32,5 +34,4 @@ function ListadoProductos({filtro, handleFiltro}) {
     </div>
   );
 }
-
 export default ListadoProductos;
