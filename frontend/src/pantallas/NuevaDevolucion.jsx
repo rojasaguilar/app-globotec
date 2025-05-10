@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Banknote, Barcode, ContactRound, CreditCard, Landmark, UserRound } from "lucide-react";
+import { Banknote, Barcode, ContactRound, CreditCard, icons, Landmark, UserRound } from "lucide-react";
+import ModalDevolucion from "../componentes/PantallaNuevaDevolucion/ModalDevolucion";
+import { useNavigate } from "react-router-dom";
 
 function NuevaDevolucion() {
+  const [open, setOpen] = useState(false);
+  const [canAdd, setCanAdd] = useState(true);
   const [dataVenta, setDataVenta] = useState({
     venta: {},
     productos: [],
@@ -15,6 +19,7 @@ function NuevaDevolucion() {
     productos: [],
   });
 
+  console.log(dataVenta.venta);
   const handleDevolucion = () => {
     if (dataDevolucion.productos.length === 0) {
       alert("Agrega productos antes de realizar la devolucion");
@@ -57,10 +62,12 @@ function NuevaDevolucion() {
       alert("Producto ya agregado");
       return;
     }
-    setDataDevolucion((prev) => ({
-      ...prev,
-      productos: [...prev.productos, { ...prod, prodev_cantidad: 1, prodev_motivo: "", prodev_defectuoso: false }],
-    }));
+    if (canAdd) {
+      setDataDevolucion((prev) => ({
+        ...prev,
+        productos: [...prev.productos, { ...prod, prodev_cantidad: 1, prodev_motivo: "", prodev_defectuoso: false }],
+      }));
+    }
   };
 
   const handleCantidadDevolucion = (productoID, cantidad) => {
@@ -80,7 +87,6 @@ function NuevaDevolucion() {
       ),
     }));
   };
-
   const handleDefectuoso = (productoID) => {
     const input = document.getElementById("defectuoso");
     if (input.checked) {
@@ -107,12 +113,27 @@ function NuevaDevolucion() {
   const requestVenta = () => {
     axios
       .post("http://localhost:8081/ventas/venta", { ve_id: idVenta })
-      .then((res) => setDataVenta(res.data))
+      .then((res) => {
+        // setDataVenta(res.data)
+        // if(res.dat)
+        if (res.data.venta.dev_id) {
+          setOpen(true);
+          setCanAdd(false);
+          // disableButton();
+          const btn = document.getElementById("sub_dev");
+          btn.disabled = true;
+          btn.style.opacity = 0.2;
+        }
+        setDataVenta(res.data);
+      })
       .catch((err) => console.log(err));
-    console.log(dataVenta);
   };
 
-  console.log(dataDevolucion);
+  const disableButton = () => {
+    // const btn = document.getElementById("sub_dev")
+    // btn.disabled = true;
+    // btn.style.opacity = 0.2
+  };
 
   const objTipoPago = {
     e: {
@@ -308,6 +329,7 @@ function NuevaDevolucion() {
 
             <div className="flex w-full justify-center">
               <button
+                id="sub_dev"
                 onClick={handleDevolucion}
                 className="bg-blue-700 text-white font-semibold px-8 py-1.5 rounded-xl"
               >
@@ -317,6 +339,14 @@ function NuevaDevolucion() {
           </div>
         </div>
       </div>
+      <ModalDevolucion
+        open={open}
+        header={"OJO"}
+        text={"Esta venta ya está asociada a una devolucion"}
+        onClose={() => setOpen(false)}
+        // icon={<}
+        data={{ ve_id: dataVenta.venta.ve_id, dev_id: dataVenta.venta.dev_id }}
+      />
     </div>
   );
 }

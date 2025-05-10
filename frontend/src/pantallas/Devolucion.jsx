@@ -41,7 +41,7 @@ function Devolucion() {
       .then((res) =>setDevolucion(res.data))
       .catch((err) => console.log(err));
   }, []);
-console.log(venta)
+console.log(location.state)
   return (
     <div>
       <HeaderEditarProveedor />
