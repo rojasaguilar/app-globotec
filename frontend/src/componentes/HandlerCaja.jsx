@@ -18,9 +18,6 @@ const caja = JSON.parse(localStorage.getItem('Caja'))
     if(window.location.pathname.includes('caja')){
         document.querySelector(".opcion").disabled = true
     }
-    else{
-        document.querySelector(".opcion").disabled = false
-    }
   });
 
   const requestFlujos = () => {

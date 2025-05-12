@@ -72,14 +72,14 @@ export default function Sidebar() {
    useEffect(() => {
       
       if (JSON.parse(localStorage.getItem("empleado")).usu_rol !== "g") {
-        const pantallasProtegidas = document.querySelectorAll(".screen_gerente");
-        pantallasProtegidas.forEach((pantalla) => {
+        let pantallasProtegidas = document.querySelectorAll(".screen_gerente");
+        pantallasProtegidas?.forEach((pantalla) => {
           pantalla.hidden = true;
         });
       }
       if (JSON.parse(localStorage.getItem("empleado")).usu_rol === "i") {
-        const pantallasProtegidas = document.querySelectorAll(".screen_no_inventario");
-        pantallasProtegidas.forEach((pantalla) => {
+        let pantallasProtegidas = document.querySelectorAll(".screen_no_inventario");
+        pantallasProtegidas?.forEach((pantalla) => {
           pantalla.hidden = true;
         });
       }

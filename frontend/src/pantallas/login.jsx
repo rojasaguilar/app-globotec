@@ -32,7 +32,7 @@ export default function Login() {
         if (res.data !== "CI") {
           console.log(res);
           let empleado = res.data;
-          console.log(res);
+          console.log(empleado);
           localStorage.setItem("empleado", JSON.stringify(empleado));
           navigate("/home");
         } else {

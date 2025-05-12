@@ -18,15 +18,16 @@ function Producto() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const inputs = document.querySelectorAll("#data_input");
+
     if (JSON.parse(localStorage.getItem("empleado")).usu_rol === "e") {
+      const inputs = document.querySelectorAll("#data_input");
       inputs.forEach((input) => {
         input.disabled = true;
       })
       document.getElementById('btn_editar').hidden = true;
       document.getElementById('btn_status').hidden = true;
     }
-  });
+  },[]);
 
   const handleInput = (event) => {
     setProducto((prev) => ({

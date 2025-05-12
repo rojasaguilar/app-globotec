@@ -30,7 +30,13 @@ let db = mysql.createConnection({
 
 //Metodo post para agregar usuario en pantalla signup
 app.post("/signup", (req, res) => {
-  console.log(req.body);
+  db = mysql.createConnection({
+    host: "bigjjny1r1wlbffosqts-mysql.services.clever-cloud.com",
+    user: "uqk5fmmotw3z2bcx",
+    password: "umsLaR1I4Btg31Uoj06J",
+    database: "bigjjny1r1wlbffosqts",
+  });
+  console.log(req.body.nombre);
   const sql =
     "INSERT INTO `usuario` (`usu_nombre`, `usu_apellidoPaterno`, `usu_apellidoMaterno`, `usu_sexo`, `usu_telefono`, `usu_direccion`, `usu_rfc`, `usu_password`, `usu_rol`, `usu_idGerenteAlta`, `usu_nombreUsuario`) VALUES (?)";
   const values = [

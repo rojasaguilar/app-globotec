@@ -121,6 +121,7 @@ function Signup() {
     axios
       .post("http://localhost:8081/signup", values)
       .then((res) => {
+        console.log(res.data)
         vaciarInputs();
         setOpen(true);
         return;
@@ -246,7 +247,7 @@ function Signup() {
               type="text" 
               name="password"
               placeholder="Contraseña" 
-              onChange={handleInput}
+              onChange={(e)=> setValues({...values, password: e.target.value})}
               className={`w-full p-2 border ${errors.password ? 'border-red-500' : 'border-gray-300'} rounded-xl`}
               required
             />
