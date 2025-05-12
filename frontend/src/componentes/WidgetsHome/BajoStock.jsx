@@ -1,6 +1,5 @@
 import { React, useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 
 function BajoStock() {
   const [productos, setProductos] = useState([]);
@@ -20,7 +19,7 @@ function BajoStock() {
     productos.length === 0
       ? null //CAMBIAR OTOR DISENIO
       : <div>
-      <div className="flex-col bg-gray-200 w-fit p-4 rounded-xl shadow-md space-y-4">
+      <div className="flex-col bg-gray-200 w-full p-4 rounded-xl shadow-md space-y-4">
         <p className="font-semibold">Productos con bajo stock</p>
         <div className="space-y-2">
           <div className="pl-2 space-x-4 grid grid-cols-11">
@@ -29,7 +28,7 @@ function BajoStock() {
             <p className="text-sm px-1 font-medium col-span-3 items-center flex">Stock Minimo</p>
           </div>
           {
-            productos.filter((producto,index) => index<=2).map(producto => {
+            productos.filter((producto,index) => index<=5).map(producto => {
               return (
                 <div className="bg-white p-2 rounded-xl space-x-4 grid grid-cols-11">
                   <p className="pl-1 text-sm col-span-5">{producto.pro_nombre}</p>

@@ -382,7 +382,7 @@ app.post("/ventas/venta", (req, res) => {
     " where ve_id = (?);";
 
   const sql2 =
-    `select v.ve_id, v.ve_fecha, v.ve_total, v.ve_tipoPago, c.cli_nombre, u.usu_nombreUsuario, v.dev_id from venta v inner join cliente c on (c.cli_id = v.cli_id)` +
+    `select v.ve_id, v.ve_fecha, v.ve_total, v.ve_tipoPago, c.cli_nombre, u.usu_nombre as usu_nombreUsuario, v.dev_id from venta v inner join cliente c on (c.cli_id = v.cli_id)` +
     ` inner join usuario u on (u.usu_id = v.usu_id) where v.ve_id = (?)`;
 
   db.query(sql2, ve_id, (err, data1) => {
@@ -408,6 +408,15 @@ app.post("/ventas/hoy", (req, res) => {
   });
 });
 
+app.post("/devoluciones/hoy", (req, res) => {
+  const date = req.body.date;
+  const sql = "select sum(dev_montoDevuleto) as total from devolucion where dev_fecha like ?";
+  db.query(sql, `${date}%`, (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data[0]);
+  });
+});
+
 app.post("/devoluciones", (req, res) => {
   const sql =
     "select d.dev_id, d.ve_id, d.dev_fecha, d.dev_montoDevuleto, u.usu_nombre as usuarioResponsable" +
@@ -421,16 +430,19 @@ app.post("/devoluciones", (req, res) => {
 app.post("/devoluciones/devolucion", (req, res) => {
   const idDevolucion = req.body.dev_id;
   // const sql1 = "select * from devolucion where (dev_id = ?) "
-  // const sql2 = "select p.pro_nombre, p.pro_codigo, pd.prodev_cantidad, pd.prodev_defectuoso, p.pro_precio from productodevolucion pd"
-  // + " inner join producto p on (p.pro_id = pd.pro_id)"
-  // + " where pd.dev_id = ?"
+  // // const sql2 = "select p.pro_nombre, p.pro_codigo, pd.prodev_cantidad, pd.prodev_defectuoso, p.pro_precio from productodevolucion pd"
+  // // + " inner join producto p on (p.pro_id = pd.pro_id)"
+  // // + " where pd.dev_id = ?"
 
   // db.query(sql2,idDevolucion, (err,data) => {
   //   if(err) return res.json(err)
   //     return res.json(data)
   // })
 
-  const sql1 = "select * from devolucion where (dev_id = ?)";
+  const sql1 = "SELECT d.dev_fecha, d.dev_id, d.dev_montoDevuleto, u.usu_nombre, d.ve_id " +
+  "FROM devolucion d " +
+  "INNER JOIN usuario u ON (u.usu_id = d.usu_id) " +
+  "WHERE d.dev_id = ?";
   const sql2 =
     "select p.pro_nombre, p.pro_codigo, pd.prodev_cantidad, pd.prodev_defectuoso, p.pro_precio from productodevolucion pd" +
     " inner join producto p on (p.pro_id = pd.pro_id)" +
@@ -438,6 +450,7 @@ app.post("/devoluciones/devolucion", (req, res) => {
 
   db.query(sql1, idDevolucion, (err, data) => {
     db.query(sql2, idDevolucion, (err, data2) => {
+      console.log(data)
       const response = { ...data[0], productos: data2 };
       return res.json(response);
     });
@@ -538,6 +551,20 @@ app.post("/cerrarcaja", (req, res) => {
       return res.json(data)
   });
 });
+
+app.post("/topproductos", (req,res) => {
+  // const sql = "select pro_id, sum(proven_cantidad) as cantidadVendidos, count(ve_id), p.pro_marca"
+  // +" from productoventa GROUP by pro_id order by cantidadVendidos DESC LIMIT 10" 
+  // + "inner join producto p on (p.pro_id = pro_id)"
+
+    const sql = "select pv.pro_id, p.pro_codigo, p.pro_nombre, p.pro_marca, sum(pv.proven_cantidad) as cantidadVendidos, count(pv.ve_id) as ventas, p.pro_marca"
+  +" from productoventa pv inner join producto p on (p.pro_id = pv.pro_id)"
+  + " GROUP by pro_id order by cantidadVendidos desc LIMIT 10" 
+  db.query(sql,(err,data) => {
+    if(err) return res.json(err)
+      return res.json(data)
+  })
+})
 
 app.listen(8081, () => {
   console.log("listening");
