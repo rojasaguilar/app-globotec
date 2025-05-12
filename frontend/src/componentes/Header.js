@@ -1,19 +1,11 @@
-import {
-  Bell,
-  ChevronDown,
-  History,
-  LayoutGrid,
-  LogOut,
-  Plus,
-  Settings,
-  Users,
-} from "lucide-react";
+import { Bell, ChevronDown, History, LayoutGrid, LogOut, Plus, Settings, Users } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import SearchInput from "./SearchInput";
 import Saludador from "./Saludador";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import PositionedMenu from "./PositionedMenu";
+import HandlerCaja from "./HandlerCaja";
 let empleado = "";
 
 export default function Header() {
@@ -37,11 +29,20 @@ export default function Header() {
     };
   }, []);
 
-  const handleLogout = (e) => {
-    axios.post("http://localhost:8081/logout");
-    navigate("/login");
-    alert("sesion cerrada");
-    localStorage.removeItem("empleado");
+  const handleLogout = () => {
+    try {
+     axios.post("http://localhost:8081/logout");
+      localStorage.removeItem("empleado");
+      alert("Sesión cerrada");
+      navigate("/login");
+    } catch (err) {
+      console.error("Error al cerrar sesión:", err);
+      alert("Hubo un problema al cerrar la sesión.");
+    }
+
+    // localStorage.removeItem("empleado");
+    // alert("Sesión cerrada");
+    // navigate("/login");
   };
 
   return (
@@ -50,27 +51,15 @@ export default function Header() {
         {/* PROFILE */}
 
         <Saludador nombre={name} rol={rol} />
+
+       
       </div>
       <div className="flex items-center gap-3 ">
-        {/*  */}
-        <div className="pr-2 border-r border-gray-300">
-          {/* <button className="p-1 rounded-lg bg-blue-600">
-            <Plus className="text-slate-50 w-4 h-4" />
-          </button> */}
-          <PositionedMenu />
-        </div>
-        {/* <div className="flex border-r border-gray-300 space-x-3">
-          <button className="p-1 rounded-lg hover:bg-slate-200">
-            <Users className="text-slate-900 w-4 h-4" />
-          </button>
-          <button className="p-1 rounded-lg hover:bg-slate-200">
-            <Bell className="text-slate-900 w-4 h-4" />
-          </button>
-          <button className="p-1 rounded-lg hover:bg-slate-200">
-            <Settings className="text-slate-900 w-4 h-4" />
-          </button>
-        </div> */}
-        {/* */}
+        {/* ACCIONES RAPIDAS*/}
+        <div className="p-2 border-r border-gray-300 flex h-full"><HandlerCaja/></div>
+          <div className="pr-2 border-r border-gray-300">
+            <PositionedMenu />
+          </div>
         <div className="flex-gap-6">
           <button className="flex items-center gap-1">
             <span>{name}</span>

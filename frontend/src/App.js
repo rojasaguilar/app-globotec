@@ -21,11 +21,12 @@ import UserMenu from "./componentes/UserMenu";
 import FlujoDinero from "./pantallas/FlujoDinero";
 import AgregarFlujo from "./pantallas/AgregarFlujo";
 import Venta from "./pantallas/Venta";
-import TicketVenta from "./pantallas/TicketVenta";
 import Producto from "./pantallas/Producto";
 import Devoluciones from "./pantallas/Devoluciones";
 import SolicitarDevolucion from "./pantallas/SolicitarDevolucion";
 import Devolucion from "./pantallas/Devolucion";
+import CorteCaja from "./pantallas/CorteCaja";
+import Reportes from "./pantallas/Reportes";
 
 function App() {
   return (
@@ -65,13 +66,20 @@ function App() {
           {/* RUTAS ENTRADAS/SALIDAS DINERO*/}
           <Route path="flujoefectivo" element={<FlujoDinero />}></Route>
           <Route path="flujoefectivo/agregar" element={<AgregarFlujo />}></Route>
+          <Route path="flujoefectivo/cortecaja" element={<CorteCaja />}></Route>
 
           {/* RUTAS DEVOLUCIONES*/}
           <Route path="devoluciones" element={<Devoluciones />}></Route>
           <Route path="devoluciones/solicitar" element={<SolicitarDevolucion />}></Route>
           <Route path="devoluciones/devolucion" element={<Devolucion />}></Route>
+
+          {/* RUTA REPORTE */}
+          {/* <Route path="reportes" element={<Reportes/>}></Route> */}
+          <Route path="reportes" element={<Reportes />}></Route>
+
+
         </Route>
-        <Route path="usermenu" element={<UserMenu />} />
+        {/* <Route path="usermenu" element={<UserMenu />} /> */}
       </Routes>
     </BrowserRouter>
   );

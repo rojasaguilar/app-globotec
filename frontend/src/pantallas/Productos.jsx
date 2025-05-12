@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ListadoProductos from "../componentes/ListadoProductos";
 import HeaderListadoProductos from "../componentes/PantallaProductos/HeaderListadoProductos";
 
@@ -6,6 +6,8 @@ function Productos() {
   const [filtro, setFiltro] = useState("");
   const [status, setStatus] = useState(2);
   const [categoria, setCategoria] = useState("Categoria");
+
+  useEffect(() => {})
 
   const handleFiltro = (string) => {
     setFiltro(string);

@@ -57,10 +57,15 @@ app.post("/signup", (req, res) => {
 app.post("/login", (req, res) => {
   const sql = "select * from `usuario` where (`usu_nombre` = (?) AND `usu_password` = (?)) ";
   const values = [req.body.usuario, req.body.password];
+  db = mysql.createConnection({
+    host: "bigjjny1r1wlbffosqts-mysql.services.clever-cloud.com",
+    user: "uqk5fmmotw3z2bcx",
+    password: "umsLaR1I4Btg31Uoj06J",
+    database: "bigjjny1r1wlbffosqts",
+  });
   db.query(sql, values, (err, data) => {
     if (err) {
-      console.log("error");
-
+      console.log(err);
       return res.json(err);
     }
     if (data.length > 0) {
@@ -334,7 +339,7 @@ app.post("/entradassalidas/agregar", (req, res) => {
   } else {
     data = { ...data, entsal_EoS: "s" };
   }
-  data = {...data, }
+  data = { ...data };
   const sql =
     "insert into entradasalidadinero (entsal_cantidad, usu_id, entsal_motivo, entsal_tipo, entsal_EoS) values (?)";
   db.query(sql, [Object.values(data)], (err, data) => {
@@ -352,7 +357,7 @@ app.post("/venta/agregar", (req, res) => {
   const sql = "call nuevaVenta(?)";
   db.query(sql, data, (err, data) => {
     if (err) {
-      console.log(err)
+      console.log(err);
       return res.json(err);
     }
     return res.json(data);
@@ -404,18 +409,19 @@ app.post("/ventas/hoy", (req, res) => {
 });
 
 app.post("/devoluciones", (req, res) => {
-  const sql = "select d.dev_id, d.ve_id, d.dev_fecha, d.dev_montoDevuleto, u.usu_nombre as usuarioResponsable"
-   + " from devolucion d inner join usuario u on (u.usu_id = d.usu_id)";
+  const sql =
+    "select d.dev_id, d.ve_id, d.dev_fecha, d.dev_montoDevuleto, u.usu_nombre as usuarioResponsable" +
+    " from devolucion d inner join usuario u on (u.usu_id = d.usu_id)";
   db.query(sql, (err, data) => {
     if (err) return res.json(err);
     return res.json(data);
   });
 });
 
-app.post('/devoluciones/devolucion',(req,res) => {
+app.post("/devoluciones/devolucion", (req, res) => {
   const idDevolucion = req.body.dev_id;
   // const sql1 = "select * from devolucion where (dev_id = ?) "
-  // const sql2 = "select p.pro_nombre, p.pro_codigo, pd.prodev_cantidad, pd.prodev_defectuoso, p.pro_precio from productodevolucion pd" 
+  // const sql2 = "select p.pro_nombre, p.pro_codigo, pd.prodev_cantidad, pd.prodev_defectuoso, p.pro_precio from productodevolucion pd"
   // + " inner join producto p on (p.pro_id = pd.pro_id)"
   // + " where pd.dev_id = ?"
 
@@ -424,27 +430,113 @@ app.post('/devoluciones/devolucion',(req,res) => {
   //     return res.json(data)
   // })
 
-  const sql1 = "select * from devolucion where (dev_id = ?)"
-   const sql2 = "select p.pro_nombre, p.pro_codigo, pd.prodev_cantidad, pd.prodev_defectuoso, p.pro_precio from productodevolucion pd" 
-  + " inner join producto p on (p.pro_id = pd.pro_id)"
-  + " where pd.dev_id = ?"
+  const sql1 = "select * from devolucion where (dev_id = ?)";
+  const sql2 =
+    "select p.pro_nombre, p.pro_codigo, pd.prodev_cantidad, pd.prodev_defectuoso, p.pro_precio from productodevolucion pd" +
+    " inner join producto p on (p.pro_id = pd.pro_id)" +
+    " where pd.dev_id = ?";
 
-  db.query(sql1, idDevolucion, (err,data) => {
-    db.query(sql2, idDevolucion, (err,data2) => {
-      const response = {...data[0], productos: data2}
+  db.query(sql1, idDevolucion, (err, data) => {
+    db.query(sql2, idDevolucion, (err, data2) => {
+      const response = { ...data[0], productos: data2 };
       return res.json(response);
-    })
-  })
-})
+    });
+  });
+});
 
-app.post('/devoluciones/nueva', (req,res) => {
-  const data = req.body
-  console.log(JSON.stringify(data))
-  const sql = 'call nuevaDevolucion(?)'
-  db.query(sql,JSON.stringify(data),(err,data) => {
-    if(err) return res.json(err);
+app.post("/devoluciones/nueva", (req, res) => {
+  const data = req.body;
+  const sql = "call nuevaDevolucion(?)";
+  db.query(sql, JSON.stringify(data), (err, data) => {
+    if (err) return res.json(err);
     return res.json(data);
-  })
+  });
+});
+
+app.post("/corte", (req, res) => {
+  const date = new Date().toISOString().slice(0, 10);
+  const likeDate = `${date}%`;
+
+  const sql = `SELECT * FROM entradasalidadinero WHERE entsal_tipo = ? AND entsal_fecha LIKE ?`;
+
+  db.query(sql, ["v", likeDate], (err, ventas) => {
+    if (err) return res.status(500).json(err);
+
+    db.query(sql, ["d", likeDate], (err, devoluciones) => {
+      if (err) return res.status(500).json(err);
+
+      db.query(sql, ["r", likeDate], (err, retiros) => {
+        if (err) return res.status(500).json(err);
+
+        db.query(sql, ["i", likeDate], (err, ingresos) => {
+          if (err) return res.status(500).json(err);
+
+          const data = {
+            ve: ventas,
+            de: devoluciones,
+            re: retiros,
+            in: ingresos,
+          };
+          res.json(data);
+        });
+      });
+    });
+  });
+  // const sql =
+  // "select pv.pro_id, p.pro_nombre, p.pro_marca, p.pro_codigo, pv.proven_cantidad, p.pro_precio as costoUnitario, (p.pro_precio * pv.proven_cantidad) as total " +
+  // "from productoventa pv inner join producto p on (p.pro_id = pv.pro_id)" +
+  // " where ve_fecha = (?);";
+
+  // const sql2 =
+});
+
+app.post("/login/cambiar-password", (req, res) => {
+  const { usuario, nuevaPassword } = req.body;
+
+  if (!usuario || !nuevaPassword) {
+    return res.json({ success: false, message: "Datos incompletos" });
+  }
+
+  // Usuario existe
+  const sql = "SELECT usu_id FROM usuario WHERE usu_nombreUsuario = ?";
+
+  db.query(sql, [usuario], (err, results) => {
+    if (err) {
+      console.error("Error al verificar usuario:", err);
+      return res.json({ success: false, message: "Error del servidor" });
+    }
+
+    if (results.length === 0) {
+      return res.json({ success: false, message: "Usuario no encontrado" });
+    }
+
+    const userId = results[0].usu_id;
+
+    const sqlUpdatePass = "UPDATE usuario SET usu_password = ? WHERE usu_id = ?";
+    db.query(sqlUpdatePass, [nuevaPassword, userId], (err, updateResult) => {
+      if (err) {
+        console.error("Error al actualizar contraseña:", err);
+        return res.json({ success: false, message: "Error al actualizar contraseña" });
+      }
+
+      return res.json({
+        success: updateResult.affectedRows === 1,
+        message:
+          updateResult.affectedRows === 1
+            ? "Contraseña actualizada exitosamente"
+            : "No se pudo actualizar la contraseña",
+      });
+    });
+  });
+});
+
+app.post("/cerrarcaja", (req, res) => {
+  const values = [req.body.usu_id, req.body.corte_total, req.body.corte_efectivo];
+  const sql = "insert into cortescaja (usu_id, corte_total, corte_efectivo) values (?)";
+  db.query(sql, [values], (err,data) => {
+    if(err) return res.json(err)
+      return res.json(data)
+  });
 });
 
 app.listen(8081, () => {

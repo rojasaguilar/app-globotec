@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SearchInput from "../SearchInput";
 import { Link } from "react-router-dom";
 import SelectCategorias from "../SelectCategorias";
 
 export default function HeaderListadoProductos({ status, handleStatus, handleFiltro, handleCategoria }) {
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("empleado")).usu_rol === "e") {
+      document.getElementById('btn_agregar').hidden = true;
+    }
+  });
   return (
     <div className="flex flex-col gap-4 w-full pt-4 px-8 rounded-lg">
       {/* Primera columna */}
@@ -14,32 +19,34 @@ export default function HeaderListadoProductos({ status, handleStatus, handleFil
         </div>
         {/* <BTN_AgregarUsuario queAgregar={entidad} link={btnLink} icono={icono} />
          */}
-        <Link
-          to={"/productos/agregar"}
-          className="bg-blue-600 text-white px-8 rounded-xl flex items-center h-fit py-1.5 font-semibold"
-        >
-          Agregar producto
-        </Link>
+        <div id="btn_agregar">
+          <Link
+            to={"/productos/agregar"}
+            className="bg-blue-600 text-white px-8 rounded-xl flex items-center h-fit py-1.5 font-semibold"
+          >
+            Agregar producto
+          </Link>
+        </div>
       </div>
 
       {/* Activos/inactivos */}
       <div className="w-full flex justify-between">
         <div className="flex space-x-6 text-gray-600">
           <p
-            className={status === 2? "text-blue-600 font-medium border-b-2 border-b-blue-600" : ""}
-            onClick={()=>handleStatus(2)}
+            className={status === 2 ? "text-blue-600 font-medium border-b-2 border-b-blue-600" : ""}
+            onClick={() => handleStatus(2)}
           >
             Todos los productos
           </p>
           <p
             className={status === 1 ? "text-blue-600 font-medium border-b-2 border-b-blue-600" : ""}
-            onClick={()=>handleStatus(1)}
+            onClick={() => handleStatus(1)}
           >
             Productos Activos
           </p>
           <p
             className={status === 0 ? "text-blue-600 font-medium border-b-2 border-b-blue-600" : ""}
-            onClick={()=>handleStatus(0)}
+            onClick={() => handleStatus(0)}
           >
             Productos Inactivos
           </p>
