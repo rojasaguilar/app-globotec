@@ -57,7 +57,8 @@ BEGIN
       usu_id,
       entsal_motivo,
       entsal_tipo,
-      entsal_EoS
+      entsal_EoS,
+      ve_id
     )
     VALUES (
       totalVenta,
@@ -65,7 +66,8 @@ BEGIN
       UsuarioID,
       "Venta",
       'v',
-      'e'
+      'e',
+      VentaID
     );
 
     INSERT INTO productoventa (ve_id, pro_id, proven_cantidad)

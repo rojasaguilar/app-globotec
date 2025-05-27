@@ -572,6 +572,14 @@ app.post("/topproductos", (req,res) => {
   })
 })
 
+app.post('/cfdi' ,(req,res) => {
+  const sql = "select * From cfdi"
+  db.query(sql,(err,data) => {
+    if(err) return res.json(err)
+      return res.json(data);
+  })
+})
+
 app.listen(8081, () => {
   console.log("listening");
 });

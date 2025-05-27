@@ -17,7 +17,9 @@ function SelectClientes({ handleCliente }) {
   return (
     <div>
       <select onChange={handleCliente}>
-        {clientes.map((cliente) => {
+        {clientes
+        .filter(cliente => cliente.cli_estaActivo === 1)
+        .map((cliente) => {
           return <option value={cliente.cli_id}>{cliente.cli_nombre}</option>;
         })}
       </select>

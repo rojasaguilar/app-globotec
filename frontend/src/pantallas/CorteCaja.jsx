@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import HeaderCorteCaja from "../componentes/PantallaCorteCaja/HeaderCorteCaja";
 import axios from "axios";
@@ -8,6 +8,7 @@ import { CheckCheck } from "lucide-react";
 function CorteCaja() {
   const location = useLocation();
   const datosCorte = location.state;
+
   const totalEnVentas = datosCorte.ve?.reduce((sum, venta) => parseFloat(sum + venta.entsal_cantidad), 0.0);
   const totalEnDevoluciones = datosCorte.de?.reduce(
     (sum, devolucion) => parseFloat(sum + devolucion.entsal_cantidad),
@@ -23,17 +24,51 @@ function CorteCaja() {
 
   const navigate = useNavigate();
 
+  const [ventas,setVentas] = useState({});
+  const [devoluciones, setDevoluciones] = useState({});
 
-  //   const [ventas,setVentas] = useState(
-  //     datosCorte?.ve?.map(venta => venta.ve_id)
-  //   )
-  //   console.log(ventas)
-  console.log(datosCorte);
+  const requestVenta = async (idVenta) => {
+  try {
+    const res = await axios.post("http://localhost:8081/ventas/venta", { ve_id: idVenta });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
 
-  //   const requestVenta = () => {
-  //     axios
-  //     .post("http://localhost:8081/corte",{ve_id: datosCorte.ve})
-  //   }
+const requestDevolucion = async (idDevolucion) => {
+  try{
+    const res = await axios.post("http://localhost:8081/devoluciones/devolucion" ,{dev_id: idDevolucion});
+    return res.data;
+  }catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
+const getVentas = async () => {
+  const ventas = await Promise.all(
+    datosCorte.ve?.map(venta => requestVenta(venta.ve_id))
+  );
+  return ventas;
+}
+
+const getDevoluciones = async () => {
+  const devoluciones = await Promise.all(
+    datosCorte.de?.map(devolucion => requestDevolucion(devolucion.dev_id))
+  );
+  return devoluciones;
+}
+
+const data = {...datosCorte, ve:ventas, de: devoluciones}
+console.log(data)
+
+useEffect(() => {
+  getVentas().then(setVentas);
+  getDevoluciones().then(setDevoluciones);
+}, []);
+
 
   const handleCierre = ()=> {
     const empleado = JSON.parse(localStorage.getItem('empleado'));
@@ -47,9 +82,12 @@ function CorteCaja() {
     .then(res=> {if(res.data.affectedRows === 1){
         setOpen(true);
         localStorage.removeItem("Caja");
+    
     }})
     .catch(err => console.log(err))
   }
+
+  
 
   return (
     <div>

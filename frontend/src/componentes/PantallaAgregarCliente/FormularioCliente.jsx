@@ -5,6 +5,7 @@ import HeaderAgregarCliente from './HeaderAgregarCliente';
 import NotificacionAgregarCliente from './NotificacionAgregarCliente';
 import { CheckCheck } from "lucide-react";
 import ModalAgregarGlobal from "../ModalAgregarGlobal";
+import SelectRegimenes from "./SelectRegimenes";
 
 function FormularioCliente() {
   const [open,setOpen] = useState(false);
@@ -106,6 +107,10 @@ function FormularioCliente() {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               required
             />
+          </div>
+          {/* REGIMENES FISCALES */}
+          <div>
+            <SelectRegimenes/>
           </div>
         </div>
       </form>

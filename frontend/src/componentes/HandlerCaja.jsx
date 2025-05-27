@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function HandlerCaja() {
-const caja = JSON.parse(localStorage.getItem('Caja'))
-  const [state, setState] = useState(caja? caja.state: false );
+  const caja = JSON.parse(localStorage.getItem("Caja"));
+  const [state, setState] = useState(caja ? caja.state : false);
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [rol, setRol] = useState(JSON.parse(localStorage.getItem("empleado")).usu_rol);
@@ -15,31 +15,31 @@ const caja = JSON.parse(localStorage.getItem('Caja'))
 
   useEffect(() => {
     setRol(JSON.parse(localStorage.getItem("empleado")).usu_rol);
-    if(window.location.pathname.includes('caja')){
-        document.querySelector(".opcion").disabled = true
+    if (window.location.pathname.includes("caja")) {
+      document.querySelector(".opcion").disabled = true;
     }
   });
 
   const requestFlujos = () => {
     setOpen2(false);
     axios
-    .post("http://localhost:8081/corte")
-    .then(res=> {
-        navigate("/flujoefectivo/cortecaja", {state: res.data})
-    })
-    .catch(err => console.log(err))
-  }
+      .post("http://localhost:8081/corte")
+      .then((res) => {
+        navigate("/flujoefectivo/cortecaja", { state: res.data });
+      })
+      .catch((err) => console.log(err));
+  };
 
   if (rol !== "i")
     return (
       <div className="w-full">
         <button
-        class="opcion"
+          class="opcion"
           onClick={() => {
             if (state === false) {
               setOpen(true);
-            }else{
-                setOpen2(true)
+            } else {
+              setOpen2(true);
             }
           }}
         >
@@ -52,15 +52,11 @@ const caja = JSON.parse(localStorage.getItem('Caja'))
             let caja = { cantidadInicial: cantidad, state: true };
             localStorage.setItem("Caja", JSON.stringify(caja));
             setOpen(false);
-            setState(true)
+            setState(true);
           }}
           header={"Abrir Caja"}
         />
-        <ModalCerrarCaja
-        open={open2}
-        onClose={requestFlujos}
-        cancel={()=> setOpen2(false)}
-        />
+        <ModalCerrarCaja open={open2} onClose={requestFlujos} cancel={() => setOpen2(false)} />
       </div>
     );
   else return null;

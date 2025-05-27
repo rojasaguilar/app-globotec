@@ -40,7 +40,6 @@ begin
     from productosComparativa
     where diferenciaStocks < 0;
 
-    --SI CANTIDAD A DEVOLVER ES MAYOR AL A QUE SE VENDIO
     IF productosCantidadDevMayorVenta > 0 THEN  
         select pc.pro_id, p.pro_nombre, pc.proven_cantidad, pc.prodev_cantidad FROM productosComparativa pc 
         INNER JOIN producto p on (p.pro_id = pc.pro_id)
@@ -52,24 +51,20 @@ begin
         SELECT devolucion ->>"$.usu_id" into idUsuario from devolucionTemporal;
         SELECT devolucion ->>"$.ve_id" into idVenta from devolucionTemporal;
 
-        --INSERTA DEVOLUCION
-        INSERT into devolucion
+       INSERT into devolucion
         values (idDevolucion, idVenta, CURRENT_TIMESTAMP, totalDevolucion, idUsuario,false);
 
-        --INSERTA PRODUCTOS-DEVOLUCION
         INSERT INTO productodevolucion(dev_id, pro_id, prodev_cantidad, prodev_defectuoso, prodev_motivo)
         SELECT idDevolucion, pro_id, prodev_cantidad, prodev_defectuoso, prodev_motivo
         from productosComparativa;
 
-        insert into `entradasalidadinero` (`entsal_cantidad`, `entsal_fecha`, `usu_id`, `entsal_motivo`, `entsal_estaCancelada`, `entsal_tipo`, `entsal_EoS`))
-        values (totalDevolucion, CURRENT_TIMESTAMP, idUsuario, 'devolucion', false, 'd', "s");
+        insert into `entradasalidadinero` (`entsal_cantidad`, `entsal_fecha`, `usu_id`, `entsal_motivo`, `entsal_estaCancelada`, `entsal_tipo`, `entsal_EoS`, `dev_id`)
+        values (totalDevolucion, CURRENT_TIMESTAMP, idUsuario, 'devolucion', false, 'd', "s", idDevolucion);
 
-        --INSERTA Y RELACIONA VENTA-DEVOLUCION
         UPDATE venta
         SET dev_id = idDevolucion
     where (ve_id = idVenta);
 
-        --ACTUALIZA STOCK SI NO ESTÁ DEFECTUSO
         UPDATE producto p
         JOIN productosComparativa pc on p.pro_id = pc.pro_id
         set p.pro_stock = (p.pro_stock + pc.prodev_cantidad)

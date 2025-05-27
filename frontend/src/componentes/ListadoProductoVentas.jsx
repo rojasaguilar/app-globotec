@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCardVentas from "./ProductCardVentas";
 import { ScanBarcode } from "lucide-react";
+import SelectCategorias from "./SelectCategorias";
 
 function ListadoProductoVentas({ handleAdd, productos }) {
   const [data, setData] = useState([]);
   const [filtro, setFiltro] = useState("");
+  const [categoria, setCategoria] = useState("Categoria");
+  console.log(`Categoria: ${categoria}`);
 
   useEffect(() => {
     axios
@@ -15,20 +18,22 @@ function ListadoProductoVentas({ handleAdd, productos }) {
   }, []);
 
   return (
-    <div className="w-full space-y-4 bg-white">
-      <div class="relative w-1/2 ml-4">
-        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-          <ScanBarcode strokeWidth={1} size={22} className="text-slate-800" />
+    <div className="w-full space-y-2 bg-white">
+      <div className="flex justify-between">
+        <div class="relative w-1/2 ml-4">
+          <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+            <ScanBarcode strokeWidth={1} size={22} className="text-slate-800" />
+          </div>
+          <input
+            type="text"
+            name="codigo"
+            onChange={(e) => setFiltro(e.target.value)}
+            placeholder="Código de barras..."
+            className=" border text-sm rounded-xl block w-full ps-10 px-20 py-1.5 bg-slate-100 border-slate-200 placeholder-gray-500 text-gray-700 focus:outline-blue-500"
+          />
         </div>
-        <input
-          type="text"
-          name="codigo"
-          onChange={(e) => setFiltro(e.target.value)}
-          placeholder="Código de barras..."
-          className=" border text-sm rounded-xl block w-full ps-10 px-20 py-1.5 bg-slate-100 border-slate-200 placeholder-gray-500 text-gray-700 focus:outline-blue-500"
-        />
+        <SelectCategorias handleInput={(e) => setCategoria(e.target.value)} />
       </div>
-
       <div
         className="h-[515px] overflow-y-scroll
                       [&::-webkit-scrollbar]:w-2
@@ -38,18 +43,11 @@ function ListadoProductoVentas({ handleAdd, productos }) {
                     [&::-webkit-scrollbar-thumb]:bg-blue-400 px-4 grid grid-cols-3 gap-4 "
       >
         {data
+          .filter((producto) => (categoria === "Categoria" ? producto : producto.cat_id == categoria))
           .filter((producto) => (filtro === "" ? producto : producto.pro_codigo.includes(filtro)))
           .map((producto, index) => {
-            console.log(producto)
             if (producto.pro_estaActivo === 1) {
-              return (
-                <ProductCardVentas
-                  key={index}
-                  producto={producto}
-                  handleAdd={handleAdd}
-                  productos={productos}
-                />
-              );
+              return <ProductCardVentas key={index} producto={producto} handleAdd={handleAdd} productos={productos} />;
             } else {
               return null;
             }

@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import SelectCategorias from "../componentes/SelectCategorias";
 import BasicModal from "../componentes/MasicModal";
 import { useNavigate } from "react-router-dom";
+import SelectProveedores from "../componentes/SelectProveedores";
 
 function Agregarproducto() {
   const navigate = useNavigate();
@@ -17,8 +18,9 @@ function Agregarproducto() {
     marca: "",
     descripcion: "",
     stockMinimo: "",
+    prove_id: "",
   });
-
+console.log(values)
   const [imagen, setImagen] = useState(null);
  
   function vaciarInputs() {
@@ -139,7 +141,6 @@ for (let pair of formData.entries()) {
                   name="imagen"
                   id="file"
                   onChange={loadFile}
-                  // style={{ display: "none" }}
                 />
                 <label for="file">
                   Upload Image
@@ -191,17 +192,10 @@ for (let pair of formData.entries()) {
                     onChange={handleInput}
                   />
                 </div>
-                {/* INPUT DESCUENTO*/}
+                {/* INPUT PROVEEDOR*/}
                 <div className="flex-col space-y-2">
-                  <p className="font-medium text-zinc-600 text-sm">Descuento</p>
-                  {/* <input
-                    className="bg-zinc-300 rounded-md px-2 py-1 "
-                    type="number"
-                    placeholder="2"
-                    name="stockMinimo"
-                    onChange={handleInput}
-
-                  /> */}
+                  <p className="font-medium text-zinc-600 text-sm">Proveedor</p>
+                  <SelectProveedores nombre={"prove_id"} handleInput={handleInput}/>
                 </div>
               </div>
             </div>
