@@ -9,7 +9,7 @@ export default function SelectRegimenes({ nombre, handleInput }) {
     .post('http://localhost:8081/cfdi')
     .then(res => setRegimenes(res.data))
     .catch(err => console.log(err))
-  },[])
+  })
 
   return (
     <div>

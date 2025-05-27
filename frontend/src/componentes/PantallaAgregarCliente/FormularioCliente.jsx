@@ -23,6 +23,7 @@ function FormularioCliente() {
     cli_correo: "",
     cli_rfc: "",
     cli_cp: "",
+    cfdi_codigo: ""
   });
 
   const [showErrorToast, setShowErrorToast] = useState(false);
@@ -110,7 +111,7 @@ function FormularioCliente() {
           </div>
           {/* REGIMENES FISCALES */}
           <div>
-            <SelectRegimenes/>
+            <SelectRegimenes nombre={"cfdi_codigo"} handleInput={handleInput}/>
           </div>
         </div>
       </form>

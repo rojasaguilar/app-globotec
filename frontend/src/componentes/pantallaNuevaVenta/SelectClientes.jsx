@@ -16,7 +16,7 @@ function SelectClientes({ handleCliente }) {
 
   return (
     <div>
-      <select onChange={handleCliente}>
+      <select onChange={(e) => handleCliente(e.target.value)}>
         {clientes
         .filter(cliente => cliente.cli_estaActivo === 1)
         .map((cliente) => {

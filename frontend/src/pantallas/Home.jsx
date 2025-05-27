@@ -6,19 +6,46 @@ import ContenedorWidgetsSuperior from "../componentes/PantallaHome/ContenedorWid
 import MasVendidos from "../componentes/WidgetsHome/MasVendidos";
 
 export default function Home() {
-  return (
-    <div className="flex">
-      <Sidebar />
-      <main className="ml-60 w-full bg-white min-h-screen flex flex-col space-y-24">
-        <div>
+  const user = JSON.parse(localStorage.getItem("empleado"));
+
+  return user.usu_rol === "g" ? (
+  <div className="flex">
+    <Sidebar />
+    <main className="ml-60 w-full bg-white min-h-screen flex flex-col space-y-24">
+      <div>
         <Header />
-        <ContenedorWidgetsSuperior/>
-        </div>
-       <div className="grid grid-cols-2 gap-24 px-8 items-center pb-8">
-       <BajoStock />
-       <MasVendidos/>
-       </div>
-      </main>
-    </div>
-  );
+        <ContenedorWidgetsSuperior />
+      </div>
+      <div className="grid grid-cols-2 gap-24 px-8 items-center pb-8">
+        <BajoStock />
+        <MasVendidos />
+      </div>
+    </main>
+  </div>
+) : (
+  <div className="flex">
+    <Sidebar />
+    <main className="ml-60 w-full bg-white min-h-screen flex flex-col space-y-24">
+      <div>
+        <Header />
+      </div>
+    </main>
+  </div>
+);
+
+  // (
+  //     // <div className="flex">
+  //     //   <Sidebar />
+  //     //   <main className="ml-60 w-full bg-white min-h-screen flex flex-col space-y-24">
+  //     //     <div>
+  //     //     <Header />
+  //     //     <ContenedorWidgetsSuperior/>
+  //     //     </div>
+  //     //    <div className="grid grid-cols-2 gap-24 px-8 items-center pb-8">
+  //     //    <BajoStock />
+  //     //    <MasVendidos/>
+  //     //    </div>
+  //     //   </main>
+  //     // </div>
+  //   );
 }

@@ -5,7 +5,7 @@ import SelectClientes from "../componentes/pantallaNuevaVenta/SelectClientes";
 import Header from "../componentes/pantallaNuevaVenta/Header";
 import axios from "axios";
 import Modal from "../componentes/pantallaNuevaVenta/Modal";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 import { Delete } from "lucide-react";
 import { Banknote, CreditCard, SmartphoneNfc } from "lucide-react";
 
@@ -24,7 +24,7 @@ function NuevaVenta() {
   const [dataVenta, setDataVenta] = useState({
     ve_id: "",
     ve_total: 0,
-    cli_id: 2,
+    cli_id: 0,
     usu_id: empleado.usu_id,
     ve_tipoPago: "e",
     productos: [],
@@ -51,6 +51,7 @@ function NuevaVenta() {
       ve_fecha: date,
       productos: productos,
     };
+    console.log(venta)
     mandarPeticion(venta);
   };
 
@@ -179,6 +180,7 @@ function NuevaVenta() {
           <button onClick={procesarVenta} className="bg-blue-700 text-white font-semibold py-1 px-8 rounded-xl">
             Crear venta
           </button>
+          <SelectClientes handleCliente={(cli_id) => setDataVenta({...dataVenta, cli_id: cli_id})}/>
           <p>{total}</p>
           <Modal open={open} onClose={() => setOpen(false)} productos={prodStockInsuficiente} />
         </div>

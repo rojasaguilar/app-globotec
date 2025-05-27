@@ -301,7 +301,7 @@ app.post("/clientes", (req, res) => {
 });
 
 app.post("/clientes/agregar", (req, res) => {
-  const sql = "INSERT INTO `cliente`(`cli_nombre`, `cli_correo`, `cli_rfc`, `cli_cp`) VALUES (?)";
+  const sql = "INSERT INTO `cliente`(`cli_nombre`, `cli_correo`, `cli_rfc`, `cli_cp` , `cfdi_codigo`) VALUES (?)";
   const values = Object.values(req.body);
   db.query(sql, [values], (err, data) => {
     if (err) {
