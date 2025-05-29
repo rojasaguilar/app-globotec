@@ -388,7 +388,7 @@ app.post("/ventas/venta", (req, res) => {
     " where ve_id = (?);";
 
   const sql2 =
-    `select v.ve_id, v.ve_fecha, v.ve_total, v.ve_tipoPago, c.cli_nombre, u.usu_nombre as usu_nombreUsuario, v.dev_id from venta v inner join cliente c on (c.cli_id = v.cli_id)` +
+    `select v.ve_id, v.ve_fecha, v.ve_total, v.ve_tipoPago, c.cli_nombre, c.cfdi_codigo, u.usu_nombre as usu_nombreUsuario, v.dev_id from venta v inner join cliente c on (c.cli_id = v.cli_id)` +
     ` inner join usuario u on (u.usu_id = v.usu_id) where v.ve_id = (?)`;
 
   db.query(sql2, ve_id, (err, data1) => {

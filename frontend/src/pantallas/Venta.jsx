@@ -10,7 +10,7 @@ import TicketVenta from "./TicketVenta";
 function Venta() {
   const location = useLocation();
   const ticketRef = useRef(null);
-  
+
   const objTipoPago = {
     e: {
       Tipo: "Efectivo",
@@ -31,19 +31,26 @@ function Venta() {
     productos: [],
   });
 
+  const btn_factura = document.getElementById("btn_factura");
+
+  if (dataVenta.cli_regimen === "0") btn_factura.hidden = true;
+
   useEffect(() => {
     const ve_id = dataVenta.ve_id;
     axios
       .post("http://localhost:8081/ventas/venta", { ve_id: ve_id })
-      .then((res) =>  setDataVenta((prev) => (
-        { ...prev, 
-          productos: res.data.productos, 
-          ve_fecha : res.data.venta.ve_fecha,
+      .then((res) =>
+        setDataVenta((prev) => ({
+          ...prev,
+          productos: res.data.productos,
+          ve_fecha: res.data.venta.ve_fecha,
           cli_nombre: res.data.venta.cli_nombre,
-          usu_nombreUsuario: res.data.venta.usu_nombreUsuario
-        })))
+          usu_nombreUsuario: res.data.venta.usu_nombreUsuario,
+          cli_regimen: res.data.venta.cfdi_codigo,
+        }))
+      )
       .catch((err) => console.log(err));
-  },[]);
+  }, []);
 
   const handleTicket = () => {
     const imprime = ticketRef.current;
@@ -57,7 +64,7 @@ function Venta() {
         window.open(pdfUrl);
       });
   };
-  console.log(dataVenta)
+  console.log(dataVenta);
 
   return (
     <div className="bg-white">
@@ -162,7 +169,9 @@ function Venta() {
             >
               Generar Ticket
             </button>
-            <button className="font-semibold px-6 py-1.5 bg-blue-600 w-48 h-fit rounded-lg">Generar Factura</button>
+            <button id="btn_factura" className="font-semibold px-6 py-1.5 bg-blue-600 w-48 h-fit rounded-lg">
+              Generar Factura
+            </button>
 
             <TicketVenta ref={ticketRef} data={dataVenta} />
           </div>
