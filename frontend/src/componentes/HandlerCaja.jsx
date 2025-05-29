@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ModalAbrirCaja from "./ModalAbrirCaja";
 import ModalCerrarCaja from "./ModalCerrarCaja";
+import ModalAvisoAbrirCaja from "./ModalAvisoAbrirCaja";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -9,7 +10,10 @@ export default function HandlerCaja() {
   const [state, setState] = useState(caja ? caja.state : false);
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
-  const [rol, setRol] = useState(JSON.parse(localStorage.getItem("empleado")).usu_rol);
+  const [showAviso, setShowAviso] = useState(false);
+  const [rol, setRol] = useState(
+    JSON.parse(localStorage.getItem("empleado")).usu_rol
+  );
 
   const navigate = useNavigate();
 
@@ -18,7 +22,11 @@ export default function HandlerCaja() {
     if (window.location.pathname.includes("caja")) {
       document.querySelector(".opcion").disabled = true;
     }
-  });
+
+    if (!state) {
+      setShowAviso(true);
+    }
+  }, [state]);
 
   const requestFlujos = () => {
     setOpen2(false);
@@ -34,7 +42,7 @@ export default function HandlerCaja() {
     return (
       <div className="w-full">
         <button
-          class="opcion"
+          className="opcion"
           onClick={() => {
             if (state === false) {
               setOpen(true);
@@ -45,7 +53,12 @@ export default function HandlerCaja() {
         >
           {state ? "Cerrar Caja" : "Abrir caja"}
         </button>
-        {/* {state} */}
+
+        <ModalAvisoAbrirCaja
+          open={showAviso}
+          onClose={() => setShowAviso(false)}
+        />
+
         <ModalAbrirCaja
           open={open}
           onClose={(cantidad) => {
@@ -56,7 +69,12 @@ export default function HandlerCaja() {
           }}
           header={"Abrir Caja"}
         />
-        <ModalCerrarCaja open={open2} onClose={requestFlujos} cancel={() => setOpen2(false)} />
+
+        <ModalCerrarCaja
+          open={open2}
+          onClose={requestFlujos}
+          cancel={() => setOpen2(false)}
+        />
       </div>
     );
   else return null;
